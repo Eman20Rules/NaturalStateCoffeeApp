@@ -1,33 +1,26 @@
 import React from "react";
-import {SafeAreaView} from "react-native";
-import { AppBar, HStack, IconButton } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./components/HomeScreen";
+import DetailsScreen from "./components/DetailsScreen";
+import CustomNavigationBar from "./components/CustomNavigationBar";
 
 const App = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView>
-      <AppBar
-        title="Title"
-        leading={(props) => (
-          <IconButton
-            icon={(props) => <Icon name="menu" {...props} />}
-            {...props}
-          />
-        )}
-        trailing={(props) => (
-          <HStack>
-            <IconButton
-              icon={(props) => <Icon name="magnify" {...props} />}
-              {...props}
-            />
-            <IconButton
-              icon={(props) => <Icon name="dots-vertical" {...props} />}
-              {...props}
-            />
-          </HStack>
-        )}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          header: (props) => <CustomNavigationBar {...props} />,
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
