@@ -29,7 +29,7 @@ function CustomNavigationBar({ navigation }) {
             <Appbar.Action style={style.menu} icon="menu" onPress={openMenu} />
           }
         >
-          {/* <Menu.Item onPress={() => navigation.navigate("Home")} title="Home" />
+          <Menu.Item onPress={() => navigation.navigate("Home")} title="Home" />
           <Menu.Item
             onPress={() => navigation.navigate("Login")}
             title="Sign Up / Login"
@@ -41,8 +41,8 @@ function CustomNavigationBar({ navigation }) {
           <Menu.Item
             onPress={() => navigation.navigate("ViewOrders")}
             title="View Orders"
-          /> */}
-          <Text
+          />
+          {/* <Text
             style={style.menuItems}
             onPress={() => navigation.navigate("Home")}
           >
@@ -65,7 +65,7 @@ function CustomNavigationBar({ navigation }) {
             onPress={() => navigation.navigate("ViewOrders")}
           >
             View Orders
-          </Text>
+          </Text> */}
         </Menu>
       </Appbar.Header>
     </Provider>
