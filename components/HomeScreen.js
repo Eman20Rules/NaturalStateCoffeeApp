@@ -8,7 +8,6 @@ function HomeScreen({ navigation }) {
       <Button
         title="Go to details"
         onPress={() => navigation.navigate("Details")}
-        // onPress={testFunc(navigation)}
       />
     </View>
   );

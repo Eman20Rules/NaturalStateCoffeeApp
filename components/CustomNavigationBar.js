@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Appbar, Menu } from "react-native-paper";
+import { StyleSheet, Alert } from "react-native";
+import { Appbar, Menu, Button, Provider } from "react-native-paper";
+import { useState } from "react";
 
 // function CustomNavigationBar({ navigation, back }) {
 //   const [visible, setVisible] = React.useState(false);
@@ -27,16 +28,35 @@ import { Appbar, Menu } from "react-native-paper";
 // }
 
 function CustomNavigationBar({ navigation, back }) {
+  const [visible, setVisible] = useState(false);
+
+  const closeMenu = () => setVisible(false);
+  const openMenu = (v) => setVisible(true);
+
   return (
-    <Appbar.Header style={style.appBar}>
-      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content style={style.title} title="Natural State" />
-      <Appbar.Action
-        style={style.menu}
-        icon="menu"
-        onPress={() => console.log("Menu Pressed")}
-      />
-    </Appbar.Header>
+    <Provider>
+      <Appbar.Header style={style.appBar}>
+        {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+        <Appbar.Content style={style.title} title="Natural State" />
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={
+            <Appbar.Action style={style.menu} icon="menu" onPress={openMenu} />
+          }
+        >
+          <Menu.Item
+            onPress={() => navigation.navigate("Login")}
+            title="Login"
+          />
+          <Menu.Item onPress={() => navigation.navigate("Home")} title="Home" />
+          <Menu.Item
+            onPress={() => navigation.navigate("Details")}
+            title="Details"
+          />
+        </Menu>
+      </Appbar.Header>
+    </Provider>
   );
 }
 
