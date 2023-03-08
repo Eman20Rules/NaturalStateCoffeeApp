@@ -8,17 +8,18 @@ function HomeScreen({ navigation }) {
       <Button
         title="Go to details"
         onPress={() => navigation.navigate("Details")}
+        // onPress={testFunc(navigation)}
       />
     </View>
   );
 }
 
 const style = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default HomeScreen;

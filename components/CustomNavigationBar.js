@@ -1,7 +1,4 @@
-// import {SafeAreaView} from "react-native";
-// import { AppBar, HStack, IconButton } from "@react-native-material/core";
-// import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-
+import { StyleSheet } from "react-native";
 import { Appbar, Menu } from "react-native-paper";
 
 // function CustomNavigationBar({ navigation, back }) {
@@ -31,11 +28,33 @@ import { Appbar, Menu } from "react-native-paper";
 
 function CustomNavigationBar({ navigation, back }) {
   return (
-    <Appbar.Header>
+    <Appbar.Header style={style.appBar}>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="Natural State Coffee" />
+      <Appbar.Content style={style.title} title="Natural State" />
+      <Appbar.Action
+        style={style.menu}
+        icon="menu"
+        onPress={() => console.log("Menu Pressed")}
+      />
     </Appbar.Header>
   );
 }
+
+const style = StyleSheet.create({
+  menu: {
+    alignItems: "right",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+
+  title: {
+    alignItems: "center",
+    justifyContent: "center",
+    textColor: "white",
+  },
+  appBar: {
+    backgroundColor: "#32a869",
+  },
+});
 
 export default CustomNavigationBar;
