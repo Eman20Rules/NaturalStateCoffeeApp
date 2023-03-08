@@ -12,7 +12,7 @@ class HomeScreen extends Component {
       <View style={styles.container}>
         <ScrollView scrollEventThrottle={16} style={{ width: "100%" }}>
           <View>
-            <Text style={styles.storeTitle}>COFFEE SELECTIONS!</Text>
+            <Text style={styles.storeTitle}>Coffee Selections!</Text>
           </View>
           <View style={styles.coffeeSelectionsCarousel}>
             <ScrollView
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   storeTitle: {
-    fontSize: 50,
+    fontSize: 40,
     fontWeight: "heavy",
     paddingHorizontal: 20,
     backgroundColor: "#34c97a",
