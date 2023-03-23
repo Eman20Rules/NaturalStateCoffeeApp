@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { Button } from "react-native-paper";
 
 let carouselHeight = 450;
 
@@ -9,12 +10,12 @@ class CoffeeCarouselBox extends Component {
       <View style={styles.theBox}>
         <View style={{ flex: 2 }}>
           <Image
-            source={this.props.imageUri}
+            source={this.props.coffee.coffee_image}
             style={styles.coffeeCarouselImage}
           />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.coffeeCarouselText}>{this.props.name}</Text>
+          <Text style={styles.coffeeCarouselText}>{this.props.coffee.coffee_name}</Text>
         </View>
       </View>
     );
