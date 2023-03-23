@@ -8,6 +8,33 @@ function CustomNavigationBar({ navigation }) {
   const closeMenu = () => setVisible(false);
   const openMenu = (v) => setVisible(true);
 
+async function getCoffees() {
+    var getApiUrl = "http://52.91.125.212/index.php";
+
+    // var headers = {
+    //   Accept: "application/json",
+    //   "Content-Type": "application/json",
+    // };
+
+    var coffeeList = fetch(getApiUrl, {
+      method: "GET",
+      // headers: headers,
+    })
+      .then((response) => response.json());
+      // .then((response) => {
+      //   alert(response[0].Message);
+      // })
+      // .catch((error) => {
+      //   alert("Error" + error);
+      // });
+
+    console.log(coffeeList);
+
+    // return coffeeList.forEach((coffeeItem) => {
+    //   <CoffeeCarouselBox coffee={coffeeItem} />;
+    // });
+  }
+
   return (
     <Provider>
       <Appbar.Header style={style.appBar}>
@@ -24,7 +51,7 @@ function CustomNavigationBar({ navigation }) {
         />
         <Menu
           visible={visible}
-          onDismiss={closeMenu}
+          // onDismiss={closeMenu}
           anchor={
             <Appbar.Action style={style.menu} icon="menu" onPress={openMenu} />
           }
@@ -41,6 +68,10 @@ function CustomNavigationBar({ navigation }) {
           <Menu.Item
             onPress={() => navigation.navigate("ViewOrders")}
             title="View Orders"
+          />
+          <Menu.Item
+            onPress={getCoffees}
+            title="Fetch Test"
           />
           {/* <Text
             style={style.menuItems}
