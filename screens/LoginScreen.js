@@ -14,7 +14,7 @@ class LoginScreen extends Component {
     if (username.length == 0 || password.length == 0) {
       alert("Required Field is Missing");
     } else {
-      var InsertAPIURL = "http://localhost/api/test.php";
+      var postApiURL = "http://3.84.255.244/index.php?method=login";
 
       var headers = {
         Accept: "application/json",
