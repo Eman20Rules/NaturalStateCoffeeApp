@@ -1,53 +1,64 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { Button } from "react-native-paper";
+import React from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-let carouselHeight = 450;
+const imageHeight = 200;
+const imageWidth = 150;
 
-class CoffeeCarouselBox extends Component {
-  render() {
-    return (
-      <View style={styles.theBox}>
-        <View style={{ flex: 2 }}>
-          <Image
-            source={this.props.coffee.coffee_image}
-            style={styles.coffeeCarouselImage}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.coffeeCarouselText}>{this.props.coffee.coffee_name}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+const CoffeeCarouselBox = ({ coffee_name, coffee_image }) => {
+	return (
+		<View style={styles.containerStyle}>
+			<View style={styles.imageContainerStyle}>
+				<Image source={{ uri: coffee_image }} style={styles.imageStyle} />
+			</View>
+			<View style={styles.textContainerStyle}>
+				<Text style={styles.textStyle}>{coffee_name}</Text>
+			</View>
+			<TouchableOpacity style={styles.buttonContainerStyle}>
+				<Feather name="info" size={24} color="gray" />
+				<Text style={styles.subscriptionButtonStyle}>Info</Text>
+			</TouchableOpacity>
+			<TouchableOpacity style={styles.buttonContainerStyle}>
+				<Feather name="shopping-cart" size={24} color="gray" />
+				<Text style={styles.subscriptionButtonStyle}>Add to Cart</Text>
+			</TouchableOpacity>
+		</View>
+	);
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  theBox: {
-    height: carouselHeight,
-    width: carouselHeight - 200,
-    marginLeft: 30,
-    borderWidth: 5,
-    borderColor: "#8a630a",
-    backgroundColor: "#cca241",
-  },
-  coffeeCarouselImage: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: "cover",
-  },
-  coffeeCarouselText: {
-    textAlign: "center",
-    fontSize: 35,
-    color: "white",
-  },
+	containerStyle: {
+		alignItems: "center",
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+	},
+	imageStyle: {
+		resizeMode: "cover",
+		height: imageHeight,
+		width: imageWidth,
+	},
+	imageContainerStyle: {
+		paddingBottom: 5,
+	},
+	textStyle: {
+		fontSize: 18,
+		width: 150,
+		textAlign: "center",
+		textAlignVertical: "auto",
+		marginBottom: 10,
+	},
+	textContainerStyle: { justifyContent: "center", height: 60 },
+
+	buttonContainerStyle: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 10,
+	},
+	subscriptionButtonStyle: {
+		fontSize: 30,
+		color: "gray",
+	},
 });
 
 export default CoffeeCarouselBox;

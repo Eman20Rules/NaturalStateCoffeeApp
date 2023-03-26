@@ -1,85 +1,79 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, Platform } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 
-let carouselHeight = 500;
-let isOnMobile =
-  Platform.OS == "ios" || Platform.OS == "android" ? false : true;
+const isOnAndroid = Platform.OS === "android";
+const headerPadding = isOnAndroid ? 74 : 97;
 
-function HomeScreen() {
-  const [coffeeList, setCoffeeList] = useState([]);
+const HomeScreen = () => {
+	const [coffeeList, setCoffeeList] = useState([]);
 
-  useEffect(() => {
-    getCoffees();
-  }, []);
+	useEffect(() => {
+		getCoffees();
+	}, []);
 
-  async function getCoffees() {
-    var getApiUrl = "http://3.84.255.244/index.php?method=getCoffee";
+	async function getCoffees() {
+		var getApiUrl = "http://3.84.255.244/index.php?method=getCoffee";
 
-    fetch(getApiUrl)
-      .then((response) => response.json())
-      .then((json) => setCoffeeList(json))
-      .catch((error) => {
-        alert("Error" + error);
-      });
-  }
+		fetch(getApiUrl)
+			.then((response) => response.json())
+			.then((json) => setCoffeeList(json))
+			.catch((error) => {
+				alert("Error" + error);
+			});
+	}
 
-  return (
-    <View style={styles.container}>
-      <ScrollView scrollEventThrottle={16} style={{ width: "100%" }}>
-        <View>
-          <Text style={styles.storeTitle}>Coffee Selections!</Text>
-        </View>
-        <View style={styles.coffeeSelectionsCarousel}>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={isOnMobile}
-          >
-            {coffeeList && <CoffeeView coffees={coffeeList} />}
-          </ScrollView>
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
+	return (
+		<View style={styles.containerStyle}>
+			<Text style={styles.headerOneStyle}>Subscriptions</Text>
+			<View style={styles.listContainerStyle}>
+				<FlatList
+					data={coffeeList}
+					keyExtractor={(item) => item.coffee_id}
+					horizontal
+					renderItem={({ index, item }) => {
+						return (
+							<View
+								style={[
+									index < coffeeList.length - 1
+										? { borderRightWidth: 1, borderRightColor: "gray" }
+										: null,
+								]}
+							>
+								<CoffeeCarouselBox
+									coffee_name={item.coffee_name}
+									coffee_image={item.coffee_image}
+								/>
+							</View>
+						);
+					}}
+				/>
+			</View>
+		</View>
+	);
+};
 
-function CoffeeView({ coffees }) {
-  return (
-    <div>
-      <>
-        {coffees.map((coffeeItem) => (
-          <CoffeeCarouselBox key={coffeeItem} coffee={coffeeItem} />
-        ))}
-      </>
-    </div>
-  );
-}
+//TODO: I don't know why. I don't want to know why, but the custom header bar does not return any height except 0,
+//so using automatic styling doesn't move the content out of the way of the header bar and they end up covering each
+//other.  Maybe fix this? For now use paddingTop of 97 on the container View
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  storeTitle: {
-    fontSize: 40,
-    fontWeight: "heavy",
-    paddingHorizontal: 20,
-    backgroundColor: "#34c97a",
-    color: "white",
-    marginBottom: 10,
-  },
-  coffeeSelectionsCarousel: {
-    height: carouselHeight,
-  },
+	containerStyle: {
+		width: "100%",
+		paddingTop: headerPadding,
+		paddingBottom: 150,
+	},
+	headerOneStyle: {
+		fontSize: 35,
+		paddingTop: 25,
+		paddingBottom: 5,
+		paddingHorizontal: 8,
+	},
+	listContainerStyle: {},
+	coffeeCarouselBoxStyle: {
+		borderStartWidth: 5,
+		borderEndWidth: 5,
+	},
 });
 
 export default HomeScreen;
