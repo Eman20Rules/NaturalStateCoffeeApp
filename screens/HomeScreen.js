@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, StyleSheet, FlatList, Platform } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
+import { useFonts } from "expo-font";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const HomeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
+	const [fontsLoaded] = useFonts({
+		"Abel Regular": require("../assets/fonts/Abel Regular.ttf"),
+	});
 
 	useEffect(() => {
 		getCoffees();
