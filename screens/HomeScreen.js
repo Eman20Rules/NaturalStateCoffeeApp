@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, StyleSheet, FlatList, Platform } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	FlatList,
+	Platform,
+	ImageBackground,
+	ScrollView,
+} from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
-import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
@@ -9,8 +18,10 @@ const headerPadding = isOnAndroid ? 74 : 97;
 const HomeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
 	const [fontsLoaded] = useFonts({
-		"Abel Regular": require("../assets/fonts/Abel Regular.ttf"),
+		Abel_400Regular,
 	});
+
+	//This shows a loading screen until the fonts load
 
 	useEffect(() => {
 		getCoffees();
@@ -27,8 +38,12 @@ const HomeScreen = () => {
 			});
 	}
 
+	if (!fontsLoaded) {
+		return null;
+	}
+
 	return (
-		<View style={styles.containerStyle}>
+		<ScrollView style={styles.containerStyle}>
 			<Text style={styles.headerOneStyle}>Subscriptions</Text>
 			<View style={styles.listContainerStyle}>
 				<FlatList
@@ -38,9 +53,14 @@ const HomeScreen = () => {
 					renderItem={({ index, item }) => {
 						return (
 							<View
+								//	This View tag is responsible for the vertical line. If the view tag is on the last element
+								//in the {coffeeList} then it won't render a line to the right
 								style={[
 									index < coffeeList.length - 1
-										? { borderRightWidth: 1, borderRightColor: "gray" }
+										? {
+												borderRightWidth: StyleSheet.hairlineWidth,
+												borderColor: "#9A7B4F",
+										  }
 										: null,
 								]}
 							>
@@ -53,7 +73,15 @@ const HomeScreen = () => {
 					}}
 				/>
 			</View>
-		</View>
+			<View style={styles.hairlineDividerStyle} />
+			<ImageBackground
+				source={require("../assets/images/aboutUsImageBackground.jpg")}
+				style={styles.imageBackgroundStyle}
+				resizeMode="cover"
+			>
+				<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
+			</ImageBackground>
+		</ScrollView>
 	);
 };
 
@@ -72,11 +100,28 @@ const styles = StyleSheet.create({
 		paddingTop: 25,
 		paddingBottom: 5,
 		paddingHorizontal: 8,
+		fontFamily: "Abel_400Regular",
 	},
 	listContainerStyle: {},
 	coffeeCarouselBoxStyle: {
 		borderStartWidth: 5,
 		borderEndWidth: 5,
+	},
+	hairlineDividerStyle: {
+		borderBottomWidth: StyleSheet.hairlineWidth * 5,
+		marginHorizontal: 15,
+		marginVertical: 35,
+		borderColor: "#9A7B4F",
+	},
+	imageBackgroundStyle: {
+		height: 500,
+		alignItems: "center",
+		justifyContent: "space-around",
+	},
+	imageBackgroundTextStyle: {
+		color: "white",
+		fontFamily: "Abel_400Regular",
+		fontSize: 50,
 	},
 });
 
