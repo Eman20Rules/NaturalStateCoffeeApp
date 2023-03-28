@@ -9,17 +9,14 @@ import {
 	ScrollView,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
+import { Feather } from "@expo/vector-icons";
+
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const HomeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
-	const [fontsLoaded] = useFonts({
-		Abel_400Regular,
-	});
 
 	//This shows a loading screen until the fonts load
 
@@ -36,10 +33,6 @@ const HomeScreen = () => {
 			.catch((error) => {
 				alert("Error" + error);
 			});
-	}
-
-	if (!fontsLoaded) {
-		return null;
 	}
 
 	return (

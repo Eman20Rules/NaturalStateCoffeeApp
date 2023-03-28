@@ -1,19 +1,11 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
-import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
-import * as SplashScreen from "expo-splash-screen";
 
 const imageHeight = 200;
 const imageWidth = 150;
 
 const CoffeeCarouselBox = ({ coffee_name, coffee_image }) => {
-	const [fontsLoaded] = useFonts({
-		Abel_400Regular,
-		HankenGrotesk_300Light,
-	});
-
 	return (
 		<View style={styles.containerStyle}>
 			<View style={styles.imageContainerStyle}>
@@ -51,7 +43,6 @@ const styles = StyleSheet.create({
 		width: 150,
 		textAlign: "center",
 		textAlignVertical: "auto",
-
 		fontFamily: "Abel_400Regular",
 	},
 	textContainerStyle: {
