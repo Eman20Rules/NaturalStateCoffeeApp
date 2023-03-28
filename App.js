@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
+import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
+import * as SplashScreen from "expo-splash-screen";
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -12,8 +15,21 @@ import CartScreen from "./screens/CartScreen";
 import AccountScreen from "./screens/AccountScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 
-const App = () => {
+
+
+export default function App() {
 	const Stack = createNativeStackNavigator();
+
+	const [fontsLoaded] = useFonts({
+		Abel_400Regular,
+		HankenGrotesk_300Light
+	})
+
+	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) {
+		  await SplashScreen.hideAsync();
+		}
+	  }, [fontsLoaded]);
 
 	return (
 		<NavigationContainer>
@@ -37,6 +53,4 @@ const App = () => {
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
-};
-
-export default App;
+}
