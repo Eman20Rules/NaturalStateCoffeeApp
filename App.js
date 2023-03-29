@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
-
+import {StyleSheet} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
 import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
-import * as SplashScreen from "expo-splash-screen";
+import Apploading from 'expo-app-loading'
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -17,19 +17,22 @@ import SignUpScreen from "./screens/SignUpScreen";
 
 
 
+
 export default function App() {
+	
 	const Stack = createNativeStackNavigator();
 
-	const [fontsLoaded] = useFonts({
+	const [fontsLoaded, error] = useFonts({
 		Abel_400Regular,
 		HankenGrotesk_300Light
 	})
 
-	const onLayoutRootView = useCallback(async () => {
-		if (fontsLoaded) {
-		  await SplashScreen.hideAsync();
-		}
-	  }, [fontsLoaded]);
+
+	//Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded. 
+	//An error that Abel is not loaded is thrown and the SplashScreen never goes away.
+	if (!fontsLoaded) {
+		return <Apploading/>
+	}
 
 	return (
 		<NavigationContainer>

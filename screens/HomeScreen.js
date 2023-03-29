@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -9,13 +9,49 @@ import {
 	ScrollView,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
-import { Feather } from "@expo/vector-icons";
+
 
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const HomeScreen = () => {
+	
+	const styles = StyleSheet.create({
+		containerStyle: {
+			width: "100%",
+			paddingTop: headerPadding,
+			paddingBottom: 150,
+		},
+		headerOneStyle: {
+			fontSize: 35,
+			paddingTop: 25,
+			paddingBottom: 5,
+			paddingHorizontal: 8,
+			fontFamily: "Abel_400Regular",
+		},
+		listContainerStyle: {},
+		coffeeCarouselBoxStyle: {
+			borderStartWidth: 5,
+			borderEndWidth: 5,
+		},
+		hairlineDividerStyle: {
+			borderBottomWidth: StyleSheet.hairlineWidth * 5,
+			marginHorizontal: 15,
+			marginVertical: 35,
+			borderColor: "#9A7B4F",
+		},
+		imageBackgroundStyle: {
+			height: 500,
+			alignItems: "center",
+			justifyContent: "space-around",
+		},
+		imageBackgroundTextStyle: {
+			color: "white",
+			fontFamily: "Abel_400Regular",
+			fontSize: 50,
+		},
+	});
 	const [coffeeList, setCoffeeList] = useState([]);
 
 	//This shows a loading screen until the fonts load
@@ -78,44 +114,8 @@ const HomeScreen = () => {
 	);
 };
 
-//TODO: I don't know why. I don't want to know why, but the custom header bar does not return any height except 0,
-//so using automatic styling doesn't move the content out of the way of the header bar and they end up covering each
-//other.  Maybe fix this? For now use paddingTop of 97 on the container View
 
-const styles = StyleSheet.create({
-	containerStyle: {
-		width: "100%",
-		paddingTop: headerPadding,
-		paddingBottom: 150,
-	},
-	headerOneStyle: {
-		fontSize: 35,
-		paddingTop: 25,
-		paddingBottom: 5,
-		paddingHorizontal: 8,
-		fontFamily: "Abel_400Regular",
-	},
-	listContainerStyle: {},
-	coffeeCarouselBoxStyle: {
-		borderStartWidth: 5,
-		borderEndWidth: 5,
-	},
-	hairlineDividerStyle: {
-		borderBottomWidth: StyleSheet.hairlineWidth * 5,
-		marginHorizontal: 15,
-		marginVertical: 35,
-		borderColor: "#9A7B4F",
-	},
-	imageBackgroundStyle: {
-		height: 500,
-		alignItems: "center",
-		justifyContent: "space-around",
-	},
-	imageBackgroundTextStyle: {
-		color: "white",
-		fontFamily: "Abel_400Regular",
-		fontSize: 50,
-	},
-});
+
+
 
 export default HomeScreen;
