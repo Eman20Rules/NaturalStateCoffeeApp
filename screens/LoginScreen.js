@@ -1,71 +1,86 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 
-class LoginScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { username: "", password: "" };
+function LoginScreen({ navigation, props }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userToken, setUserToken] = useState("");
+
+  function login() {
+    if (email.length == 0) {
+      alert("Email is Required");
+      return;
+    }
+
+    if (password.length == 0) {
+      alert("Password is Required");
+      return;
+    }
+
+    loginAPICall().then((loginInfo) => {
+      if (loginInfo.status == 200) {
+        setUserToken(loginInfo.token);
+        setLoggedIn(true);
+      } else alert(loginInfo.message);
+    });
   }
 
-  InsertRecord = () => {
-    var username = this.state.username;
-    var password = this.state.password;
+  function loginAPICall() {
+    var postApiURL = "http://3.84.255.244/index.php?method=login";
 
-    if (username.length == 0 || password.length == 0) {
-      alert("Required Field is Missing");
-    } else {
-      var postApiURL = "http://3.84.255.244/index.php?method=login";
+    var Data = {
+      email: email,
+      password: password,
+    };
 
-      var headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
+    var loginInfo = fetch(postApiURL, {
+      method: "POST",
+      body: JSON.stringify(Data),
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        alert("Error" + error);
+      });
 
-      var Data = {
-        username: username,
-        password: password,
-      };
+    return loginInfo;
+  }
 
-      fetch(InsertAPIURL, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(Data),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          alert(response[0].Message);
-        })
-        .catch((error) => {
-          alert("Error" + error);
-        });
-    }
-  };
-  render() {
+  if (!loggedIn) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Coffee Shop Login</Text>
         <TextInput
-          placeholder={"Username"}
+          placeholder={"Email"}
           placeholderTextColor={"#FF0000"}
-          keyboardType={"numeric"}
           style={styles.input}
-          onChangeText={(username) => this.setState({ username })}
+          onChangeText={(input) => setEmail(input)}
         />
 
         <TextInput
           placeholder={"Password"}
           placeholderTextColor={"#FF0000"}
           style={styles.input}
-          onChangeText={(password) => this.setState({ password })}
+          onChangeText={(input) => setPassword(input)}
         />
 
         <View style={styles.buttonContainer}>
-          <Button title={"Login"} onPress={this.InsertRecord} />
+          <Button title={"Login"} onPress={login} />
           <Button
             title={"Sign Up"}
-            onPress={() => this.props.navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate("SignUp")}
           />
         </View>
+      </View>
+    );
+  }
+
+  if (loggedIn) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Logged In!</Text>
+        <Text style={styles.title}>{userToken}</Text>
+        {props.handleLoggedin(userToken)}
       </View>
     );
   }
