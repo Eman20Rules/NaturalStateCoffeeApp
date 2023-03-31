@@ -77,6 +77,7 @@ const style = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 25,
 		color: "#4a402a",
+		
 	},
 	appBar: {
 		height: 50,
