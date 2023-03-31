@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+
+
+import React, { useEffect, useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -9,6 +11,8 @@ import {
 	ScrollView,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
+import { Feather } from "@expo/vector-icons";
+
 
 
 
@@ -113,7 +117,6 @@ const HomeScreen = () => {
 		</ScrollView>
 	);
 };
-
 
 
 

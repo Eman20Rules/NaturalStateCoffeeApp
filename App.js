@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
 import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
 import Apploading from 'expo-app-loading'
-import * as SplashScreen from 'expo-splash-screen';
+
+
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -19,14 +20,18 @@ import AppLoading from "expo-app-loading";
 
 
 
+
+
+
 export default function App() {
-	
 	const Stack = createNativeStackNavigator();
 
-	const [fontsLoaded, error] = useFonts({
+	const [fontsLoaded] = useFonts({
+
 		Abel_400Regular,
 		HankenGrotesk_300Light
 	})
+
 
 	
 
@@ -35,6 +40,7 @@ export default function App() {
 	if (!fontsLoaded) {
 		return <AppLoading/>
 	}
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
