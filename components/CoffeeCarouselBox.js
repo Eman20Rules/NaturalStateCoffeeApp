@@ -6,6 +6,47 @@ const imageHeight = 200;
 const imageWidth = 150;
 
 const CoffeeCarouselBox = ({ coffee_name, coffee_image }) => {
+	const styles = StyleSheet.create({
+		containerStyle: {
+			alignItems: "center",
+			paddingVertical: 10,
+			paddingHorizontal: 20,
+		},
+		imageStyle: {
+			resizeMode: "cover",
+			height: imageHeight,
+			width: imageWidth,
+		},
+		imageContainerStyle: {},
+		textStyle: {
+			fontSize: 25,
+			width: 150,
+			textAlign: "center",
+			textAlignVertical: "auto",
+			fontFamily: "Abel_400Regular",
+		},
+		textContainerStyle: {
+			justifyContent: "center",
+			height: 80,
+			marginBottom: 10,
+		},
+	
+		buttonContainerStyle: {
+			alignSelf: "flex-start",
+			flexDirection: "row",
+			alignItems: "center",
+			padding: 3,
+			marginVertical: 5,
+			borderColor: "#581613",
+			borderWidth: 1,
+		},
+		subscriptionButtonStyle: {
+			fontSize: 20,
+			color: "#581613",
+			fontFamily: "HankenGrotesk_300Light",
+		},
+	});
+	
 	return (
 		<View style={styles.containerStyle}>
 			<View style={styles.imageContainerStyle}>
@@ -26,45 +67,6 @@ const CoffeeCarouselBox = ({ coffee_name, coffee_image }) => {
 	);
 };
 
-const styles = StyleSheet.create({
-	containerStyle: {
-		alignItems: "center",
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-	},
-	imageStyle: {
-		resizeMode: "cover",
-		height: imageHeight,
-		width: imageWidth,
-	},
-	imageContainerStyle: {},
-	textStyle: {
-		fontSize: 25,
-		width: 150,
-		textAlign: "center",
-		textAlignVertical: "auto",
-		fontFamily: "Abel_400Regular",
-	},
-	textContainerStyle: {
-		justifyContent: "center",
-		height: 80,
-		marginBottom: 10,
-	},
 
-	buttonContainerStyle: {
-		alignSelf: "flex-start",
-		flexDirection: "row",
-		alignItems: "center",
-		padding: 3,
-		marginVertical: 5,
-		borderColor: "#581613",
-		borderWidth: 1,
-	},
-	subscriptionButtonStyle: {
-		fontSize: 20,
-		color: "#581613",
-		fontFamily: "HankenGrotesk_300Light",
-	},
-});
 
 export default CoffeeCarouselBox;
