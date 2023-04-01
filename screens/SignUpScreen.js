@@ -200,8 +200,9 @@ function SignUpScreen() {
   if (signedUp) {
     return (
       <View style={styles.container}>
-    <Text style={styles.title}>Signed Up!</Text>
-    </View>);
+        <Text style={styles.title}>Signed Up!</Text>
+      </View>
+    );
   }
 }
 

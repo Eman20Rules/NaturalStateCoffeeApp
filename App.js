@@ -17,9 +17,9 @@ import SignUpScreen from "./screens/SignUpScreen";
 import AppLoading from "expo-app-loading";
 
 const App = () => {
-	const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator();
 
- //   const [test, setTest] = useState();
+  //   const [test, setTest] = useState();
 
   //   function LoggedIn(userToken) {
   //     setTest(userToken);
@@ -36,39 +36,39 @@ const App = () => {
   //     }
   //   }, []);
 
-	const [fontsLoaded] = useFonts({
-		Abel_400Regular,
-		HankenGrotesk_300Light,
-	});
+  const [fontsLoaded] = useFonts({
+    Abel_400Regular,
+    HankenGrotesk_300Light,
+  });
 
-	//Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded.
-	//An error that Abel is not loaded is thrown and the SplashScreen never goes away.
-	if (!fontsLoaded) {
-		return <AppLoading />;
-	}
+  //Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded.
+  //An error that Abel is not loaded is thrown and the SplashScreen never goes away.
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
-	return (
-		<NavigationContainer>
-			<Stack.Navigator
-				initialRouteName="Home"
-				screenOptions={{
-					headerStyle: { height: 50 },
-					header: (props) => <CustomNavigationBar {...props} />,
-				}}
-			>
-				<Stack.Screen name="Home" component={HomeScreen} />
-				<Stack.Screen name="Login" component={LogInScreen} />
-				<Stack.Screen
-					name="ActiveSubscriptions"
-					component={ActiveSubscriptionsScreen}
-				/>
-				<Stack.Screen name="ViewOrders" component={ViewOrdersScreen} />
-				<Stack.Screen name="Cart" component={CartScreen} />
-				<Stack.Screen name="Account" component={AccountScreen} />
-				<Stack.Screen name="SignUp" component={SignUpScreen} />
-			</Stack.Navigator>
-		</NavigationContainer>
-	);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: { height: 50 },
+          header: (props) => <CustomNavigationBar {...props} />,
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LogInScreen} />
+        <Stack.Screen
+          name="ActiveSubscriptions"
+          component={ActiveSubscriptionsScreen}
+        />
+        <Stack.Screen name="ViewOrders" component={ViewOrdersScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Account" component={AccountScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default App;
