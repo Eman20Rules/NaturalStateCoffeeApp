@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useCallback } from "react";
 import {
 	View,
@@ -9,18 +7,16 @@ import {
 	Platform,
 	ImageBackground,
 	ScrollView,
+	Modal,
+	Button,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import { Feather } from "@expo/vector-icons";
-
-
-
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const HomeScreen = () => {
-	
 	const styles = StyleSheet.create({
 		containerStyle: {
 			width: "100%",
@@ -42,7 +38,7 @@ const HomeScreen = () => {
 		hairlineDividerStyle: {
 			borderBottomWidth: StyleSheet.hairlineWidth * 5,
 			marginHorizontal: 15,
-			marginVertical: 35,
+			marginVertical: 25,
 			borderColor: "#9A7B4F",
 		},
 		imageBackgroundStyle: {
@@ -55,8 +51,20 @@ const HomeScreen = () => {
 			fontFamily: "Abel_400Regular",
 			fontSize: 50,
 		},
+		centeredViewStyle: {
+			flex: 1,
+			alignItems: "center",
+			justifyContent: "center",
+		},
+		popUpStyle: {
+			backgroundColor: "white",
+			borderRadius: 5,
+			padding: 10,
+		},
 	});
 	const [coffeeList, setCoffeeList] = useState([]);
+	const [modalChildren, setModalChildren] = useState(null);
+	const [modalVisible, setModalVisible] = useState(false);
 
 	//This shows a loading screen until the fonts load
 
@@ -65,7 +73,7 @@ const HomeScreen = () => {
 	}, []);
 
 	async function getCoffees() {
-		var getApiUrl = "http://3.84.255.244/index.php?method=getCoffee";
+		var getApiUrl = "http://3.84.255.244/index.php?method=getCoffees";
 
 		fetch(getApiUrl)
 			.then((response) => response.json())
@@ -76,49 +84,69 @@ const HomeScreen = () => {
 	}
 
 	return (
-		<ScrollView style={styles.containerStyle}>
-			<Text style={styles.headerOneStyle}>Subscriptions</Text>
-			<View style={styles.listContainerStyle}>
-				<FlatList
-					data={coffeeList}
-					keyExtractor={(item) => item.coffee_id}
-					horizontal
-					renderItem={({ index, item }) => {
-						return (
-							<View
-								//	This View tag is responsible for the vertical line. If the view tag is on the last element
-								//in the {coffeeList} then it won't render a line to the right
-								style={[
-									index < coffeeList.length - 1
-										? {
-												borderRightWidth: StyleSheet.hairlineWidth,
-												borderColor: "#9A7B4F",
-										  }
-										: null,
-								]}
-							>
-								<CoffeeCarouselBox
-									coffee_name={item.coffee_name}
-									coffee_image={item.coffee_image}
-								/>
-							</View>
-						);
-					}}
-				/>
-			</View>
-			<View style={styles.hairlineDividerStyle} />
-			<ImageBackground
-				source={require("../assets/images/aboutUsImageBackground.jpg")}
-				style={styles.imageBackgroundStyle}
-				resizeMode="cover"
+		<View style={styles.centeredViewStyle}>
+			<Modal
+				transparent={true}
+				visible={modalVisible}
+				animationType="fade"
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
 			>
-				<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
-			</ImageBackground>
-		</ScrollView>
+				<View
+					style={[
+						styles.centeredViewStyle,
+						{ backgroundColor: "rgba(0,0,0,0.5)" },
+					]}
+				>
+					<View style={styles.popUpStyle}>
+						{modalChildren}
+						<Button title="Close" onPress={() => setModalVisible(false)} />
+					</View>
+				</View>
+			</Modal>
+			<ScrollView style={styles.containerStyle}>
+				<Text style={styles.headerOneStyle}>Subscriptions</Text>
+				<View style={styles.listContainerStyle}>
+					<FlatList
+						data={coffeeList}
+						keyExtractor={(item) => item.coffee_id}
+						horizontal
+						renderItem={({ index, item }) => {
+							return (
+								<View
+									//	This View tag is responsible for the vertical line. If the view tag is on the last element
+									//in the {coffeeList} then it won't render a line to the right
+									style={[
+										index < coffeeList.length - 1
+											? {
+													borderRightWidth: StyleSheet.hairlineWidth * 3,
+													borderColor: "#9A7B4F",
+											  }
+											: null,
+									]}
+								>
+									<CoffeeCarouselBox
+										coffee={item}
+										setInfoPopup={setModalChildren}
+										setInfoVisible={setModalVisible}
+									/>
+								</View>
+							);
+						}}
+					/>
+				</View>
+				<View style={styles.hairlineDividerStyle} />
+				<ImageBackground
+					source={require("../assets/images/aboutUsImageBackground.jpg")}
+					style={styles.imageBackgroundStyle}
+					resizeMode="cover"
+				>
+					<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
+				</ImageBackground>
+			</ScrollView>
+		</View>
 	);
 };
-
-
-
 
 export default HomeScreen;
