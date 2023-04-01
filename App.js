@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
 import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
 import Apploading from 'expo-app-loading'
-import * as SplashScreen from 'expo-splash-screen';
+
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -35,6 +35,7 @@ export default function App() {
 	if (!fontsLoaded) {
 		return <AppLoading/>
 	}
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
