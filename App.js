@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, route, useEffect } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,13 +12,24 @@ import CartScreen from "./screens/CartScreen";
 import AccountScreen from "./screens/AccountScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 
-const App = () => {
+function App() {
   const Stack = createNativeStackNavigator();
-  const [userToken, setUserToken] = useState("");
+  //   const [test, setTest] = useState();
 
-  function LoggedIn(userToken) {
-    setUserToken(userToken);
-  }
+  //   function LoggedIn(userToken) {
+  //     setTest(userToken);
+  //     console.log("user token from method: ", userToken);
+  //     console.log("user token global: ", test);
+  //     console.log("It worked!!!");
+  //   }
+
+  //   useEffect(() => {
+  //     const token = localStorage.getItem("token");
+  //     if (token) {
+  //       setTest(token);
+  //       console.log(test);
+  //     }
+  //   }, []);
 
   return (
     <NavigationContainer>
@@ -30,9 +41,13 @@ const App = () => {
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={LogInScreen}>
-          {/* {(props) => (props.handleLoggedin = LoggedIn)} */}
-        </Stack.Screen>
+        <Stack.Screen
+          name="Login"
+          component={LogInScreen}
+          //   initialParams={{ handleLoggedIn: LoggedIn }}
+          //   options={(route) => ({ userTokenG: route.params.userToken })}
+        />
+
         <Stack.Screen
           name="ActiveSubscriptions"
           component={ActiveSubscriptionsScreen}
@@ -44,6 +59,6 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default App;

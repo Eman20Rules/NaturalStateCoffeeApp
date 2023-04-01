@@ -13,7 +13,7 @@ const HomeScreen = () => {
   }, []);
 
   function getCoffees() {
-    var getApiUrl = "http://3.84.255.244/index.php?method=getCoffee";
+    var getApiUrl = "http://3.84.255.244/index.php?method=getCoffees";
 
     fetch(getApiUrl)
       .then((response) => response.json())

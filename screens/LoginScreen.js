@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 
-function LoginScreen({ navigation, props }) {
+function LoginScreen({ navigation, route }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [userToken, setUserToken] = useState("");
+
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     userTokenG: userToken === '' ? 'No Token' : userToken,
+  //   });
+  // }, [navigation, userToken]);
+
+  // const { handleLoggedIn } = route.params;
 
   function login() {
     if (email.length == 0) {
@@ -20,8 +27,11 @@ function LoginScreen({ navigation, props }) {
 
     loginAPICall().then((loginInfo) => {
       if (loginInfo.status == 200) {
+        localStorage.setItem("token", loginInfo.token);
         setUserToken(loginInfo.token);
-        setLoggedIn(true);
+        if (loginInfo.is_admin == 1) {
+          localStorage.setItem("isAdmin", true);
+        }
       } else alert(loginInfo.message);
     });
   }
@@ -46,7 +56,7 @@ function LoginScreen({ navigation, props }) {
     return loginInfo;
   }
 
-  if (!loggedIn) {
+  if (localStorage.getItem("token") == null) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Coffee Shop Login</Text>
@@ -75,12 +85,10 @@ function LoginScreen({ navigation, props }) {
     );
   }
 
-  if (loggedIn) {
+  if (localStorage.getItem("token") != null) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Logged In!</Text>
-        <Text style={styles.title}>{userToken}</Text>
-        {props.handleLoggedin(userToken)}
       </View>
     );
   }
