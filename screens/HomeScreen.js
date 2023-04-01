@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -11,6 +11,7 @@ import {
 	Button,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
+import { Feather } from "@expo/vector-icons";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;

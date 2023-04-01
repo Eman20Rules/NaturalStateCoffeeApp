@@ -3,8 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
 import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
-import Apploading from 'expo-app-loading'
-
+import Apploading from "expo-app-loading";
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -16,24 +15,18 @@ import AccountScreen from "./screens/AccountScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import AppLoading from "expo-app-loading";
 
-
-
-
 export default function App() {
-	
 	const Stack = createNativeStackNavigator();
 
-	const [fontsLoaded, error] = useFonts({
+	const [fontsLoaded] = useFonts({
 		Abel_400Regular,
-		HankenGrotesk_300Light
-	})
+		HankenGrotesk_300Light,
+	});
 
-	
-
-	//Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded. 
+	//Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded.
 	//An error that Abel is not loaded is thrown and the SplashScreen never goes away.
 	if (!fontsLoaded) {
-		return <AppLoading/>
+		return <AppLoading />;
 	}
 
 	return (
