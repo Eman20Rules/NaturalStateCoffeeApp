@@ -4,7 +4,6 @@ import { useState } from "react";
 
 function CustomNavigationBar({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const [userToken, setUserToken] = useState("");
 
   const closeMenu = () => setVisible(false);
   const openMenu = (v) => setVisible(true);
@@ -58,7 +57,6 @@ function CustomNavigationBar({ navigation }) {
             }}
             title="View Orders"
           />
-          <Menu.Item title={userToken} />
         </Menu>
       </Appbar.Header>
     </Provider>

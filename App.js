@@ -1,4 +1,4 @@
-import React, { useState, route, useEffect } from "react";
+import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,23 +18,6 @@ import AppLoading from "expo-app-loading";
 
 const App = () => {
   const Stack = createNativeStackNavigator();
-
-  //   const [test, setTest] = useState();
-
-  //   function LoggedIn(userToken) {
-  //     setTest(userToken);
-  //     console.log("user token from method: ", userToken);
-  //     console.log("user token global: ", test);
-  //     console.log("It worked!!!");
-  //   }
-
-  //   useEffect(() => {
-  //     const token = localStorage.getItem("token");
-  //     if (token) {
-  //       setTest(token);
-  //       console.log(test);
-  //     }
-  //   }, []);
 
   const [fontsLoaded] = useFonts({
     Abel_400Regular,

@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 
-function LoginScreen({ navigation, route }) {
+function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userToken, setUserToken] = useState("");
-
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     userTokenG: userToken === '' ? 'No Token' : userToken,
-  //   });
-  // }, [navigation, userToken]);
-
-  // const { handleLoggedIn } = route.params;
 
   function login() {
     if (email.length == 0) {

@@ -1,11 +1,29 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-class AccountScreen extends Component {
-  render() {
+//create your forceUpdate hook
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update state to force render
+  // A function that increment 👆🏻 the previous state like here
+  // is better than directly setting `setValue(value + 1)`
+}
+
+function AccountScreen() {
+  const forceUpdate = useForceUpdate();
+
+  if (localStorage.getItem("token") != null) {
     return (
       <View style={style.container}>
-        <Text>Account Screen</Text>
+        <Text>Not Logged in</Text>
+      </View>
+    );
+  }
+
+  if (localStorage.getItem("token") == null) {
+    return (
+      <View style={style.container}>
+        <Text>Logged in</Text>
       </View>
     );
   }
