@@ -2,33 +2,57 @@ import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import LoginContext from "../context/LoginContext";
 
-//create your forceUpdate hook
-function useForceUpdate() {
-	const [value, setValue] = useState(0); // integer state
-	return () => setValue((value) => value + 1); // update state to force render
-	// A function that increment 👆🏻 the previous state like here
-	// is better than directly setting `setValue(value + 1)`
-}
-
 function AccountScreen() {
-	const forceUpdate = useForceUpdate();
-	const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, userToken } = useContext(LoginContext);
+  const [fetchedUserData, setFetchedUserData] = useState(false);
 
-	const loggedInTextTag = !isLoggedIn() ? (
-		<Text>Not Logged In</Text>
-	) : (
-		<Text>Logged In</Text>
-	);
+  async function getUserData() {
+    var getApiUrl = "https://nsdev1.xyz/index.php?method=getMyUserData";
 
-	return <View style={style.container}>{loggedInTextTag}</View>;
+    var header = {
+      Authorization: "Bearer " + userToken,
+    };
+
+    console.log(header);
+
+    fetch(getApiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + userToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json))
+      .catch((error) => {
+        alert("Error" + error);
+      });
+  }
+
+  if (!isLoggedIn()) {
+    return (
+      <View style={style.container}>
+        <Text>Not Logged In</Text>
+      </View>
+    );
+  } else {
+    if (!fetchedUserData) {
+      getUserData();
+    }
+
+    return (
+      <View style={style.container}>
+        <Text>Logged In</Text>
+      </View>
+    );
+  }
 }
 
 const style = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export default AccountScreen;
