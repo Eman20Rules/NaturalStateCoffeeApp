@@ -3,7 +3,10 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts, Abel_400Regular } from "@expo-google-fonts/abel";
-import { HankenGrotesk_300Light } from "@expo-google-fonts/hanken-grotesk";
+import {
+	HankenGrotesk_300Light,
+	HankenGrotesk_600SemiBold,
+} from "@expo-google-fonts/hanken-grotesk";
 import AppLoading from "expo-app-loading";
 
 import HomeScreen from "./screens/HomeScreen";
@@ -22,6 +25,7 @@ const App = () => {
 	const [fontsLoaded] = useFonts({
 		Abel_400Regular,
 		HankenGrotesk_300Light,
+		HankenGrotesk_600SemiBold,
 	});
 
 	//Apploading is deprecated, but SplashScreen isn't going away once the fonts are loaded.

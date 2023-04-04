@@ -2,10 +2,10 @@ import React, { useState, useContext } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
 
-function LoginScreen({ route, navigation }) {
+function LoginScreen({ navigation }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const { userToken, isLoggedIn, setLogin } = useContext(LoginContext);
+	const { isLoggedIn, setLogin } = useContext(LoginContext);
 
 	function login() {
 		if (email.length == 0) {
