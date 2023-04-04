@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	Modal,
-	Button,
-	Dimensions,
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const imageHeight = 200;
@@ -26,7 +17,6 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 			height: imageHeight,
 			width: imageWidth,
 		},
-		imageContainerStyle: {},
 		textStyle: {
 			fontSize: 25,
 			width: 150,
@@ -39,7 +29,6 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 			height: 80,
 			marginBottom: 10,
 		},
-
 		buttonContainerStyle: {
 			alignSelf: "flex-start",
 			flexDirection: "row",
@@ -66,13 +55,48 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 		modalViewStyle: {
 			height: "100%",
 		},
+		infoTitleStyle: {
+			fontSize: 25,
+			textAlign: "center",
+			fontFamily: "Abel_400Regular",
+		},
+		infoHeaderStyle: {
+			fontFamily: "HankenGrotesk_600SemiBold",
+			textAlign: "center",
+		},
+		infoBodyStyle: {
+			fontFamily: "Abel_400Regular",
+			textAlign: "center",
+		},
+		hairlineDividerStyle: {
+			borderBottomWidth: StyleSheet.hairlineWidth * 5,
+			marginHorizontal: 2,
+			marginVertical: 5,
+			borderColor: "#9A7B4F",
+		},
+		infoGroupingStyle: {
+			padding: 4,
+		},
 	});
 
 	const coffeeInfo = (
 		<View>
-			<Text>Flavor Notes: {coffee.coffee_flavor}</Text>
-			<Text>Process: {coffee.process}</Text>
-			<Text>What we like about this coffee: {coffee.coffee_like}</Text>
+			<Text style={styles.infoTitleStyle}>{coffee.coffee_name}</Text>
+			<View style={styles.hairlineDividerStyle} />
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>Flavor Notes:</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.coffee_flavor}</Text>
+			</View>
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>Process:</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.process}</Text>
+			</View>
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>
+					What we like about this coffee:
+				</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.coffee_like}</Text>
+			</View>
 		</View>
 	);
 

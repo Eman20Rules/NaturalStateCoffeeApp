@@ -4,6 +4,8 @@ import { useState } from "react";
 
 function CustomNavigationBar({ navigation }) {
 	const [visible, setVisible] = useState(false);
+	const [userToken, setUserToken] = useState("");
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	const closeMenu = () => setVisible(false);
 	const openMenu = (v) => setVisible(true);
@@ -77,7 +79,6 @@ const style = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 25,
 		color: "#4a402a",
-		
 	},
 	appBar: {
 		height: 50,
