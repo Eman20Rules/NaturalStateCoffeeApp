@@ -66,7 +66,7 @@ const HomeScreen = () => {
 			flexDirection: "row",
 			alignItems: "center",
 			padding: 3,
-			marginVertical: 5,
+			marginTop: 10,
 			borderColor: "#581613",
 			borderWidth: 1,
 			width: "100%",

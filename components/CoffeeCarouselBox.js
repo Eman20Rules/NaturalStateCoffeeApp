@@ -74,20 +74,29 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 			marginVertical: 5,
 			borderColor: "#9A7B4F",
 		},
+		infoGroupingStyle: {
+			padding: 4,
+		},
 	});
 
 	const coffeeInfo = (
 		<View>
 			<Text style={styles.infoTitleStyle}>{coffee.coffee_name}</Text>
 			<View style={styles.hairlineDividerStyle} />
-			<Text style={styles.infoHeaderStyle}>Flavor Notes:</Text>
-			<Text style={styles.infoBodyStyle}>{coffee.coffee_flavor}</Text>
-			<Text style={styles.infoHeaderStyle}>Process:</Text>
-			<Text style={styles.infoBodyStyle}>{coffee.process}</Text>
-			<Text style={styles.infoHeaderStyle}>
-				What we like about this coffee:
-			</Text>
-			<Text style={styles.infoBodyStyle}>{coffee.coffee_like}</Text>
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>Flavor Notes:</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.coffee_flavor}</Text>
+			</View>
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>Process:</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.process}</Text>
+			</View>
+			<View style={styles.infoGroupingStyle}>
+				<Text style={styles.infoHeaderStyle}>
+					What we like about this coffee:
+				</Text>
+				<Text style={styles.infoBodyStyle}>{coffee.coffee_like}</Text>
+			</View>
 		</View>
 	);
 
