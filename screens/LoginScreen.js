@@ -5,7 +5,7 @@ import LoginContext from "../context/LoginContext";
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn, setLogin } = useContext(LoginContext);
+  const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
 
   function login() {
     if (email.length == 0) {
@@ -20,15 +20,14 @@ function LoginScreen({ navigation }) {
 
     loginAPICall().then((loginInfo) => {
       if (loginInfo.status == 200) {
-        //localStorage.setItem("token", loginInfo.token);
         const isAdmin = loginInfo.is_admin == 1 ? true : false;
-        setLogin(loginInfo.token, isAdmin);
+        setLoginInfo(loginInfo.token, isAdmin);
       } else alert(loginInfo.message);
     });
   }
 
   function loginAPICall() {
-    var postApiURL = "http://3.84.255.244/index.php?method=login";
+    var postApiURL = "https://nsdev1.xyz/index.php?method=login";
 
     var Data = {
       email: email,
@@ -46,7 +45,7 @@ function LoginScreen({ navigation }) {
 
     return loginInfo;
   }
-  //if (localStorage.getItem("token") == null) {
+
   if (!isLoggedIn()) {
     return (
       <View style={styles.container}>

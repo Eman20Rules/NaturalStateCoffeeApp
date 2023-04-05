@@ -31,7 +31,7 @@ function SignUpScreen() {
   }
 
   function SignUpAPICall() {
-    var insertApiUrl = "http://3.84.255.244/index.php?method=register";
+    var insertApiUrl = "https://nsdev1.xyz/index.php?method=register";
 
     if (mName == "") {
       var userName = fName + ", " + lName;

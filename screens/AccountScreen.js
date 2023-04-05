@@ -9,12 +9,6 @@ function AccountScreen() {
   async function getUserData() {
     var getApiUrl = "https://nsdev1.xyz/index.php?method=getMyUserData";
 
-    var header = {
-      Authorization: "Bearer " + userToken,
-    };
-
-    console.log(header);
-
     fetch(getApiUrl, {
       method: "GET",
       headers: {
