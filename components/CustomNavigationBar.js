@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
 import { useState } from "react";
 
@@ -18,7 +18,14 @@ function CustomNavigationBar({ navigation }) {
 					icon="account"
 					onPress={() => navigation.navigate("Account")}
 				/>
-				<Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
+				<TouchableOpacity
+					style={style.titleContainerStyle}
+					onPress={() => {
+						navigation.navigate("Home");
+					}}
+				>
+					<Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
+				</TouchableOpacity>
 				<Appbar.Action
 					style={style.cart}
 					icon="cart"
@@ -92,6 +99,10 @@ const style = StyleSheet.create({
 		textAlign: "center",
 		paddingVertical: 30,
 		color: "#1260de",
+	},
+	titleContainerStyle: {
+		height: 28,
+		flex: 1,
 	},
 });
 
