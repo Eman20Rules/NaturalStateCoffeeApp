@@ -5,7 +5,7 @@ import LoginContext from "../context/LoginContext";
 function LoginScreen({ navigation }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const { isLoggedIn, setLogin } = useContext(LoginContext);
+	const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
 
 	function login() {
 		if (email.length == 0) {
@@ -22,7 +22,7 @@ function LoginScreen({ navigation }) {
 			if (loginInfo.status == 200) {
 				//localStorage.setItem("token", loginInfo.token);
 				const isAdmin = loginInfo.is_admin == 1 ? true : false;
-				setLogin(loginInfo.token, isAdmin);
+				setLoginInfo(loginInfo.token, isAdmin);
 			} else alert(loginInfo.message);
 		});
 	}

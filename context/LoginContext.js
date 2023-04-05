@@ -7,7 +7,6 @@ export const LoginProvider = ({ children }) => {
 	const [isAdmin, setIsAdmin] = useState(false);
 
 	function setLoginInfo(newUserToken, newIsAdmin) {
-		console.log("Function is working!");
 		setUserToken(newUserToken);
 		setIsAdmin(newIsAdmin);
 	}
@@ -24,8 +23,8 @@ export const LoginProvider = ({ children }) => {
 			value={{
 				userToken,
 				isAdmin,
-				setLoginInfo: setLoginInfo,
-				isLoggedIn: isLoggedIn,
+				setLoginInfo,
+				isLoggedIn,
 			}}
 		>
 			{children}
