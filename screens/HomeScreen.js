@@ -11,6 +11,8 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
+import PopupModal from "../components/PopupModal";
+import HairlineDivider from "../components/HairlineDivider";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
@@ -34,12 +36,6 @@ const HomeScreen = () => {
 			borderStartWidth: 5,
 			borderEndWidth: 5,
 			alignSelf: "center",
-		},
-		hairlineDividerStyle: {
-			borderBottomWidth: StyleSheet.hairlineWidth * 5,
-			marginHorizontal: 15,
-			marginVertical: 25,
-			borderColor: "#9A7B4F",
 		},
 		imageBackgroundStyle: {
 			height: 500,
@@ -104,31 +100,11 @@ const HomeScreen = () => {
 
 	return (
 		<View style={styles.centeredViewStyle}>
-			<Modal
-				transparent={true}
-				visible={modalVisible}
-				animationType="fade"
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<View
-					style={[
-						styles.centeredViewStyle,
-						{ backgroundColor: "rgba(0,0,0,0.5)" },
-					]}
-				>
-					<View style={styles.popUpStyle}>
-						{modalChildren}
-						<TouchableOpacity
-							style={styles.buttonContainerStyle}
-							onPress={() => setModalVisible(false)}
-						>
-							<Text style={styles.subscriptionButtonStyle}>Close</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</Modal>
+			<PopupModal
+				modalChildren={modalChildren}
+				modalVisible={modalVisible}
+				setModalVisible={setModalVisible}
+			/>
 			<ScrollView style={styles.containerStyle}>
 				<Text style={styles.headerOneStyle}>Subscriptions</Text>
 				<View style={styles.listContainerStyle}>
@@ -160,7 +136,7 @@ const HomeScreen = () => {
 						}}
 					/>
 				</View>
-				<View style={styles.hairlineDividerStyle} />
+				<HairlineDivider marginVertical={25} marginHorizontal={15} />
 				<ImageBackground
 					source={require("../assets/images/aboutUsImageBackground.jpg")}
 					style={styles.imageBackgroundStyle}

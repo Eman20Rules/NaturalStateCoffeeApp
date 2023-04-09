@@ -99,6 +99,12 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 					What we like about this coffee:
 				</Text>
 				<Text style={styles.infoBodyStyle}>{coffee.coffee_like}</Text>
+				<TouchableOpacity
+					style={styles.buttonContainerStyle}
+					onPress={() => setInfoVisible(false)}
+				>
+					<Text style={styles.subscriptionButtonStyle}>Close</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
