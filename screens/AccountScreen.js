@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import LoginContext from "../context/LoginContext";
 
 function AccountScreen() {
+
   const { isLoggedIn, userToken } = useContext(LoginContext);
   const [fetchedUserData, setFetchedUserData] = useState(false);
 
@@ -39,14 +40,15 @@ function AccountScreen() {
       </View>
     );
   }
+
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
 
 export default AccountScreen;

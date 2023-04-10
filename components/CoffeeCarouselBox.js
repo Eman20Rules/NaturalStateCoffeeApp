@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import CartContext from "../context/CartContext";
 
 const imageHeight = 200;
 const imageWidth = 150;
@@ -79,6 +80,8 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 		},
 	});
 
+	const { shoppingCart, addCoffeeToCart } = useContext(CartContext);
+
 	const coffeeInfo = (
 		<View>
 			<Text style={styles.infoTitleStyle}>{coffee.coffee_name}</Text>
@@ -96,6 +99,12 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 					What we like about this coffee:
 				</Text>
 				<Text style={styles.infoBodyStyle}>{coffee.coffee_like}</Text>
+				<TouchableOpacity
+					style={styles.buttonContainerStyle}
+					onPress={() => setInfoVisible(false)}
+				>
+					<Text style={styles.subscriptionButtonStyle}>Close</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -126,7 +135,12 @@ const CoffeeCarouselBox = ({ coffee, setInfoPopup, setInfoVisible }) => {
 				/>
 				<Text style={styles.subscriptionButtonStyle}>Info</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.buttonContainerStyle}>
+			<TouchableOpacity
+				style={styles.buttonContainerStyle}
+				onPress={() => {
+					addCoffeeToCart(coffee);
+				}}
+			>
 				<Feather
 					name="shopping-cart"
 					size={24}
