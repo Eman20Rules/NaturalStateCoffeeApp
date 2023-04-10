@@ -3,9 +3,11 @@ import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
 
 function LoginScreen({ navigation }) {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
+
 
 	function login() {
 		if (email.length == 0) {
@@ -18,17 +20,18 @@ function LoginScreen({ navigation }) {
 			return;
 		}
 
-		loginAPICall().then((loginInfo) => {
-			if (loginInfo.status == 200) {
-				//localStorage.setItem("token", loginInfo.token);
-				const isAdmin = loginInfo.is_admin == 1 ? true : false;
-				setLoginInfo(loginInfo.token, isAdmin);
-			} else alert(loginInfo.message);
-		});
-	}
 
-	function loginAPICall() {
-		var postApiURL = "http://3.84.255.244/index.php?method=login";
+    loginAPICall().then((loginInfo) => {
+      if (loginInfo.status == 200) {
+        const isAdmin = loginInfo.is_admin == 1 ? true : false;
+        setLoginInfo(loginInfo.token, isAdmin);
+      } else alert(loginInfo.message);
+    });
+  }
+
+  function loginAPICall() {
+    var postApiURL = "https://nsdev1.xyz/index.php?method=login";
+
 
 		var Data = {
 			email: email,
@@ -44,19 +47,21 @@ function LoginScreen({ navigation }) {
 				alert("Error" + error);
 			});
 
-		return loginInfo;
-	}
-	//if (localStorage.getItem("token") == null) {
-	if (!isLoggedIn()) {
-		return (
-			<View style={styles.container}>
-				<Text style={styles.title}>Coffee Shop Login</Text>
-				<TextInput
-					placeholder={"Email"}
-					placeholderTextColor={"#FF0000"}
-					style={styles.input}
-					onChangeText={(input) => setEmail(input)}
-				/>
+
+    return loginInfo;
+  }
+
+  if (!isLoggedIn()) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Coffee Shop Login</Text>
+        <TextInput
+          placeholder={"Email"}
+          placeholderTextColor={"#FF0000"}
+          style={styles.input}
+          onChangeText={(input) => setEmail(input)}
+        />
+
 
 				<TextInput
 					placeholder={"Password"}
