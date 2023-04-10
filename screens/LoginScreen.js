@@ -1,11 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
 
 function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
+  const {
+    isLoggedIn,
+    setSecurityInfo,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  } = useContext(LoginContext);
 
   function login() {
     if (email.length == 0) {
@@ -21,7 +26,7 @@ function LoginScreen({ navigation }) {
     loginAPICall().then((loginInfo) => {
       if (loginInfo.status == 200) {
         const isAdmin = loginInfo.is_admin == 1 ? true : false;
-        setLoginInfo(loginInfo.token, isAdmin);
+        setSecurityInfo(loginInfo.token, isAdmin);
       } else alert(loginInfo.message);
     });
   }

@@ -43,20 +43,19 @@ function SignUpScreen() {
       name: userName,
       email: email,
       password: password,
-      street,
-      street,
+      street: street,
       city: city,
       state: state,
       country: country,
       zipcode: zip,
     };
 
-    var signUpCall = fetch(insertApiUrl, {
+    var signUpData = fetch(insertApiUrl, {
       method: "POST",
       body: JSON.stringify(data),
     }).then((resp) => resp.json());
 
-    return signUpCall;
+    return signUpData;
   }
 
   function ValidateInput() {
