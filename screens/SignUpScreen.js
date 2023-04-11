@@ -16,9 +16,7 @@ function SignUpScreen() {
   const [userToken, setUserToken] = useState("");
 
   function SignUp() {
-    var isValid = ValidateInput();
-
-    if (isValid) {
+    if (isInputValid()) {
       SignUpAPICall().then((signUpCall) => {
         if (signUpCall.status == 201) {
           setSignedUp(true);
@@ -58,7 +56,7 @@ function SignUpScreen() {
     return signUpData;
   }
 
-  function ValidateInput() {
+  function isInputValid() {
     if (email.length == 0) {
       alert("Email is Required");
       return false;

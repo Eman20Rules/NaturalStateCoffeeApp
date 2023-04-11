@@ -23,6 +23,7 @@ function LoginScreen({ navigation }) {
       return;
     }
 
+
     loginAPICall().then((loginInfo) => {
       if (loginInfo.status == 200) {
         const isAdmin = loginInfo.is_admin == 1 ? true : false;

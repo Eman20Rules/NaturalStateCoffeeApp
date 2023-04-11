@@ -55,34 +55,75 @@ function AccountScreen() {
   }
 
   function updateAddress() {
-    updateAddressApiCall.then((updateAddressData) =>
-      console.log(updateAddressData)
-    );
+    if (!isEditRequestValid()) {
+      return;
+    }
+
+    updateAddressApiCall().then((updateAddressData) => {
+      if (updateAddressData.status == 200) {
+        alert("Address has been updated!");
+        getUserData();
+      } else alert("Error: " + updateAddressData.message);
+    });
   }
 
   function updateAddressApiCall() {
     var insertApiUrl = "https://nsdev1.xyz/index.php?method=changeAddress";
-
-    //validate here if needed, make each required?
 
     var data = {
       new_street: street,
       new_city: city,
       new_state: state,
       new_zip: zipcode,
-      new_country,
-      country,
+      new_country: country,
     };
 
-    var updateAddressData = fetch(insertApiUrl, {
+    var test = fetch(insertApiUrl, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + userToken,
       },
       body: JSON.stringify(data),
-    }).then((resp) => resp.json());
+    })
+      .then((resp) => resp.json())
+      .catch((error) => {
+        alert("Error" + error);
+      });
 
-    return updateAddressData;
+    return test;
+  }
+
+  function isEditRequestValid() {
+    if (street == "") {
+      alert("Street is required");
+      return false;
+    }
+
+    if (city == "") {
+      alert("City is required");
+      return false;
+    }
+
+    if (state == "") {
+      alert("State is required");
+      return false;
+    } else if (state.length > 2) {
+      alert("State must be 2 characters");
+      return false;
+    }
+
+    if (zipcode == "") {
+      alert("Zipcode is required");
+      return false;
+    }
+
+    if (country == "") {
+      alert("Country is required");
+      return false;
+    }
+
+    return true;
   }
 
   if (!isLoggedIn()) {
@@ -147,6 +188,15 @@ function AccountScreen() {
           />
         </View>
         <View style={styles.viewBox}>
+          <Text style={styles.title}>Zipcode:</Text>
+          <TextInput
+            style={styles.view}
+            editable={isEditable}
+            defaultValue={zipcode}
+            onChangeText={(input) => setZipcode(input)}
+          />
+        </View>
+        <View style={styles.viewBox}>
           <Text style={styles.title}>State:</Text>
           <TextInput
             style={styles.view}
@@ -164,19 +214,10 @@ function AccountScreen() {
             onChangeText={(input) => setCountry(input)}
           />
         </View>
-        <View style={styles.viewBox}>
-          <Text style={styles.title}>Zipcode:</Text>
-          <TextInput
-            style={styles.view}
-            editable={isEditable}
-            defaultValue={zipcode}
-            onChangeText={(input) => setZipcode(input)}
-          />
-        </View>
 
         <View style={styles.buttonContainer}>
           <Button
-            title={"Edit Details"}
+            title={"Edit Address"}
             disabled={isEditable}
             onPress={() => {
               setIsEditable(!isEditable);
