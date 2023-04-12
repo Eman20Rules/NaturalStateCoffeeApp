@@ -11,6 +11,7 @@ export const CartProvider = ({ children }) => {
 		if (cartSet.has(coffeeObject)) {
 			return;
 		}
+
 		cartSet.add(coffeeObject);
 		setShoppingCart([...shoppingCart, coffeeObject]);
 	}

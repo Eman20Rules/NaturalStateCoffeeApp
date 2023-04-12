@@ -18,9 +18,29 @@ const CartScreenItem = ({
 	cartItemCoffee,
 	setModalChildren,
 	setModalVisible,
+	setTotalCost,
+	totalCost,
 }) => {
 	const { deleteCoffee } = useContext(CartContext);
 	const [coffeeItemQuantity, setCoffeeItemQuantity] = useState(1);
+
+	const showRemoveItemPopup = () => {
+		setModalChildren(removeItemPopupContent);
+		setModalVisible(true);
+	};
+	const changeItemQuantity = (quantityChange) => {
+		if (quantityChange < 0) {
+			if (coffeeItemQuantity - 1 > 0) {
+				setCoffeeItemQuantity(coffeeItemQuantity - 1);
+				setTotalCost(totalCost - +cartItemCoffee.price);
+			}
+		} else {
+			if (coffeeItemQuantity + 1 <= 10) {
+				setCoffeeItemQuantity(coffeeItemQuantity + 1);
+				setTotalCost(totalCost + +cartItemCoffee.price);
+			}
+		}
+	};
 
 	const removeItemPopupContent = (
 		<View>
@@ -37,6 +57,7 @@ const CartScreenItem = ({
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
 					onPress={() => {
+						setTotalCost(totalCost - cartItemCoffee.price * coffeeItemQuantity);
 						deleteCoffee(cartItemCoffee);
 						setModalVisible(false);
 					}}
@@ -60,16 +81,6 @@ const CartScreenItem = ({
 		</View>
 	);
 
-	const showRemoveItemPopup = () => {
-		setModalChildren(removeItemPopupContent);
-		setModalVisible(true);
-	};
-	const changeItemQuantity = (newQuantity) => {
-		if (newQuantity > 0 && newQuantity <= 10) {
-			setCoffeeItemQuantity(newQuantity);
-		}
-	};
-
 	return (
 		<View style={styles.cartItemContainer}>
 			<TouchableOpacity onPress={() => showRemoveItemPopup(cartItemCoffee)}>
@@ -81,7 +92,9 @@ const CartScreenItem = ({
 				<View style={styles.quantityContainer}>
 					<TouchableOpacity
 						style={styles.quantityButtonContainer}
-						onPress={() => changeItemQuantity(coffeeItemQuantity - 1)}
+						onPress={() => {
+							changeItemQuantity(-1);
+						}}
 					>
 						<Feather
 							name="minus-circle"
@@ -92,7 +105,9 @@ const CartScreenItem = ({
 					<Text style={styles.quantityText}>{coffeeItemQuantity}</Text>
 					<TouchableOpacity
 						style={styles.quantityButtonContainer}
-						onPress={() => changeItemQuantity(coffeeItemQuantity + 1)}
+						onPress={() => {
+							changeItemQuantity(1);
+						}}
 					>
 						<Feather
 							name="plus-circle"

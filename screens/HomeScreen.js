@@ -81,8 +81,6 @@ const HomeScreen = () => {
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 
-	//This shows a loading screen until the fonts load
-
 	useEffect(() => {
 		getCoffees();
 	}, []);
