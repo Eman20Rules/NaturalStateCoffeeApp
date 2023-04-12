@@ -19,14 +19,12 @@ const headerPadding = isOnAndroid ? 74 : 97;
 
 const CartScreen = () => {
 	const { shoppingCart, deleteCoffee } = useContext(CartContext);
-	const { isLoggedIn } = useContext(LoginContext);
+	const { isLoggedIn, userToken } = useContext(LoginContext);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [frequencySelected, setFrequencySelected] = useState("");
 	let initialTotalCost = 0;
 	shoppingCart.forEach((element) => (initialTotalCost += +element.price));
-	//TODO: Fix quantity bug when deleting previous indices of shoppingCart
-	// DON'T DELETE TOTALCOST STUFF PLEASE
 	const [totalCost, setTotalCost] = useState(initialTotalCost);
 
 	const subscriptionFrequencies = [
@@ -36,13 +34,53 @@ const CartScreen = () => {
 		{ key: "6", value: "6 Months" },
 	];
 
+	//TODO: Edit checkout message when not logged in and change styling of checkout
+	//button when not logged in
+	const checkoutButtonPressed = () => {
+		isLoggedIn() ? submitCheckoutInfo() : alert("Not logged in");
+	};
+
+	const checkoutAPICall = (orderCoffeeID, orderFrequency, orderAmount) => {
+		var insertApiUrl = "https://nsdev1.xyz/index.php?method=SubmitSubscription";
+
+		var data = {
+			coffee_id: orderCoffeeID,
+			frequency: orderFrequency,
+			amount: orderAmount,
+		};
+
+		var checkoutCall = fetch(insertApiUrl, {
+			method: "POST",
+			headers: {
+				Authorization: "Bearer " + userToken,
+			},
+			body: JSON.stringify(data),
+		}).then((resp) => resp.json());
+
+		return checkoutCall;
+	};
+
+	const submitCheckoutInfo = () => {
+		for (coffeeItem of shoppingCart) {
+			checkoutAPICall(
+				coffeeItem.coffee_id,
+				frequencySelected,
+				coffeeItem.quantity
+			).then((checkoutCall) => {
+				if (checkoutCall.status == 200) {
+					alert("Checkout successful!");
+				} else {
+					alert(checkoutCall.message);
+				}
+			});
+		}
+	};
+
 	const allCartItems =
 		shoppingCart.length > 0 ? (
 			<FlatList
 				data={shoppingCart}
-				keyExtractor={(item) => {
-					item.coffee_id;
-				}}
+				keyExtractor={(item) => item.coffee_id}
 				renderItem={({ item, index }) => {
 					const hairlineDivider =
 						index < shoppingCart.length - 1 ? (
@@ -82,6 +120,7 @@ const CartScreen = () => {
 				<View style={styles.allCartItemsContainer}>{allCartItems}</View>
 
 				<View style={styles.checkoutAndDeliveryPeriodContainer}>
+					<Text style={styles.totalText}>Total: ${totalCost.toFixed(2)}</Text>
 					<SelectList
 						setSelected={(val) => setFrequencySelected(val)}
 						data={subscriptionFrequencies}
@@ -97,9 +136,12 @@ const CartScreen = () => {
 							<Feather name="chevron-down" size={20} color="#581613" />
 						}
 					/>
+
 					<TouchableOpacity
 						style={styles.buttonContainerStyle}
-						onPress={() => {}}
+						onPress={() => {
+							checkoutButtonPressed();
+						}}
 					>
 						<Text style={styles.subscriptionButtonStyle}>Checkout</Text>
 					</TouchableOpacity>
@@ -147,7 +189,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 9,
 		paddingVertical: 15,
 		borderRadius: 50,
-		maxHeight: 360,
 	},
 	emptyCartText: {
 		fontFamily: "Abel_400Regular",

@@ -8,22 +8,30 @@ export const CartProvider = ({ children }) => {
 	const [shoppingCart, setShoppingCart] = useState([]);
 
 	function addCoffeeToCart(coffeeObject) {
-		if (cartSet.has(coffeeObject)) {
+		if (cartSet.has(coffeeObject.coffee_id)) {
 			return;
 		}
-
-		cartSet.add(coffeeObject);
+		coffeeObject.quantity = 1;
+		cartSet.add(coffeeObject.coffee_id);
 		setShoppingCart([...shoppingCart, coffeeObject]);
 	}
 
 	function deleteCoffee(coffeeObject) {
-		cartSet.delete(coffeeObject);
+		cartSet.delete(coffeeObject.coffee_id);
 		setShoppingCart(shoppingCart.filter((coffee) => coffee != coffeeObject));
+	}
+
+	function setCartQuantity(id, newQuantity) {
+		setShoppingCart(
+			shoppingCart.map((item) =>
+				item.coffee_id == id ? { ...item, quantity: newQuantity } : item
+			)
+		);
 	}
 
 	return (
 		<CartContext.Provider
-			value={{ shoppingCart, addCoffeeToCart, deleteCoffee }}
+			value={{ shoppingCart, addCoffeeToCart, deleteCoffee, setCartQuantity }}
 		>
 			{children}
 		</CartContext.Provider>
