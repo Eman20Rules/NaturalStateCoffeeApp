@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import LoginContext from "../context/LoginContext";
 
 function CustomNavigationBar({ navigation }) {
   const [visible, setVisible] = useState(false);
+  const { isLoggedIn, isAdmin } = useContext(LoginContext);
 
   return (
     <Provider>
@@ -37,13 +39,22 @@ function CustomNavigationBar({ navigation }) {
             }}
             title="Home"
           />
+
           <Menu.Item
             onPress={() => {
               setVisible(false);
-              navigation.navigate("Login");
+
+              if (isLoggedIn()) {
+                navigation.navigate("Account");
+              } else {
+                navigation.navigate("Login");
+              }
             }}
-            title="Sign Up / Login"
+            title={isLoggedIn() ? "View Account" : "Login (Sign Up)"}
           />
+
+          {/* <LogInOrViewAccount loggedInProp={isLoggedIn} /> */}
+
           <Menu.Item
             onPress={() => {
               setVisible(false);
@@ -56,13 +67,36 @@ function CustomNavigationBar({ navigation }) {
               setVisible(false);
               navigation.navigate("ViewOrders");
             }}
-            title="View Orders"
+            title={isAdmin ? "View All Orders" : ""}
+            disabled={!isAdmin}
           />
         </Menu>
       </Appbar.Header>
     </Provider>
   );
 }
+
+// export function LogInOrViewAccount() {
+//   loggedInProp ? (
+//     <Menu.Item
+//       onPress={() => {
+//         setVisible(false);
+
+//         navigation.navigate("Account");
+//       }}
+//       title={"View Account"}
+//     />
+//   ) : (
+//     <Menu.Item
+//       onPress={() => {
+//         setVisible(false);
+
+//         navigation.navigate("Login");
+//       }}
+//       title={"Login (Sign Up)"}
+//     />
+//   );
+// }
 
 const style = StyleSheet.create({
   menu: {

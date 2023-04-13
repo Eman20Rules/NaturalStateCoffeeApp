@@ -12,10 +12,11 @@ import LoginContext from "../context/LoginContext";
 function AccountScreen() {
   const { isLoggedIn, userToken, email, setEmail, password, setPassword } =
     useContext(LoginContext);
+
+  const [hasFetched, setHasFetched] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
-  const [oldEmail, setOldEmail] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -29,10 +30,10 @@ function AccountScreen() {
   const [isPasswordEditable, setIsPasswordEditable] = useState(false);
 
   function getUserData() {
+    setHasFetched(true);
+
     var getApiUrl = "https://nsdev1.xyz/index.php?method=getMyUserData";
 
-    setOldEmail(email);
-    setOldPassword(password);
     setNewEmail(email);
     setNewPassword(password);
 
@@ -137,22 +138,50 @@ function AccountScreen() {
     return true;
   }
 
-  function changePassword() {
-    if (newPassword == oldPassword) {
-      alert("New password is the same as old password!");
+  function updatePassword() {
+    if (!isUpdatePasswordRequestValid()) {
+      setNewPassword(password);
+      setConfirmPassword("");
       return;
     }
+
+    updatePasswordApiCall().then((updatePasswordCall) => {
+      if (updatePasswordCall.success == 0) {
+        alert("Error: " + updatePasswordCall.message);
+      }
+
+      alert("Success: Password was updated!");
+      setPassword(newPassword);
+      setConfirmPassword("");
+    });
   }
 
-  function changePasswordApiCall() {
+  function isUpdatePasswordRequestValid() {
+    if (newPassword == password) {
+      alert("New password is the same as old password!");
+      return false;
+    }
+
+    if (newPassword.length < 8) {
+      alert("Password Must be at least 8 characters long!");
+      return false;
+    }
+
+    if (newPassword != confirmPassword) {
+      alert("New password and confirm password don't match!");
+      return false;
+    }
+
+    return true;
+  }
+
+  function updatePasswordApiCall() {
     var insertApiUrl = "https://nsdev1.xyz/index.php?method=changePassword";
 
     var data = {
-      new_street: street,
-      new_city: city,
-      new_state: state,
-      new_zip: zipcode,
-      new_country: country,
+      current_password: password,
+      new_password: newPassword,
+      confirm_password: confirmPassword,
     };
 
     var changePasswordInfo = fetch(insertApiUrl, {
@@ -167,29 +196,49 @@ function AccountScreen() {
       .catch((error) => {
         alert("Error" + error);
       });
-
     return changePasswordInfo;
   }
 
-  function changeEmail() {
-    if (newEmail == oldEmail) {
-      alert("New email is the same as old email!");
+  function updateEmail() {
+    if (!isUpdateEmailRequestValid()) {
+      setNewEmail(email);
+      setConfirmEmail("");
       return;
     }
+
+    updateEmailApiCall().then((updateEmailCall) => {
+      if (updateEmailCall.success == 0) {
+        alert("Error: " + updateEmailCall.message);
+      }
+
+      alert("Success: Email was updated!");
+      setEmail(newEmail);
+      setConfirmEmail("");
+    });
   }
 
-  function changeEmailApiCall() {
-    var insertApiUrl = "https://nsdev1.xyz/index.php?method=changeAddress";
+  function isUpdateEmailRequestValid() {
+    if (newEmail == email) {
+      alert("New email is the same as old email!");
+      return false;
+    }
+
+    if (newEmail != confirmEmail) {
+      alert("New email and confirm email don't match!");
+      return false;
+    }
+
+    return true;
+  }
+
+  function updateEmailApiCall() {
+    var insertApiUrl = "https://nsdev1.xyz/index.php?method=changeEmail";
 
     var data = {
-      new_street: street,
-      new_city: city,
-      new_state: state,
-      new_zip: zipcode,
-      new_country: country,
+      new_email: newEmail,
     };
 
-    var changePasswordInfo = fetch(insertApiUrl, {
+    var updateEmailInfo = fetch(insertApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -202,7 +251,7 @@ function AccountScreen() {
         alert("Error" + error);
       });
 
-    return changePasswordInfo;
+    return updateEmailInfo;
   }
 
   if (!isLoggedIn()) {
@@ -212,7 +261,7 @@ function AccountScreen() {
       </View>
     );
   } else {
-    if (name == "") {
+    if (!hasFetched) {
       getUserData();
     }
 
@@ -228,6 +277,18 @@ function AccountScreen() {
             defaultValue={newEmail}
             onChangeText={(input) => {
               setNewEmail(input);
+            }}
+          />
+        </View>
+
+        <View style={styles.container}>
+          <Text style={styles.subTitle}>Confirm:</Text>
+          <TextInput
+            style={styles.textInput}
+            editable={isEmailEditable}
+            defaultValue={confirmEmail}
+            onChangeText={(input) => {
+              setConfirmEmail(input);
             }}
           />
         </View>
@@ -257,7 +318,7 @@ function AccountScreen() {
             disabled={!isEmailEditable}
             onPress={() => {
               setIsEmailEditable(!isEmailEditable);
-              updateAddress();
+              updateEmail();
             }}
           />
         </View>
@@ -279,6 +340,7 @@ function AccountScreen() {
           <TextInput
             style={styles.textInput}
             editable={isPasswordEditable}
+            defaultValue={confirmPassword}
             onChangeText={(input) => {
               setConfirmPassword(input);
             }}
@@ -301,7 +363,8 @@ function AccountScreen() {
             disabled={!isPasswordEditable}
             onPress={() => {
               setIsPasswordEditable(!isPasswordEditable);
-              setAccountInfo(userInfo);
+              setConfirmPassword("");
+              setNewPassword(password);
             }}
           />
           <Button
@@ -310,7 +373,7 @@ function AccountScreen() {
             disabled={!isPasswordEditable}
             onPress={() => {
               setIsPasswordEditable(!isPasswordEditable);
-              updateAddress();
+              updatePassword();
             }}
           />
         </View>

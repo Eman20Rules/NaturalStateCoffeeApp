@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import LoginContext from "../context/LoginContext";
 
 function SignUpScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    isLoggedIn,
+    setSecurityInfo,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  } = useContext(LoginContext);
+
   const [fName, setFName] = useState("");
   const [mName, setMName] = useState("");
   const [lName, setLName] = useState("");
@@ -12,15 +20,12 @@ function SignUpScreen() {
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
-  const [signedUp, setSignedUp] = useState(false);
-  const [userToken, setUserToken] = useState("");
 
   function SignUp() {
     if (isInputValid()) {
       SignUpAPICall().then((signUpCall) => {
         if (signUpCall.status == 201) {
-          setSignedUp(true);
-          setUserToken("testForNow");
+          setSecurityInfo(signUpCall.token, false);
         } else {
           alert(signUpCall.message);
         }
@@ -108,7 +113,7 @@ function SignUpScreen() {
     return true;
   }
 
-  if (!signedUp) {
+  if (!isLoggedIn()) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Coffee Shop Sign Up</Text>
@@ -194,7 +199,7 @@ function SignUpScreen() {
     );
   }
 
-  if (signedUp) {
+  if (isLoggedIn()) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Signed Up!</Text>
