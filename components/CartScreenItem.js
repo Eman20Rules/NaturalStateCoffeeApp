@@ -1,26 +1,38 @@
 import React, { useContext, useState } from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import CartContext from "../context/CartContext";
-import HairlineDivider from "./HairlineDivider";
 
 const imageSize = 100;
-const quantityButtonSize = 15;
+const quantityButtonSize = 18;
 
 const CartScreenItem = ({
 	cartItemCoffee,
 	setModalChildren,
 	setModalVisible,
+	setTotalCost,
+	totalCost,
 }) => {
-	const { deleteCoffee } = useContext(CartContext);
+	const { deleteCoffee, setCartQuantity } = useContext(CartContext);
 	const [coffeeItemQuantity, setCoffeeItemQuantity] = useState(1);
+
+	const showRemoveItemPopup = () => {
+		setModalChildren(removeItemPopupContent);
+		setModalVisible(true);
+	};
+	const changeItemQuantity = (quantityChange) => {
+		if (quantityChange < 0) {
+			if (cartItemCoffee.quantity - 1 > 0) {
+				setCartQuantity(cartItemCoffee.coffee_id, cartItemCoffee.quantity - 1);
+				setTotalCost(totalCost - +cartItemCoffee.price);
+			}
+		} else {
+			if (cartItemCoffee.quantity + 1 <= 10) {
+				setCartQuantity(cartItemCoffee.coffee_id, cartItemCoffee.quantity + 1);
+				setTotalCost(totalCost + +cartItemCoffee.price);
+			}
+		}
+	};
 
 	const removeItemPopupContent = (
 		<View>
@@ -37,6 +49,9 @@ const CartScreenItem = ({
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
 					onPress={() => {
+						setTotalCost(
+							totalCost - cartItemCoffee.price * cartItemCoffee.quantity
+						);
 						deleteCoffee(cartItemCoffee);
 						setModalVisible(false);
 					}}
@@ -60,16 +75,6 @@ const CartScreenItem = ({
 		</View>
 	);
 
-	const showRemoveItemPopup = () => {
-		setModalChildren(removeItemPopupContent);
-		setModalVisible(true);
-	};
-	const changeItemQuantity = (newQuantity) => {
-		if (newQuantity > 0 && newQuantity <= 10) {
-			setCoffeeItemQuantity(newQuantity);
-		}
-	};
-
 	return (
 		<View style={styles.cartItemContainer}>
 			<TouchableOpacity onPress={() => showRemoveItemPopup(cartItemCoffee)}>
@@ -81,7 +86,9 @@ const CartScreenItem = ({
 				<View style={styles.quantityContainer}>
 					<TouchableOpacity
 						style={styles.quantityButtonContainer}
-						onPress={() => changeItemQuantity(coffeeItemQuantity - 1)}
+						onPress={() => {
+							changeItemQuantity(-1);
+						}}
 					>
 						<Feather
 							name="minus-circle"
@@ -89,10 +96,12 @@ const CartScreenItem = ({
 							color="#581613"
 						/>
 					</TouchableOpacity>
-					<Text style={styles.quantityText}>{coffeeItemQuantity}</Text>
+					<Text style={styles.quantityText}>{cartItemCoffee.quantity}</Text>
 					<TouchableOpacity
 						style={styles.quantityButtonContainer}
-						onPress={() => changeItemQuantity(coffeeItemQuantity + 1)}
+						onPress={() => {
+							changeItemQuantity(1);
+						}}
 					>
 						<Feather
 							name="plus-circle"
@@ -103,7 +112,7 @@ const CartScreenItem = ({
 				</View>
 			</View>
 			<Text style={styles.priceText}>
-				${(cartItemCoffee.price * coffeeItemQuantity).toFixed(2)}
+				${(cartItemCoffee.price * cartItemCoffee.quantity).toFixed(2)}
 			</Text>
 		</View>
 	);
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
 		marginTop: 3,
 	},
 	quantityButtonContainer: { marginHorizontal: 3 },
-	quantityText: { fontSize: 16 },
+	quantityText: { fontSize: quantityButtonSize },
 	nameAndQuantityContainer: {
 		justifyContent: "center",
 		height: imageSize,
@@ -160,7 +169,7 @@ const styles = StyleSheet.create({
 	},
 	priceText: {
 		fontFamily: "Abel_400Regular",
-		fontSize: 18,
+		fontSize: 16,
 		marginHorizontal: 15,
 	},
 });
