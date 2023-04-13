@@ -18,13 +18,15 @@ const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const CartScreen = () => {
-	const { shoppingCart, deleteCoffee } = useContext(CartContext);
+	const { shoppingCart, emptyCart } = useContext(CartContext);
 	const { isLoggedIn, userToken } = useContext(LoginContext);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [frequencySelected, setFrequencySelected] = useState("");
 	let initialTotalCost = 0;
-	shoppingCart.forEach((element) => (initialTotalCost += +element.price));
+	shoppingCart.forEach(
+		(element) => (initialTotalCost += +element.price * element.quantity)
+	);
 	const [totalCost, setTotalCost] = useState(initialTotalCost);
 
 	const subscriptionFrequencies = [
@@ -37,11 +39,25 @@ const CartScreen = () => {
 	//TODO: Edit checkout message when not logged in and change styling of checkout
 	//button when not logged in
 	const checkoutButtonPressed = () => {
-		isLoggedIn() ? submitCheckoutInfo() : alert("Not logged in");
+		if (!isLoggedIn()) {
+			alert("Not logged in");
+			return;
+		}
+		if (!shoppingCart.length) {
+			alert("Cart is empty");
+			return;
+		}
+		if (!frequencySelected) {
+			alert("Frequency not selected");
+			return;
+		}
+		submitCheckoutInfo();
+		emptyCart();
 	};
 
 	const checkoutAPICall = (orderCoffeeID, orderFrequency, orderAmount) => {
-		var insertApiUrl = "https://nsdev1.xyz/index.php?method=SubmitSubscription";
+		var insertApiUrl =
+			"http://3.84.255.244/index.php?method=submitSubscription";
 
 		var data = {
 			coffee_id: orderCoffeeID,
@@ -52,6 +68,7 @@ const CartScreen = () => {
 		var checkoutCall = fetch(insertApiUrl, {
 			method: "POST",
 			headers: {
+				"Content-Type": "application/json",
 				Authorization: "Bearer " + userToken,
 			},
 			body: JSON.stringify(data),

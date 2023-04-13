@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const CartContext = React.createContext();
 
-const cartSet = new Set();
+let cartSet = new Set();
 
 export const CartProvider = ({ children }) => {
 	const [shoppingCart, setShoppingCart] = useState([]);
@@ -29,9 +29,20 @@ export const CartProvider = ({ children }) => {
 		);
 	}
 
+	function emptyCart() {
+		setShoppingCart([]);
+		cartSet = new Set();
+	}
+
 	return (
 		<CartContext.Provider
-			value={{ shoppingCart, addCoffeeToCart, deleteCoffee, setCartQuantity }}
+			value={{
+				shoppingCart,
+				addCoffeeToCart,
+				deleteCoffee,
+				setCartQuantity,
+				emptyCart,
+			}}
 		>
 			{children}
 		</CartContext.Provider>
