@@ -1,5 +1,12 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import LoginContext from "../context/LoginContext";
 
 function SignUpScreen() {
@@ -115,87 +122,89 @@ function SignUpScreen() {
 
   if (!isLoggedIn()) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Coffee Shop Sign Up</Text>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Coffee Shop Sign Up</Text>
 
-        <TextInput
-          placeholder={"Email"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setEmail(input)}
-        />
+          <TextInput
+            placeholder={"Email"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setEmail(input)}
+          />
 
-        <TextInput
-          placeholder={"Password"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setPassword(input)}
-        />
+          <TextInput
+            placeholder={"Password"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setPassword(input)}
+          />
 
-        <Text style={styles.title}>Name</Text>
+          <Text style={styles.title}>Name</Text>
 
-        <TextInput
-          placeholder={"First Name"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setFName(input)}
-        />
+          <TextInput
+            placeholder={"First Name"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setFName(input)}
+          />
 
-        <TextInput
-          placeholder={"Middle Name"}
-          placeholderTextColor={"#4A4A4A"}
-          style={styles.input}
-          onChangeText={(input) => setMName(input)}
-        />
+          <TextInput
+            placeholder={"Middle Name"}
+            placeholderTextColor={"#4A4A4A"}
+            style={styles.input}
+            onChangeText={(input) => setMName(input)}
+          />
 
-        <TextInput
-          placeholder={"Last Name"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setLName(input)}
-        />
+          <TextInput
+            placeholder={"Last Name"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setLName(input)}
+          />
 
-        <Text style={styles.title}>Address</Text>
+          <Text style={styles.title}>Address</Text>
 
-        <TextInput
-          placeholder={"Street"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setStreet(input)}
-        />
+          <TextInput
+            placeholder={"Street"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setStreet(input)}
+          />
 
-        <TextInput
-          placeholder={"City"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setCity(input)}
-        />
+          <TextInput
+            placeholder={"City"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setCity(input)}
+          />
 
-        <TextInput
-          placeholder={"State"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setState(input)}
-        />
+          <TextInput
+            placeholder={"State"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setState(input)}
+          />
 
-        <TextInput
-          placeholder={"Country"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setCountry(input)}
-        />
+          <TextInput
+            placeholder={"Country"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setCountry(input)}
+          />
 
-        <TextInput
-          placeholder={"ZIP Code"}
-          placeholderTextColor={"#FF0000"}
-          style={styles.input}
-          onChangeText={(input) => setZip(input)}
-        />
+          <TextInput
+            placeholder={"ZIP Code"}
+            placeholderTextColor={"#FF0000"}
+            style={styles.input}
+            onChangeText={(input) => setZip(input)}
+          />
 
-        <View style={styles.buttonContainer}>
-          <Button title={"Sign Up"} onPress={SignUp} />
+          <View style={styles.buttonContainer}>
+            <Button title={"Sign Up"} onPress={SignUp} />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 
@@ -207,6 +216,9 @@ function SignUpScreen() {
     );
   }
 }
+
+const isOnAndroid = Platform.OS === "android";
+const headerPadding = isOnAndroid ? 74 : 97;
 
 const styles = StyleSheet.create({
   container: {
@@ -220,6 +232,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#4A4A4A",
+    // paddingTop: "10%",
   },
   input: {
     backgroundColor: "#FFFFFF",
@@ -235,6 +248,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "80%",
+  },
+  scrollView: {
+    width: "100%",
+    paddingTop: headerPadding,
+    paddingBottom: 150,
   },
 });
 

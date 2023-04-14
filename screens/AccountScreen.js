@@ -207,7 +207,7 @@ function AccountScreen() {
     }
 
     updateEmailApiCall().then((updateEmailCall) => {
-      if (updateEmailCall.success == 0) {
+      if (updateEmailCall.status != 200) {
         alert("Error: " + updateEmailCall.message);
       }
 
@@ -236,6 +236,7 @@ function AccountScreen() {
 
     var data = {
       new_email: newEmail,
+      confirm_email: confirmEmail,
     };
 
     var updateEmailInfo = fetch(insertApiUrl, {
@@ -256,9 +257,11 @@ function AccountScreen() {
 
   if (!isLoggedIn()) {
     return (
-      <View style={styles.container}>
-        <Text>Not Logged In</Text>
-      </View>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.containerTop}>
+          <Text style={styles.subTitle}>Not Logged In</Text>
+        </View>
+      </ScrollView>
     );
   } else {
     if (!hasFetched) {
@@ -309,7 +312,7 @@ function AccountScreen() {
             disabled={!isEmailEditable}
             onPress={() => {
               setIsEmailEditable(!isEmailEditable);
-              setAccountInfo(userInfo);
+              setNewEmail(email);
             }}
           />
           <Button
@@ -498,6 +501,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+  },
+  containerTop: {
+    backgroundColor: "#F5F5F5",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    height: 400,
   },
   title: {
     padding: "10%",
