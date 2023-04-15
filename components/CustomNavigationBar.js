@@ -1,79 +1,90 @@
-import { StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useContext, useState } from "react";
+import CartContext from "../context/CartContext";
 import LoginContext from "../context/LoginContext";
 
 function CustomNavigationBar({ navigation }) {
-  const [visible, setVisible] = useState(false);
-  const { isLoggedIn, isAdmin } = useContext(LoginContext);
+	const [visible, setVisible] = useState(false);
+	const { shoppingCart } = useContext(CartContext);
+	const { isLoggedIn, isAdmin } = useContext(LoginContext);
 
-  return (
-    <Provider>
-      <Appbar.Header style={style.appBar}>
-        <Appbar.Action
-          style={style.profile}
-          icon="account"
-          onPress={() => navigation.navigate("Account")}
-        />
-        <Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
-        <Appbar.Action
-          style={style.cart}
-          icon="cart"
-          onPress={() => navigation.navigate("Cart")}
-        />
-        <Menu
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          anchor={
-            <Appbar.Action
-              style={style.menu}
-              icon="menu"
-              onPress={() => setVisible(true)}
-            />
-          }
-        >
-          <Menu.Item
-            onPress={() => {
-              setVisible(false);
-              navigation.navigate("Home");
-            }}
-            title="Home"
-          />
+	const cartNotificationNumber =
+		shoppingCart.length > 0 ? (
+			<View style={style.cartNotificationNumberContainer}>
+				<Text style={style.cartNotificationNumber}>{shoppingCart.length}</Text>
+			</View>
+		) : null;
 
-          <Menu.Item
-            onPress={() => {
-              setVisible(false);
+	return (
+		<Provider>
+			<Appbar.Header style={style.appBar}>
+				<Appbar.Action
+					style={style.profile}
+					icon="account"
+					onPress={() => navigation.navigate("Account")}
+				/>
+				<TouchableOpacity
+					style={style.titleContainerStyle}
+					onPress={() => {
+						navigation.navigate("Home");
+					}}
+				>
+					<Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+					<Appbar.Action
+						style={style.cart}
+						icon="cart"
+						onPress={() => navigation.navigate("Cart")}
+					/>
+					{cartNotificationNumber}
+				</TouchableOpacity>
+				<Menu
+					visible={visible}
+					onDismiss={() => setVisible(false)}
+					anchor={
+						<Appbar.Action style={style.menu} icon="menu" onPress={() => setVisible(true)} />
+					}
+				>
+					<Menu.Item
+						onPress={() => {
+							setVisible(false);
+							navigation.navigate("Home");
+						}}
+						title="Home"
+					/>
+					<Menu.Item
+          			  onPress={() => {
+          			    setVisible(false);
 
-              if (isLoggedIn()) {
-                navigation.navigate("Account");
-              } else {
-                navigation.navigate("Login");
-              }
-            }}
-            title={isLoggedIn() ? "View Account" : "Login (Sign Up)"}
-          />
-
-          {/* <LogInOrViewAccount loggedInProp={isLoggedIn} /> */}
-
-          <Menu.Item
-            onPress={() => {
-              setVisible(false);
-              navigation.navigate("ActiveSubscriptions");
-            }}
-            title="View Active Subscriptions"
-          />
-          <Menu.Item
-            onPress={() => {
-              setVisible(false);
-              navigation.navigate("ViewOrders");
-            }}
-            title={isAdmin ? "View All Orders" : ""}
-            disabled={!isAdmin}
-          />
-        </Menu>
-      </Appbar.Header>
-    </Provider>
-  );
+          			    if (isLoggedIn()) {
+          			      navigation.navigate("Account");
+          			    } else {
+          			      navigation.navigate("Login");
+          			    }
+          			  }}
+          			  title={isLoggedIn() ? "View Account" : "Login (Sign Up)"}
+          			/>
+					<Menu.Item
+						onPress={() => {
+							setVisible(false);
+							navigation.navigate("ActiveSubscriptions");
+						}}
+						title="View Active Subscriptions"
+					/>
+					<Menu.Item
+         			   onPress={() => {
+         			     setVisible(false);
+         			     navigation.navigate(isAdmin ? "ViewOrders" : "ActiveSubscriptions");
+         			   }}
+         			   title={isAdmin ? "View All Orders" : "View Active Subscriptions"}
+         			 />
+				</Menu>
+			</Appbar.Header>
+		</Provider>
+	);
 }
 
 // export function LogInOrViewAccount() {
@@ -99,33 +110,53 @@ function CustomNavigationBar({ navigation }) {
 // }
 
 const style = StyleSheet.create({
-  menu: {
-    justifyContent: "center",
-  },
-  cart: {
-    justifyContent: "center",
-  },
-  profile: {
-    justifyContent: "center",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 25,
-    color: "#4a402a",
-  },
-  appBar: {
-    height: 50,
-    borderBottomColor: "#4a402a",
-    borderBottomWidth: 2,
-  },
-  menuItems: {
-    flex: 1,
-    fontSize: 15,
-    textAlignVertical: "center",
-    textAlign: "center",
-    paddingVertical: 30,
-    color: "#1260de",
-  },
+	menu: {
+		justifyContent: "center",
+	},
+	cart: {
+		justifyContent: "center",
+	},
+	profile: {
+		justifyContent: "center",
+	},
+	title: {
+		fontWeight: "bold",
+		fontSize: 25,
+		color: "#4a402a",
+	},
+	appBar: {
+		height: 50,
+		borderBottomColor: "#4a402a",
+		borderBottomWidth: 2,
+	},
+	menuItems: {
+		flex: 1,
+		fontSize: 15,
+		textAlignVertical: "center",
+		textAlign: "center",
+		paddingVertical: 30,
+		color: "#1260de",
+	},
+	titleContainerStyle: {
+		height: 28,
+		flex: 1,
+	},
+	cartNotificationNumber: {
+		color: "white",
+		textAlign: "center",
+		textAlignVertical: "center",
+	},
+	cartNotificationNumberContainer: {
+		position: "absolute",
+		borderRadius: 45,
+		backgroundColor: "rgba(88, 22, 19, .7)",
+		width: 20,
+		height: 20,
+		bottom: 3,
+		right: 0,
+		justifyContent: "center",
+		alignItems: "center",
+	},
 });
 
 export default CustomNavigationBar;

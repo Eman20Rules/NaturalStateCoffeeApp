@@ -13,12 +13,12 @@ export const LoginProvider = ({ children }) => {
     setIsAdmin(newIsAdmin);
   }
 
-  function isLoggedIn() {
-    if (userToken == "") {
-      return false;
-    }
-    return true;
-  }
+	function isLoggedIn() {
+		if (userToken == "") {
+			return false;
+		}
+		return true;
+	}
 
   return (
     <LoginContext.Provider

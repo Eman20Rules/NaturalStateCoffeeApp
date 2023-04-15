@@ -490,6 +490,7 @@ function AccountScreen() {
       </ScrollView>
     );
   }
+
 }
 
 const isOnAndroid = Platform.OS === "android";
