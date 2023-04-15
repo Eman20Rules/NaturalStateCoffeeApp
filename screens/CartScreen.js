@@ -30,10 +30,9 @@ const CartScreen = () => {
 	const [totalCost, setTotalCost] = useState(initialTotalCost);
 
 	const subscriptionFrequencies = [
-		{ key: "0.5", value: "1/2 a Month" },
-		{ key: "1", value: "1 Month" },
-		{ key: "2", value: "2 Months" },
-		{ key: "6", value: "6 Months" },
+		{ key: "one-time", value: "One-Time" },
+		{ key: "weekly", value: "Weekly" },
+		{ key: "monthly", value: "Monthly" },
 	];
 
 	//TODO: Edit checkout message when not logged in and change styling of checkout
@@ -56,8 +55,7 @@ const CartScreen = () => {
 	};
 
 	const checkoutAPICall = (orderCoffeeID, orderFrequency, orderAmount) => {
-		var insertApiUrl =
-			"http://3.84.255.244/index.php?method=submitSubscription";
+		var insertApiUrl = "https://nsdev1.xyz/index.php?method=submitSubscription";
 
 		var data = {
 			coffee_id: orderCoffeeID,

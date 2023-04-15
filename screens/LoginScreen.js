@@ -3,9 +3,11 @@ import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
 
 function LoginScreen({ navigation }) {
+	const { userToken } = useContext(LoginContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
+	console.log(userToken);
 
 	function login() {
 		if (email.length == 0) {
@@ -22,6 +24,7 @@ function LoginScreen({ navigation }) {
 			if (loginInfo.status == 200) {
 				const isAdmin = loginInfo.is_admin == 1 ? true : false;
 				setLoginInfo(loginInfo.token, isAdmin);
+				console.log(loginInfo.token);
 			} else alert(loginInfo.message);
 		});
 	}
