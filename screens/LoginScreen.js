@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
+import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
 function LoginScreen({ navigation }) {
-  const {
-    isLoggedIn,
-    setSecurityInfo,
-    email,
-    setEmail,
-    password,
-    setPassword,
-  } = useContext(LoginContext);
+	const {
+		isLoggedIn,
+		setSecurityInfo,
+		email,
+		setEmail,
+		password,
+		setPassword,
+	  } = useContext(LoginContext);
+
+	  const { updateSubscriptionList } = useContext(MySubscriptionsContext);
+
 
 	function login() {
 		if (email.length == 0) {
@@ -24,13 +28,13 @@ function LoginScreen({ navigation }) {
     }
 
 
-    loginAPICall().then((loginInfo) => {
-      if (loginInfo.status == 200) {
-        const isAdmin = loginInfo.is_admin == 1 ? true : false;
-        setSecurityInfo(loginInfo.token, isAdmin);
-      } else alert(loginInfo.message);
-    });
-  }
+	loginAPICall().then((loginInfo) => {
+		if (loginInfo.status == 200) {
+		  const isAdmin = loginInfo.is_admin == 1 ? true : false;
+		  setSecurityInfo(loginInfo.token, isAdmin);
+		} else alert(loginInfo.message);
+	  });
+	}
 
 	function loginAPICall() {
 		var postApiURL = "https://nsdev1.xyz/index.php?method=login";

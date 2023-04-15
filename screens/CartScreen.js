@@ -14,6 +14,7 @@ import PopupModal from "../components/PopupModal";
 import CartScreenItem from "../components/CartScreenItem";
 import HairlineDivider from "../components/HairlineDivider";
 import LoginContext from "../context/LoginContext";
+import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
@@ -21,6 +22,7 @@ const headerPadding = isOnAndroid ? 74 : 97;
 const CartScreen = () => {
 	const { shoppingCart, emptyCart } = useContext(CartContext);
 	const { isLoggedIn, userToken } = useContext(LoginContext);
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [frequencySelected, setFrequencySelected] = useState("");
@@ -31,10 +33,9 @@ const CartScreen = () => {
 	const [totalCost, setTotalCost] = useState(initialTotalCost);
 
 	const subscriptionFrequencies = [
-		{ key: "0.5", value: "1/2 a Month" },
-		{ key: "1", value: "1 Month" },
-		{ key: "2", value: "2 Months" },
-		{ key: "6", value: "6 Months" },
+		{ key: "one-time", value: "One-Time" },
+		{ key: "weekly", value: "Weekly" },
+		{ key: "monthly", value: "Monthly" },
 	];
 
 	//TODO: Edit checkout message when not logged in and change styling of checkout
@@ -53,12 +54,12 @@ const CartScreen = () => {
 			return;
 		}
 		submitCheckoutInfo();
+		updateSubscriptionList(userToken);
 		emptyCart();
 	};
 
 	const checkoutAPICall = (orderCoffeeID, orderFrequency, orderAmount) => {
-		var insertApiUrl =
-			"http://3.84.255.244/index.php?method=submitSubscription";
+		var insertApiUrl = "https://nsdev1.xyz/index.php?method=submitSubscription";
 
 		var data = {
 			coffee_id: orderCoffeeID,

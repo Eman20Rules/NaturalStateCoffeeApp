@@ -3,12 +3,18 @@ import { Appbar, Menu, Provider } from "react-native-paper";
 import { useState } from "react";
 import { useContext } from "react";
 import CartContext from "../context/CartContext";
+import MySubscriptionsContext from "../context/MySubscriptionsContext";
 import LoginContext from "../context/LoginContext";
+
 
 function CustomNavigationBar({ navigation }) {
 	const [visible, setVisible] = useState(false);
 	const { shoppingCart } = useContext(CartContext);
+
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 	const { isLoggedIn, isAdmin } = useContext(LoginContext);
+
+
 
 	const cartNotificationNumber =
 		shoppingCart.length > 0 ? (
@@ -70,6 +76,7 @@ function CustomNavigationBar({ navigation }) {
 					<Menu.Item
 						onPress={() => {
 							setVisible(false);
+							updateSubscriptionList();
 							navigation.navigate("ActiveSubscriptions");
 						}}
 						title="View Active Subscriptions"
