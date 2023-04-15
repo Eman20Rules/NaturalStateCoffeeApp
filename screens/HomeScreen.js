@@ -13,6 +13,7 @@ import {
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import PopupModal from "../components/PopupModal";
 import HairlineDivider from "../components/HairlineDivider";
+import AppLoading from "expo-app-loading";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
@@ -94,6 +95,10 @@ const HomeScreen = () => {
 			.catch((error) => {
 				alert("Error" + error);
 			});
+	}
+
+	if (coffeeList.length < 1) {
+		return <AppLoading />;
 	}
 
 	return (

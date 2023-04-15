@@ -9,7 +9,6 @@ export const LoginProvider = ({ children }) => {
 	function setLoginInfo(newUserToken, newIsAdmin) {
 		setUserToken(newUserToken);
 		setIsAdmin(newIsAdmin);
-		console.log(userToken);
 	}
 
 	function isLoggedIn() {

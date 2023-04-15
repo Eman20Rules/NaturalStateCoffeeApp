@@ -2,12 +2,14 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
 import { useContext, useState } from "react";
 import CartContext from "../context/CartContext";
+import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
 function CustomNavigationBar({ navigation }) {
 	const [visible, setVisible] = useState(false);
 	const [userToken, setUserToken] = useState("");
 	const [isAdmin, setIsAdmin] = useState(false);
 	const { shoppingCart } = useContext(CartContext);
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 
 	const closeMenu = () => setVisible(false);
 	const openMenu = (v) => setVisible(true);
@@ -67,6 +69,7 @@ function CustomNavigationBar({ navigation }) {
 					<Menu.Item
 						onPress={() => {
 							closeMenu();
+							updateSubscriptionList();
 							navigation.navigate("ActiveSubscriptions");
 						}}
 						title="View Active Subscriptions"
