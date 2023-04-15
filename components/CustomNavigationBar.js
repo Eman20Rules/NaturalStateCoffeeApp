@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
 import { useState } from "react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import CartContext from "../context/CartContext";
 import LoginContext from "../context/LoginContext";
 

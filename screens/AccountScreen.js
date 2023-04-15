@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  Platform
 } from "react-native";
 import LoginContext from "../context/LoginContext";
 
@@ -257,11 +258,11 @@ function AccountScreen() {
 
   if (!isLoggedIn()) {
     return (
-      <ScrollView style={styles.scrollView}>
+      // <ScrollView style={styles.scrollView}>
         <View style={styles.containerTop}>
           <Text style={styles.subTitle}>Not Logged In</Text>
         </View>
-      </ScrollView>
+      // </ScrollView>
     );
   } else {
     if (!hasFetched) {

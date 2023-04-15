@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  Platform,
 } from "react-native";
 import LoginContext from "../context/LoginContext";
 
