@@ -1,15 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import LoginContext from "../context/LoginContext";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
 function LoginScreen({ navigation }) {
-	const { userToken } = useContext(LoginContext);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const { isLoggedIn, setLoginInfo } = useContext(LoginContext);
-	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
-	console.log(userToken);
+	const {
+		isLoggedIn,
+		setSecurityInfo,
+		email,
+		setEmail,
+		password,
+		setPassword,
+	  } = useContext(LoginContext);
+
+	  const { updateSubscriptionList } = useContext(MySubscriptionsContext);
+
 
 	function login() {
 		if (email.length == 0) {
@@ -17,19 +22,18 @@ function LoginScreen({ navigation }) {
 			return;
 		}
 
-		if (password.length == 0) {
-			alert("Password is Required");
-			return;
-		}
+    if (password.length == 0) {
+      alert("Password is Required");
+      return;
+    }
 
-		loginAPICall().then((loginInfo) => {
-			if (loginInfo.status == 200) {
-				const isAdmin = loginInfo.is_admin == 1 ? true : false;
-				setLoginInfo(loginInfo.token, isAdmin);
-				updateSubscriptionList(loginInfo.token);
-				console.log(loginInfo.token);
-			} else alert(loginInfo.message);
-		});
+
+	loginAPICall().then((loginInfo) => {
+		if (loginInfo.status == 200) {
+		  const isAdmin = loginInfo.is_admin == 1 ? true : false;
+		  setSecurityInfo(loginInfo.token, isAdmin);
+		} else alert(loginInfo.message);
+	  });
 	}
 
 	function loginAPICall() {

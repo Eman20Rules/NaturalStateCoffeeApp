@@ -1,18 +1,20 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useContext } from "react";
 import CartContext from "../context/CartContext";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
+import LoginContext from "../context/LoginContext";
+
 
 function CustomNavigationBar({ navigation }) {
 	const [visible, setVisible] = useState(false);
-	const [userToken, setUserToken] = useState("");
-	const [isAdmin, setIsAdmin] = useState(false);
 	const { shoppingCart } = useContext(CartContext);
-	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 
-	const closeMenu = () => setVisible(false);
-	const openMenu = (v) => setVisible(true);
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
+	const { isLoggedIn, isAdmin } = useContext(LoginContext);
+
+
 
 	const cartNotificationNumber =
 		shoppingCart.length > 0 ? (
@@ -47,45 +49,72 @@ function CustomNavigationBar({ navigation }) {
 				</TouchableOpacity>
 				<Menu
 					visible={visible}
-					onDismiss={closeMenu}
+					onDismiss={() => setVisible(false)}
 					anchor={
-						<Appbar.Action style={style.menu} icon="menu" onPress={openMenu} />
+						<Appbar.Action style={style.menu} icon="menu" onPress={() => setVisible(true)} />
 					}
 				>
 					<Menu.Item
 						onPress={() => {
-							closeMenu();
+							setVisible(false);
 							navigation.navigate("Home");
 						}}
 						title="Home"
 					/>
 					<Menu.Item
-						onPress={() => {
-							closeMenu();
-							navigation.navigate("Login");
-						}}
-						title="Sign Up / Login"
-					/>
+          			  onPress={() => {
+          			    setVisible(false);
+
+          			    if (isLoggedIn()) {
+          			      navigation.navigate("Account");
+          			    } else {
+          			      navigation.navigate("Login");
+          			    }
+          			  }}
+          			  title={isLoggedIn() ? "View Account" : "Login (Sign Up)"}
+          			/>
 					<Menu.Item
 						onPress={() => {
-							closeMenu();
+							setVisible(false);
 							updateSubscriptionList();
 							navigation.navigate("ActiveSubscriptions");
 						}}
 						title="View Active Subscriptions"
 					/>
 					<Menu.Item
-						onPress={() => {
-							closeMenu();
-							navigation.navigate("ViewOrders");
-						}}
-						title="View Orders"
-					/>
+         			   onPress={() => {
+         			     setVisible(false);
+         			     navigation.navigate(isAdmin ? "ViewOrders" : "ActiveSubscriptions");
+         			   }}
+         			   title={isAdmin ? "View All Orders" : "View Active Subscriptions"}
+         			 />
 				</Menu>
 			</Appbar.Header>
 		</Provider>
 	);
 }
+
+// export function LogInOrViewAccount() {
+//   loggedInProp ? (
+//     <Menu.Item
+//       onPress={() => {
+//         setVisible(false);
+
+//         navigation.navigate("Account");
+//       }}
+//       title={"View Account"}
+//     />
+//   ) : (
+//     <Menu.Item
+//       onPress={() => {
+//         setVisible(false);
+
+//         navigation.navigate("Login");
+//       }}
+//       title={"Login (Sign Up)"}
+//     />
+//   );
+// }
 
 const style = StyleSheet.create({
 	menu: {

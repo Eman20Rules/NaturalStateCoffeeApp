@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	FlatList,
 	TouchableOpacity,
+	Platform,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Feather } from "@expo/vector-icons";
