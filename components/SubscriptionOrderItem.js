@@ -13,39 +13,52 @@ const imageSize = 100;
 
 const SubscriptionOrderItem = ({
 	index,
-	subscriptionItem,
+	coffee_name,
+	coffee_image,
+	price,
+	amount,
+	order_date,
+	frequency,
+	user_coffee_subscription_order_id,
 	setModalChildren,
 	setModalVisible,
+	deleteSubscription,
+	updateSubscriptionList,
 }) => {
 	const infoPopup = (
 		<View style={popupStyles.popupContainer}>
-			<Text style={popupStyles.headingOne}>{subscriptionItem.coffee_name}</Text>
+			<Text style={popupStyles.headingOne}>{coffee_name}</Text>
 			<HairlineDivider marginHorizontal={5} marginVertical={3} />
 			<View style={popupStyles.descriptionContainer}>
 				<View style={popupStyles.descriptionGrouping}>
 					<Text style={popupStyles.headingTwo}>Price</Text>
-					<Text style={popupStyles.bodyText}>
-						${(+subscriptionItem.price).toFixed(2)}
-					</Text>
+					<Text style={popupStyles.bodyText}>${(+price).toFixed(2)}</Text>
 				</View>
 				<View style={popupStyles.descriptionGrouping}>
 					<Text style={popupStyles.headingTwo}>Quantity</Text>
-					<Text style={popupStyles.bodyText}>{subscriptionItem.amount}</Text>
+					<Text style={popupStyles.bodyText}>{amount}</Text>
 				</View>
 				<View style={popupStyles.descriptionGrouping}>
 					<Text style={popupStyles.headingTwo}>Total</Text>
 					<Text style={popupStyles.bodyText}>
-						${(subscriptionItem.price * subscriptionItem.amount).toFixed(2)}
+						${(price * amount).toFixed(2)}
 					</Text>
 				</View>
 				<View style={popupStyles.descriptionGrouping}>
 					<Text style={popupStyles.headingTwo}>Next Delivery Date</Text>
+					<Text style={popupStyles.bodyText}>{order_date}</Text>
+				</View>
+				<View style={popupStyles.descriptionGrouping}>
+					<Text style={popupStyles.headingTwo}>Frequency</Text>
 					<Text style={popupStyles.bodyText}>
-						{subscriptionItem.order_date}
+						{frequency.charAt(0).toUpperCase() + frequency.slice(1)}
 					</Text>
 				</View>
 			</View>
-			<TouchableOpacity style={popupStyles.buttonContainer}>
+			<TouchableOpacity
+				style={popupStyles.buttonContainer}
+				onPress={() => setModalChildren(confirmDeletePopup)}
+			>
 				<Text style={popupStyles.buttonText}>Delete Subscription</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -57,21 +70,43 @@ const SubscriptionOrderItem = ({
 		</View>
 	);
 
+	const confirmDeletePopup = (
+		<View>
+			<Text style={popupStyles.headingOne}>
+				Are you sure you want to delete this subscription?
+			</Text>
+			<View style={popupStyles.buttonRow}>
+				<TouchableOpacity
+					style={popupStyles.buttonRowContainer}
+					onPress={() => {
+						deleteSubscription(user_coffee_subscription_order_id).then(() => {
+							updateSubscriptionList();
+						});
+						setModalVisible(false);
+					}}
+				>
+					<Text style={popupStyles.buttonText}>Yes</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={popupStyles.buttonRowContainer}
+					onPress={() => setModalVisible(false)}
+				>
+					<Text style={popupStyles.buttonText}>No</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
+
 	return (
 		<View style={styles.subscriptionItemContainer}>
 			<Text style={styles.subscriptionNumberText}>{index + 1}</Text>
-			<Image
-				src={subscriptionItem.coffee_image}
-				style={styles.subscriptionImage}
-			/>
+			<Image src={coffee_image} style={styles.subscriptionImage} />
 			<View style={styles.infoAndEditButtonContainer}>
 				<View style={styles.nameAndPriceContainer}>
-					<Text style={styles.subscriptionName}>
-						{subscriptionItem.coffee_name}
-					</Text>
+					<Text style={styles.subscriptionName}>{coffee_name}</Text>
 					<Text style={styles.priceStyle}>
-						${(+subscriptionItem.price).toFixed(2)}&#215;
-						{subscriptionItem.amount}
+						${(+price).toFixed(2)}&#215;
+						{amount}
 					</Text>
 				</View>
 				<TouchableOpacity
@@ -79,6 +114,7 @@ const SubscriptionOrderItem = ({
 					onPress={() => {
 						setModalChildren(infoPopup);
 						setModalVisible(true);
+						console.log(user_coffee_subscription_order_id);
 					}}
 				>
 					<Text style={styles.editButtonText}>Info</Text>
@@ -170,6 +206,10 @@ const popupStyles = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 15,
 	},
+	buttonRow: {
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+	},
 	buttonContainer: {
 		alignSelf: "flex-start",
 		flexDirection: "row",
@@ -179,6 +219,16 @@ const popupStyles = StyleSheet.create({
 		borderColor: "#581613",
 		borderWidth: 1,
 		width: "100%",
+	},
+	buttonRowContainer: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginVertical: 5,
+		borderColor: "#581613",
+		borderWidth: 1,
+		width: "30%",
 	},
 	buttonText: {
 		fontSize: 17,

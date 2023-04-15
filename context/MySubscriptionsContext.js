@@ -6,10 +6,12 @@ const MySubscriptionsContext = React.createContext();
 
 export const MySubscriptionsProvider = ({ children }) => {
 	const [mySubscriptionList, setMySubscriptionList] = useState([]);
-	const [mySubscriptionsLoaded, setMySubscriptionLoaded] = useState(false);
-	const { isLoggedIn } = useContext(LoginContext);
+	const [isSubscriptionsRetrieved, setIsSubscriptionsRetrieved] =
+		useState(false);
 
-	const subscriptionAPI = (userToken) => {
+	const { isLoggedIn, userToken } = useContext(LoginContext);
+
+	const subscriptionAPI = () => {
 		const insertApiUrl =
 			"https://nsdev1.xyz/index.php?method=getMyUserSubscription";
 
@@ -24,25 +26,65 @@ export const MySubscriptionsProvider = ({ children }) => {
 		return mySubscriptionCall;
 	};
 
-	const getMySubscriptionList = async (userToken) => {
+	const getMySubscriptionList = () => {
 		if (!isLoggedIn()) {
-			return false;
+			return;
 		}
-		subscriptionAPI(userToken).then((mySubscriptionCall) => {
-			if (mySubscriptionCall.status == 200) {
-				console.log(mySubscriptionCall.orders);
-				setMySubscriptionList(mySubscriptionCall.orders);
-			} else {
-				alert(mySubscriptionCall.message);
-			}
-		});
-		return true;
+		setIsSubscriptionsRetrieved(false);
+		subscriptionAPI(userToken)
+			.then((mySubscriptionCall) => {
+				if (mySubscriptionCall.status == 200) {
+					setMySubscriptionList(mySubscriptionCall.orders);
+				} else if (mySubscriptionCall.message == "Orders not found") {
+					setMySubscriptionList([]);
+				} else {
+					alert(mySubscriptionCall.message);
+					console.log(mySubscriptionCall);
+					console.log(isSubscriptionsRetrieved);
+				}
+			})
+			.then(setIsSubscriptionsRetrieved(true));
 	};
 
-	const updateSubscriptionList = async (userToken) => {
-		setMySubscriptionLoaded(false);
-		const loadingDone = await getMySubscriptionList(userToken);
-		setMySubscriptionLoaded(loadingDone);
+	const updateSubscriptionList = () => {
+		getMySubscriptionList();
+	};
+
+	const deleteSubscriptionAPI = (subscriptionId) => {
+		const deleteAPIurl =
+			"https://nsdev1.xyz/index.php?method=deleteSubscription";
+
+		const data = {
+			user_coffee_subscription_id: subscriptionId,
+		};
+
+		const deleteSubscriptionCall = fetch(deleteAPIurl, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + userToken,
+			},
+			body: JSON.stringify(data),
+		}).then((resp) => resp.json());
+
+		return deleteSubscriptionCall;
+	};
+
+	const deleteSubscription = (subscriptionId) => {
+		return new Promise((resolve) => {
+			deleteSubscriptionAPI(subscriptionId).then((deleteSubscriptionCall) => {
+				console.log(deleteSubscriptionCall);
+				if (
+					deleteSubscriptionCall.success == 1 &&
+					deleteSubscriptionCall.status == 200
+				) {
+					alert("Subscription deleted");
+					resolve();
+				} else {
+					alert(deleteSubscriptionCall.message);
+				}
+			});
+		});
 	};
 
 	return (
@@ -50,7 +92,8 @@ export const MySubscriptionsProvider = ({ children }) => {
 			value={{
 				mySubscriptionList,
 				updateSubscriptionList,
-				mySubscriptionsLoaded,
+				deleteSubscription,
+				isSubscriptionsRetrieved,
 			}}
 		>
 			{children}

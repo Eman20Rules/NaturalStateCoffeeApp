@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Button } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import SubscriptionOrderItem from "../components/SubscriptionOrderItem";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
 import LoginContext from "../context/LoginContext";
@@ -12,43 +12,60 @@ const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
 const ActiveSubscriptionsScreen = () => {
-	const { mySubscriptionList, updateSubscriptionList, mySubscriptionsLoaded } =
-		useContext(MySubscriptionsContext);
+	const {
+		mySubscriptionList,
+		updateSubscriptionList,
+		deleteSubscription,
+		isSubscriptionsRetrieved,
+	} = useContext(MySubscriptionsContext);
 	const { userToken, isLoggedIn } = useContext(LoginContext);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 
-	//useFocusEffect runs the callBack function whenever the screen
-	//is focused using the navigation library.
 	useFocusEffect(
 		React.useCallback(() => {
 			if (isLoggedIn()) {
-				updateSubscriptionList(userToken);
+				updateSubscriptionList();
 			}
 		}, [])
 	);
 
-	const allSubscriptionItems = isLoggedIn() ? (
-		<FlatList
-			data={mySubscriptionList}
-			keyExtractor={(item) => item.user_coffee_subscription_id}
-			renderItem={({ item, index }) => {
-				return (
-					<SubscriptionOrderItem
-						subscriptionItem={item}
-						index={index}
-						setModalChildren={setModalChildren}
-						setModalVisible={setModalVisible}
-					/>
-				);
-			}}
-			ItemSeparatorComponent={
-				<HairlineDivider marginVertical={8} marginHorizontal={0} />
-			}
-		/>
-	) : (
-		<Text style={styles.noSubscriptionsText}>No Subscriptions</Text>
-	);
+	if (!isSubscriptionsRetrieved) {
+		return <AppLoading />;
+	}
+
+	const allSubscriptionItems =
+		isLoggedIn() && mySubscriptionList.length > 0 ? (
+			<FlatList
+				data={mySubscriptionList}
+				keyExtractor={(item) => item.user_coffee_subscription_id}
+				renderItem={({ item, index }) => {
+					return (
+						<SubscriptionOrderItem
+							coffee_name={item.coffee_name}
+							coffee_image={item.coffee_image}
+							price={item.price}
+							amount={item.amount}
+							order_date={item.order_date}
+							frequency={item.frequency}
+							user_coffee_subscription_order_id={
+								item.user_coffee_subscription_id
+							}
+							index={index}
+							setModalChildren={setModalChildren}
+							setModalVisible={setModalVisible}
+							deleteSubscription={deleteSubscription}
+							updateSubscriptionList={updateSubscriptionList}
+						/>
+					);
+				}}
+				ItemSeparatorComponent={
+					<HairlineDivider marginVertical={8} marginHorizontal={0} />
+				}
+			/>
+		) : (
+			<Text style={styles.noSubscriptionsText}>No Subscriptions</Text>
+		);
 
 	const screen = [
 		<View style={styles.centeredViewStyle}>
@@ -62,7 +79,6 @@ const ActiveSubscriptionsScreen = () => {
 				<View style={styles.allSubscriptionsContainer}>
 					{allSubscriptionItems}
 				</View>
-				<Text style={styles.headingOne}>{mySubscriptionList.length || 0}</Text>
 			</View>
 		</View>,
 	];
@@ -74,6 +90,10 @@ const ActiveSubscriptionsScreen = () => {
 				return item;
 			}}
 			showsVerticalScrollIndicator={false}
+			onRefresh={() => {
+				updateSubscriptionList();
+			}}
+			refreshing={!isSubscriptionsRetrieved}
 		/>
 	);
 };

@@ -13,6 +13,7 @@ import PopupModal from "../components/PopupModal";
 import CartScreenItem from "../components/CartScreenItem";
 import HairlineDivider from "../components/HairlineDivider";
 import LoginContext from "../context/LoginContext";
+import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
@@ -20,6 +21,7 @@ const headerPadding = isOnAndroid ? 74 : 97;
 const CartScreen = () => {
 	const { shoppingCart, emptyCart } = useContext(CartContext);
 	const { isLoggedIn, userToken } = useContext(LoginContext);
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [frequencySelected, setFrequencySelected] = useState("");
@@ -51,6 +53,7 @@ const CartScreen = () => {
 			return;
 		}
 		submitCheckoutInfo();
+		updateSubscriptionList(userToken);
 		emptyCart();
 	};
 
