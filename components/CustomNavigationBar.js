@@ -10,11 +10,8 @@ import LoginContext from "../context/LoginContext";
 function CustomNavigationBar({ navigation }) {
 	const [visible, setVisible] = useState(false);
 	const { shoppingCart } = useContext(CartContext);
-
 	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 	const { isLoggedIn, isAdmin } = useContext(LoginContext);
-
-
 
 	const cartNotificationNumber =
 		shoppingCart.length > 0 ? (

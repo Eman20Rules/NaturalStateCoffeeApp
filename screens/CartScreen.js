@@ -145,7 +145,7 @@ const CartScreen = () => {
 						data={subscriptionFrequencies}
 						save={frequencySelected}
 						search={false}
-						placeholder="Renews every:"
+						placeholder="Renews:"
 						fontFamily="Abel_400Regular"
 						boxStyles={styles.selectListBox}
 						inputStyles={styles.selectListInputText}
