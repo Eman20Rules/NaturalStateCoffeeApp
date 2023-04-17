@@ -18,6 +18,7 @@ import CartScreen from "./screens/CartScreen";
 import AccountScreen from "./screens/AccountScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import EditAvailableCoffeeScreen from "./screens/EditAvailableCoffeeScreen";
+import AdminAddCoffeeScreen from "./screens/AdminAddCoffeeScreen";
 import { LoginProvider } from "./context/LoginContext";
 import { CartProvider } from "./context/CartContext";
 import { MySubscriptionsProvider } from "./context/MySubscriptionsContext";
@@ -62,6 +63,10 @@ const App = () => {
 							<Stack.Screen
 								name="EditCoffees"
 								component={EditAvailableCoffeeScreen}
+							/>
+							<Stack.Screen
+								name="AdminAddCoffee"
+								component={AdminAddCoffeeScreen}
 							/>
 						</Stack.Navigator>
 					</NavigationContainer>
