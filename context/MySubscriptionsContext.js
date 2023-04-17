@@ -73,7 +73,6 @@ export const MySubscriptionsProvider = ({ children }) => {
 	const deleteSubscription = (subscriptionId) => {
 		return new Promise((resolve) => {
 			deleteSubscriptionAPI(subscriptionId).then((deleteSubscriptionCall) => {
-				console.log(deleteSubscriptionCall);
 				if (
 					deleteSubscriptionCall.success == 1 &&
 					deleteSubscriptionCall.status == 200

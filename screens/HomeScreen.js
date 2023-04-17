@@ -81,6 +81,7 @@ const HomeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
+	let isCoffeesRefreshing = true;
 
 	useEffect(() => {
 		getCoffees();
@@ -88,10 +89,13 @@ const HomeScreen = () => {
 
 	async function getCoffees() {
 		var getApiUrl = "https://nsdev1.xyz/index.php?method=getCoffees";
-
+		isCoffeesRefreshing = true;
 		fetch(getApiUrl)
 			.then((response) => response.json())
 			.then((json) => setCoffeeList(json))
+			.then(() => {
+				isCoffeesRefreshing = false;
+			})
 			.catch((error) => {
 				alert("Error" + error);
 			});
@@ -101,20 +105,21 @@ const HomeScreen = () => {
 		return <AppLoading />;
 	}
 
-	return (
+	const screen = [
 		<View style={styles.centeredViewStyle}>
 			<PopupModal
 				modalChildren={modalChildren}
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
 			/>
-			<ScrollView style={styles.containerStyle}>
+			<View style={styles.containerStyle}>
 				<Text style={styles.headerOneStyle}>Subscriptions</Text>
 				<View style={styles.listContainerStyle}>
 					<FlatList
 						data={coffeeList}
 						keyExtractor={(item) => item.coffee_id}
 						horizontal
+						showsHorizontalScrollIndicator={false}
 						renderItem={({ index, item }) => {
 							return (
 								<View
@@ -147,7 +152,24 @@ const HomeScreen = () => {
 				>
 					<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
 				</ImageBackground>
-			</ScrollView>
+			</View>
+		</View>,
+	];
+
+	return (
+		<View>
+			<FlatList
+				data={screen}
+				renderItem={({ item }) => {
+					{
+						return item;
+					}
+				}}
+				onRefresh={() => {
+					getCoffees();
+				}}
+				refreshing={!isCoffeesRefreshing}
+			/>
 		</View>
 	);
 };
