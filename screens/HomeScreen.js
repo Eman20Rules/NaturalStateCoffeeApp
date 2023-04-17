@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -10,13 +10,15 @@ import {
 	Modal,
 	TouchableOpacity,
 } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import PopupModal from "../components/PopupModal";
 import HairlineDivider from "../components/HairlineDivider";
-import AppLoading from "expo-app-loading";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
+
+SplashScreen.preventAutoHideAsync();
 
 const HomeScreen = () => {
 	const styles = StyleSheet.create({
@@ -102,7 +104,9 @@ const HomeScreen = () => {
 	}
 
 	if (coffeeList.length < 1) {
-		return <AppLoading />;
+		return null;
+	} else {
+		SplashScreen.hideAsync();
 	}
 
 	const screen = [

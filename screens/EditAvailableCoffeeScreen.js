@@ -7,7 +7,7 @@ import {
 	FlatList,
 	Image,
 } from "react-native";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import { Feather } from "@expo/vector-icons";
 import PopupModal from "../components/PopupModal";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +16,8 @@ import LoginContext from "../context/LoginContext";
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
+
+SplashScreen.preventAutoHideAsync();
 
 const EditAvailableCoffeeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
@@ -84,7 +86,9 @@ const EditAvailableCoffeeScreen = () => {
 	};
 
 	if (coffeeList.length < 1) {
-		return <AppLoading />;
+		return null;
+	} else {
+		SplashScreen.hideAsync();
 	}
 
 	const verticalHairlineDivider = (
