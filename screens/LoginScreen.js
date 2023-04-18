@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import {
+	View,
+	Text,
+	Button,
+	StyleSheet,
+	TextInput,
+	TouchableOpacity,
+} from "react-native";
 import LoginContext from "../context/LoginContext";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
 
@@ -11,10 +18,9 @@ function LoginScreen({ navigation }) {
 		setEmail,
 		password,
 		setPassword,
-	  } = useContext(LoginContext);
+	} = useContext(LoginContext);
 
-	  const { updateSubscriptionList } = useContext(MySubscriptionsContext);
-
+	const { updateSubscriptionList } = useContext(MySubscriptionsContext);
 
 	function login() {
 		if (email.length == 0) {
@@ -22,18 +28,19 @@ function LoginScreen({ navigation }) {
 			return;
 		}
 
-    if (password.length == 0) {
-      alert("Password is Required");
-      return;
-    }
+		if (password.length == 0) {
+			alert("Password is Required");
+			return;
+		}
 
-
-	loginAPICall().then((loginInfo) => {
-		if (loginInfo.status == 200) {
-		  const isAdmin = loginInfo.is_admin == 1 ? true : false;
-		  setSecurityInfo(loginInfo.token, isAdmin);
-		} else alert(loginInfo.message);
-	  });
+		loginAPICall().then((loginInfo) => {
+			if (loginInfo.status == 200) {
+				const isAdmin = loginInfo.is_admin == 1 ? true : false;
+				setSecurityInfo(loginInfo.token, isAdmin);
+				alert("Logged in!");
+				navigation.navigate("Home");
+			} else alert(loginInfo.message);
+		});
 	}
 
 	function loginAPICall() {
@@ -61,34 +68,35 @@ function LoginScreen({ navigation }) {
 	if (!isLoggedIn()) {
 		return (
 			<View style={styles.container}>
-				<Text style={styles.title}>Coffee Shop Login</Text>
+				<Text style={styles.title}>Natural State Login</Text>
 				<TextInput
 					placeholder={"Email"}
-					placeholderTextColor={"#FF0000"}
 					style={styles.input}
 					onChangeText={(input) => setEmail(input)}
 				/>
 
 				<TextInput
 					placeholder={"Password"}
-					placeholderTextColor={"#FF0000"}
 					style={styles.input}
 					onChangeText={(input) => setPassword(input)}
 				/>
 
 				<View style={styles.buttonContainer}>
-					<Button title={"Login"} onPress={login} />
-					<Button
-						title={"Sign Up"}
+					<TouchableOpacity
+						style={styles.buttonRowContainer}
+						onPress={() => {
+							login();
+						}}
+					>
+						<Text style={styles.buttonText}>Login</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.buttonRowContainer}
 						onPress={() => navigation.navigate("SignUp")}
-					/>
+					>
+						<Text style={styles.buttonText}>Sign Up</Text>
+					</TouchableOpacity>
 				</View>
-			</View>
-		);
-	} else {
-		return (
-			<View style={styles.container}>
-				<Text style={styles.title}>Logged In!</Text>
 			</View>
 		);
 	}
@@ -102,10 +110,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	title: {
-		fontSize: 28,
-		fontWeight: "bold",
+		fontSize: 40,
 		marginBottom: 20,
-		color: "#4A4A4A",
+		fontFamily: "Abel_400Regular",
 	},
 	input: {
 		backgroundColor: "#FFFFFF",
@@ -116,11 +123,31 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		fontSize: 16,
 		color: "#4A4A4A",
+		borderColor: "#9A7B4F",
+		borderWidth: 1,
 	},
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "space-around",
 		width: "80%",
+	},
+	buttonRowContainer: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginVertical: 5,
+		borderColor: "#581613",
+		borderWidth: 1,
+		width: "40%",
+	},
+	buttonText: {
+		fontSize: 25,
+		flex: 1,
+		color: "#581613",
+		fontFamily: "HankenGrotesk_300Light",
+		paddingLeft: 5,
+		textAlign: "center",
 	},
 });
 
