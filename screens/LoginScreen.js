@@ -44,8 +44,6 @@ function LoginScreen({ navigation }) {
 			password: password,
 		};
 
-		console.log(JSON.stringify(Data));
-
 		var loginInfo = fetch(postApiURL, {
 			method: "POST",
 			body: JSON.stringify(Data),

@@ -19,15 +19,16 @@ function CustomNavigationBar({ navigation }) {
 			</View>
 		) : null;
 
-	const allOrdersMenuItem = isAdmin ? (
+	const allOrdersMenuItem =
+	//  isAdmin ? (
 		<Menu.Item
 			onPress={() => {
 				setVisible(false);
 				navigation.navigate("ViewOrders");
 			}}
 			title={"(ADMIN) All User Orders"}
-		/>
-	) : null;
+		/>;
+	// ) : null;
 
 	const mySubscriptionsMenuItem = isLoggedIn() ? (
 		<Menu.Item
@@ -114,28 +115,6 @@ function CustomNavigationBar({ navigation }) {
 		</Provider>
 	);
 }
-
-// export function LogInOrViewAccount() {
-//   loggedInProp ? (
-//     <Menu.Item
-//       onPress={() => {
-//         setVisible(false);
-
-//         navigation.navigate("Account");
-//       }}
-//       title={"View Account"}
-//     />
-//   ) : (
-//     <Menu.Item
-//       onPress={() => {
-//         setVisible(false);
-
-//         navigation.navigate("Login");
-//       }}
-//       title={"Login (Sign Up)"}
-//     />
-//   );
-// }
 
 const style = StyleSheet.create({
 	menu: {
