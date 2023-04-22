@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	ScrollView,
 	TouchableOpacity,
-	TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AdminNewCoffeeField from "../components/AdminNewCoffeeField";
@@ -95,6 +94,7 @@ const AdminAddCoffeeScreen = () => {
 		return new Promise((resolve, reject) => {
 			if (!isAllFieldsValid()) {
 				reject();
+				return;
 			}
 			addCoffeeAPI().then((addCoffeeCall) => {
 				if (addCoffeeCall.status == 200 && addCoffeeCall.success == 1) {

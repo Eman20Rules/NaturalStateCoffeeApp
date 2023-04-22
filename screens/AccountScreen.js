@@ -7,6 +7,7 @@ import {
 	Button,
 	ScrollView,
 	Platform,
+	TouchableOpacity,
 } from "react-native";
 import LoginContext from "../context/LoginContext";
 
@@ -301,33 +302,83 @@ function AccountScreen() {
 					</View>
 
 					<View style={styles.buttonGroup}>
-						<Button
-							title={"Edit Email"}
-							disabled={
+						<TouchableOpacity
+							style={
 								isEmailEditable || isPasswordEditable || isAddressEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
 							}
 							onPress={() => {
 								setIsEmailEditable(!isEmailEditable);
 							}}
-						/>
-						<Button
-							title={"Cancel"}
-							color={"#ed1313"}
-							disabled={!isEmailEditable}
+							disabled={
+								isEmailEditable || isPasswordEditable || isAddressEditable
+							}
+						>
+							<Text
+								style={
+									isEmailEditable || isPasswordEditable || isAddressEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Edit Email
+							</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							style={
+								!isEmailEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsEmailEditable(!isEmailEditable);
 								setNewEmail(email);
 							}}
-						/>
-						<Button
-							title={"Submit Changes"}
-							color={"#0bd937"}
 							disabled={!isEmailEditable}
+						>
+							<Text
+								style={
+									!isEmailEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Cancel
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={
+								!isEmailEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsEmailEditable(!isEmailEditable);
 								updateEmail();
 							}}
-						/>
+							disabled={!isEmailEditable}
+						>
+							<Text
+								style={
+									!isEmailEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Submit Changes
+							</Text>
+						</TouchableOpacity>
 					</View>
 
 					<View style={styles.container}>
@@ -355,34 +406,84 @@ function AccountScreen() {
 					</View>
 
 					<View style={styles.buttonGroup}>
-						<Button
-							title={"Edit Password"}
-							disabled={
-								isPasswordEditable || isAddressEditable || isEmailEditable
+						<TouchableOpacity
+							style={
+								isEmailEditable || isPasswordEditable || isAddressEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
 							}
 							onPress={() => {
 								setIsPasswordEditable(!isPasswordEditable);
 							}}
-						/>
-						<Button
-							title={"Cancel"}
-							color={"#ed1313"}
-							disabled={!isPasswordEditable}
+							disabled={
+								isEmailEditable || isPasswordEditable || isAddressEditable
+							}
+						>
+							<Text
+								style={
+									isEmailEditable || isPasswordEditable || isAddressEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Edit Password
+							</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							style={
+								!isPasswordEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsPasswordEditable(!isPasswordEditable);
 								setConfirmPassword("");
 								setNewPassword(password);
 							}}
-						/>
-						<Button
-							title={"Submit Changes"}
-							color={"#0bd937"}
 							disabled={!isPasswordEditable}
+						>
+							<Text
+								style={
+									!isPasswordEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Cancel
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={
+								!isPasswordEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsPasswordEditable(!isPasswordEditable);
 								updatePassword();
 							}}
-						/>
+							disabled={!isPasswordEditable}
+						>
+							<Text
+								style={
+									!isPasswordEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Submit Changes
+							</Text>
+						</TouchableOpacity>
 					</View>
 
 					<Text style={styles.title}>Address Information:</Text>
@@ -460,36 +561,83 @@ function AccountScreen() {
 					</View>
 
 					<View style={styles.buttomButtons}>
-						<Button
-							style={styles.button}
-							title={"Edit Address"}
-							disabled={
-								isPasswordEditable || isAddressEditable || isEmailEditable
+						<TouchableOpacity
+							style={
+								isEmailEditable || isPasswordEditable || isAddressEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
 							}
 							onPress={() => {
 								setIsAddressEditable(!isAddressEditable);
 							}}
-						/>
-						<Button
-							style={styles.button}
-							title={"Cancel"}
-							color={"#ed1313"}
-							disabled={!isAddressEditable}
+							disabled={
+								isEmailEditable || isPasswordEditable || isAddressEditable
+							}
+						>
+							<Text
+								style={
+									isEmailEditable || isPasswordEditable || isAddressEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Edit Address
+							</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							style={
+								!isAddressEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsAddressEditable(!isAddressEditable);
 								setAccountInfo(userInfo);
 							}}
-						/>
-						<Button
-							style={styles.button}
-							title={"Submit Changes"}
-							color={"#0bd937"}
 							disabled={!isAddressEditable}
+						>
+							<Text
+								style={
+									!isAddressEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Cancel
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={
+								!isAddressEditable
+									? [
+											styles.buttonRowContainer,
+											styles.disabledButtonRowContainer,
+									  ]
+									: styles.buttonRowContainer
+							}
 							onPress={() => {
 								setIsAddressEditable(!isAddressEditable);
 								updateAddress();
 							}}
-						/>
+							disabled={!isAddressEditable}
+						>
+							<Text
+								style={
+									!isAddressEditable
+										? [styles.buttonText, styles.disabledButtonText]
+										: styles.buttonText
+								}
+							>
+								Submit Changes
+							</Text>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</ScrollView>
@@ -516,16 +664,14 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		padding: "10%",
-		fontSize: 25,
-		fontWeight: "bold",
-		color: "#4A4A4A",
+		fontSize: 35,
+		fontFamily: "Abel_400Regular",
 		justifyContent: "center",
 	},
 	subTitle: {
 		fontSize: 25,
-		fontWeight: "bold",
+		fontFamily: "HankenGrotesk_300Light",
 		marginBottom: 20,
-		color: "#4A4A4A",
 		flex: 0.4,
 	},
 	textInput: {
@@ -538,6 +684,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: "#4A4A4A",
 		flex: 0.6,
+		borderColor: "#581613",
+		borderWidth: 1,
 	},
 	scrollView: {
 		width: "100%",
@@ -555,6 +703,34 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-around",
+	},
+	buttonRowContainer: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginVertical: 5,
+		marginHorizontal: 5,
+		borderColor: "#581613",
+		borderWidth: 1,
+		width: "25%",
+	},
+	buttonText: {
+		fontSize: 18,
+		flex: 1,
+		color: "#581613",
+		fontFamily: "HankenGrotesk_300Light",
+
+		textAlign: "center",
+		height: 60,
+		textAlignVertical: "center",
+	},
+	disabledButtonRowContainer: {
+		borderColor: "#bababa",
+		backgroundColor: "#bababa",
+	},
+	disabledButtonText: {
+		color: "#616161",
 	},
 });
 
