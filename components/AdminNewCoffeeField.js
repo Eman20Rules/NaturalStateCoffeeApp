@@ -16,6 +16,7 @@ const AdminNewCoffeeField = ({
 					onChangeText={fieldChange}
 					value={fieldData}
 					placeholder={placeHolder}
+					defaultValue={fieldData}
 					placeHolderTextColor="#9A7B4F"
 				/>
 			</View>
