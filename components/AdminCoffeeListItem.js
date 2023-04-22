@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, Image, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const imageHeight = 200;
 const imageWidth = 150;
@@ -9,10 +10,16 @@ const AdminCoffeeListItem = ({
 	imageUrl,
 	itemName,
 	itemId,
+	itemFlavor,
+	itemProcess,
+	itemLike,
+	itemPrice,
 	deleteStoreCoffee,
 	setModalChildren,
 	setModalVisible,
 }) => {
+	const navigation = useNavigation();
+
 	const deleteCoffeePopup = (
 		<View>
 			<Text style={popupStyles.headingOne}>Delete {itemName} from store?</Text>
@@ -38,12 +45,54 @@ const AdminCoffeeListItem = ({
 		</View>
 	);
 
+	const editCoffeePopup = (
+		<View>
+			<Text style={popupStyles.headingOne}>Edit {itemName} properties?</Text>
+			<View style={popupStyles.buttonRow}>
+				<TouchableOpacity
+					style={popupStyles.buttonRowContainer}
+					onPress={() => {
+						setModalVisible(false);
+						navigation.navigate("AdminEditCoffee", {
+							imageUrl: imageUrl,
+							itemName: itemName,
+							itemId: itemId,
+							itemFlavor: itemFlavor,
+							itemProcess: itemProcess,
+							itemLike: itemLike,
+							itemPrice: itemPrice,
+						});
+					}}
+				>
+					<Text style={popupStyles.buttonText}>Yes</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={popupStyles.buttonRowContainer}
+					onPress={() => {
+						setModalVisible(false);
+					}}
+				>
+					<Text style={popupStyles.buttonText}>No</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
+
 	return (
 		<View style={styles.container}>
 			<Image source={{ uri: imageUrl }} style={styles.iconImage} />
 			<View style={styles.textContainerStyle}>
 				<Text style={styles.headingTwo}>{itemName}</Text>
 			</View>
+			<TouchableOpacity
+				style={styles.buttonContainer}
+				onPress={() => {
+					setModalChildren(editCoffeePopup);
+					setModalVisible(true);
+				}}
+			>
+				<Text style={styles.buttonText}>Edit</Text>
+			</TouchableOpacity>
 			<View style={styles.deleteIconContainer}>
 				<TouchableOpacity
 					onPress={() => {
@@ -78,6 +127,25 @@ const styles = StyleSheet.create({
 	},
 	deleteIconContainer: {
 		alignSelf: "center",
+	},
+	buttonContainer: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginBottom: 10,
+		borderColor: "#581613",
+		borderWidth: 1,
+		borderRadius: 10,
+		width: "100%",
+	},
+	buttonText: {
+		fontSize: 18,
+		flex: 1,
+		color: "#581613",
+		fontFamily: "HankenGrotesk_300Light",
+		paddingLeft: 5,
+		textAlign: "center",
 	},
 });
 

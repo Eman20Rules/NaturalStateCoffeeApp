@@ -143,6 +143,10 @@ const EditAvailableCoffeeScreen = () => {
 										imageUrl={item.coffee_image}
 										itemName={item.coffee_name}
 										itemId={item.coffee_id}
+										itemFlavor={item.coffee_flavor}
+										itemProcess={item.process}
+										itemLike={item.coffee_like}
+										itemPrice={item.price}
 										deleteStoreCoffee={deleteStoreCoffee}
 										setModalChildren={setModalChildren}
 										setModalVisible={setModalVisible}
