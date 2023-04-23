@@ -1,4 +1,10 @@
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	Text,
+	Dimensions,
+} from "react-native";
 import { Appbar, Menu, Provider } from "react-native-paper";
 import { useContext } from "react";
 
@@ -17,34 +23,6 @@ function CustomNavigationBar({ navigation }) {
 				<Text style={style.cartNotificationNumber}>{shoppingCart.length}</Text>
 			</View>
 		) : null;
-
-	const allOrdersMenuItem = isAdmin ? (
-		<Menu.Item
-			onPress={() => {
-				navigation.navigate("ViewOrders");
-			}}
-			title={"(ADMIN) All User Orders"}
-		/>
-	) : null;
-
-	const mySubscriptionsMenuItem = isLoggedIn() ? (
-		<Menu.Item
-			onPress={() => {
-				updateSubscriptionList();
-				navigation.navigate("ActiveSubscriptions");
-			}}
-			title="View Active Subscriptions"
-		/>
-	) : null;
-
-	const editCoffeesMenuItem = isAdmin ? (
-		<Menu.Item
-			onPress={() => {
-				navigation.navigate("EditCoffees");
-			}}
-			title={"(ADMIN) Edit Available Coffees"}
-		/>
-	) : null;
 
 	/* TODO: Re-add this menu if things don't work
 			<Menu
@@ -86,44 +64,37 @@ function CustomNavigationBar({ navigation }) {
 			*/
 
 	return (
-		<Provider>
-			<Appbar.Header style={style.appBar}>
+		<Appbar.Header style={style.appBar}>
+			<Appbar.Action
+				style={style.menu}
+				icon="menu"
+				onPress={() => {
+					navigation.openDrawer();
+				}}
+			/>
+			<View style={style.titleContainerStyle}>
+				<Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
+			</View>
+			<TouchableOpacity onPress={() => navigation.navigate("Cart")}>
 				<Appbar.Action
-					style={style.menu}
-					icon="menu"
-					onPress={() => {
-						navigation.openDrawer();
-					}}
+					style={style.cart}
+					icon="cart"
+					onPress={() => navigation.navigate("Cart")}
 				/>
-				<TouchableOpacity
-					style={style.titleContainerStyle}
-					onPress={() => {
-						navigation.navigate("Home");
-					}}
-				>
-					<Appbar.Content titleStyle={style.title} title="NATURAL STATE" />
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => navigation.jumpTo("Cart")}>
-					<Appbar.Action
-						style={style.cart}
-						icon="cart"
-						onPress={() => navigation.navigate("Cart")}
-					/>
-					{cartNotificationNumber}
-				</TouchableOpacity>
-				<Appbar.Action
-					style={style.profile}
-					icon="account"
-					onPress={() => {
-						if (!isLoggedIn()) {
-							alert("Not logged in");
-							return;
-						}
-						navigation.navigate("Account");
-					}}
-				/>
-			</Appbar.Header>
-		</Provider>
+				{cartNotificationNumber}
+			</TouchableOpacity>
+			<Appbar.Action
+				style={style.profile}
+				icon="account"
+				onPress={() => {
+					if (!isLoggedIn()) {
+						alert("Not logged in");
+						return;
+					}
+					navigation.navigate("Account");
+				}}
+			/>
+		</Appbar.Header>
 	);
 }
 
@@ -163,23 +134,21 @@ const style = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 25,
 		color: "#4a402a",
+		textAlignVertical: "center",
 	},
 	appBar: {
-		height: 50,
+		justifyContent: "center",
 		borderBottomColor: "#4a402a",
 		borderBottomWidth: 2,
+		width: Dimensions.get("window").width,
+		marginTop: 10,
+		height: 50,
 	},
-	menuItems: {
-		flex: 1,
-		fontSize: 15,
-		textAlignVertical: "center",
-		textAlign: "center",
-		paddingVertical: 30,
-		color: "#1260de",
-	},
+
 	titleContainerStyle: {
-		height: 28,
 		flex: 1,
+		justifyContent: "center",
+		flexDirection: "row",
 	},
 	cartNotificationNumber: {
 		color: "white",

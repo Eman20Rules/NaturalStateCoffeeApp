@@ -5,7 +5,8 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	FlatList,
-	Image,
+	RefreshControl,
+	ScrollView,
 } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { Feather } from "@expo/vector-icons";
@@ -13,9 +14,6 @@ import PopupModal from "../components/PopupModal";
 import { useNavigation } from "@react-navigation/native";
 import AdminCoffeeListItem from "../components/AdminCoffeeListItem";
 import LoginContext from "../context/LoginContext";
-
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
 
 SplashScreen.preventAutoHideAsync();
 
@@ -125,61 +123,68 @@ const EditAvailableCoffeeScreen = () => {
 	);
 
 	return (
-		<View style={styles.centeredViewStyle}>
-			<PopupModal
-				modalChildren={modalChildren}
-				modalVisible={modalVisible}
-				setModalVisible={setModalVisible}
-			/>
-			<View style={styles.container}>
-				<Text style={styles.headingOne}>Available Coffees</Text>
-				<View style={{}}>
-					<View style={styles.listContainerStyle}>
-						<FlatList
-							data={coffeeList}
-							renderItem={({ item }) => {
-								return (
-									<AdminCoffeeListItem
-										imageUrl={item.coffee_image}
-										itemName={item.coffee_name}
-										itemId={item.coffee_id}
-										itemFlavor={item.coffee_flavor}
-										itemProcess={item.process}
-										itemLike={item.coffee_like}
-										itemPrice={item.price}
-										deleteStoreCoffee={deleteStoreCoffee}
-										setModalChildren={setModalChildren}
-										setModalVisible={setModalVisible}
-									/>
-								);
-							}}
-							keyExtractor={(item) => item.coffee_id}
-							horizontal
-							showsHorizontalScrollIndicator={false}
-							ListFooterComponent={
-								<View
-									style={{ flex: 1, justifyContent: "center", marginLeft: 5 }}
-								>
-									<TouchableOpacity
-										onPress={() => {
-											setModalChildren(addCoffeePopup);
-											setModalVisible(true);
-										}}
+		<ScrollView
+			refreshControl={
+				<RefreshControl
+					onRefresh={() => {
+						getCoffees();
+					}}
+					refreshing={!isCoffeesRefreshing}
+				/>
+			}
+		>
+			<View style={styles.centeredViewStyle}>
+				<PopupModal
+					modalChildren={modalChildren}
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+				/>
+				<View style={styles.container}>
+					<Text style={styles.headingOne}>Available Coffees</Text>
+					<View style={{}}>
+						<View style={styles.listContainerStyle}>
+							<FlatList
+								data={coffeeList}
+								renderItem={({ item }) => {
+									return (
+										<AdminCoffeeListItem
+											imageUrl={item.coffee_image}
+											itemName={item.coffee_name}
+											itemId={item.coffee_id}
+											itemFlavor={item.coffee_flavor}
+											itemProcess={item.process}
+											itemLike={item.coffee_like}
+											itemPrice={item.price}
+											deleteStoreCoffee={deleteStoreCoffee}
+											setModalChildren={setModalChildren}
+											setModalVisible={setModalVisible}
+										/>
+									);
+								}}
+								keyExtractor={(item) => item.coffee_id}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+								ListFooterComponent={
+									<View
+										style={{ flex: 1, justifyContent: "center", marginLeft: 5 }}
 									>
-										<Feather name="plus-circle" size={50} color="#581613" />
-									</TouchableOpacity>
-								</View>
-							}
-							ItemSeparatorComponent={verticalHairlineDivider}
-							onRefresh={() => {
-								getCoffees();
-							}}
-							refreshing={!isCoffeesRefreshing}
-						/>
+										<TouchableOpacity
+											onPress={() => {
+												setModalChildren(addCoffeePopup);
+												setModalVisible(true);
+											}}
+										>
+											<Feather name="plus-circle" size={50} color="#581613" />
+										</TouchableOpacity>
+									</View>
+								}
+								ItemSeparatorComponent={verticalHairlineDivider}
+							/>
+						</View>
 					</View>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -192,7 +197,6 @@ const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		height: "100%",
-		paddingTop: headerPadding,
 		paddingBottom: 100,
 		paddingHorizontal: 20,
 		alignContent: "center",

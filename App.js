@@ -11,6 +11,7 @@ import {
 } from "@expo-google-fonts/hanken-grotesk";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import HomeScreen from "./screens/HomeScreen";
 import ActiveSubscriptionsScreen from "./screens/ActiveSubscriptionsScreen";
@@ -28,11 +29,14 @@ import { LoginProvider } from "./context/LoginContext";
 import { CartProvider } from "./context/CartContext";
 import { MySubscriptionsProvider } from "./context/MySubscriptionsContext";
 import DrawerWindow from "./components/DrawerWindow";
+import { Dimensions } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+
+const width = Dimensions.get("window").width;
 
 const App = () => {
 	const [isAppReady, setIsAppReady] = useState(false);
@@ -73,7 +77,9 @@ const App = () => {
 				drawerContent={DrawerWindow}
 				screenOptions={{
 					headerStyle: { height: 50 },
-					header: (props) => <CustomNavigationBar {...props} />,
+					header: (props) => (
+						<CustomNavigationBar {...props} windowWidth={width} />
+					),
 					drawerStyle: {
 						width: "80%",
 					},
@@ -101,30 +107,32 @@ const App = () => {
 		<CartProvider>
 			<LoginProvider>
 				<MySubscriptionsProvider>
-					<NavigationContainer>
-						<Stack.Navigator
-							screenOptions={{
-								headerStyle: { height: 50 },
-								header: (props) => <CustomStackNavigationBar {...props} />,
-							}}
-						>
-							<Stack.Screen
-								name="Root"
-								component={Root}
-								options={{ headerShown: false }}
-							/>
-							<Stack.Screen name="Cart" component={CartScreen} />
-							<Stack.Screen name="Account" component={AccountScreen} />
-							<Drawer.Screen
-								name="AdminAddCoffee"
-								component={AdminAddCoffeeScreen}
-							/>
-							<Drawer.Screen
-								name="AdminEditCoffee"
-								component={AdminEditCoffeeScreen}
-							/>
-						</Stack.Navigator>
-					</NavigationContainer>
+					<SafeAreaProvider>
+						<NavigationContainer>
+							<Stack.Navigator
+								screenOptions={{
+									headerStyle: { height: 50 },
+									header: (props) => <CustomStackNavigationBar {...props} />,
+								}}
+							>
+								<Stack.Screen
+									name="Root"
+									component={Root}
+									options={{ headerShown: false }}
+								/>
+								<Stack.Screen name="Cart" component={CartScreen} />
+								<Stack.Screen name="Account" component={AccountScreen} />
+								<Stack.Screen
+									name="AdminAddCoffee"
+									component={AdminAddCoffeeScreen}
+								/>
+								<Stack.Screen
+									name="AdminEditCoffee"
+									component={AdminEditCoffeeScreen}
+								/>
+							</Stack.Navigator>
+						</NavigationContainer>
+					</SafeAreaProvider>
 				</MySubscriptionsProvider>
 			</LoginProvider>
 		</CartProvider>

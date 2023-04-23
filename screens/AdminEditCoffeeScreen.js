@@ -9,9 +9,6 @@ import {
 import AdminNewCoffeeField from "../components/AdminNewCoffeeField";
 import LoginContext from "../context/LoginContext";
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 const AdminEditCoffeeScreen = ({ route, navigation }) => {
 	const { userToken } = useContext(LoginContext);
 	const [coffeeName, setCoffeeName] = useState(route.params.itemName);
@@ -172,6 +169,7 @@ const AdminEditCoffeeScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+	centeredViewStyle: {},
 	centeredView: {
 		flex: 1,
 		alignItems: "center",
@@ -180,7 +178,6 @@ const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		height: "100%",
-		paddingTop: headerPadding,
 		paddingBottom: 100,
 		paddingHorizontal: 20,
 	},

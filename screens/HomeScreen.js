@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
 	View,
 	Text,
@@ -15,71 +16,9 @@ import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import PopupModal from "../components/PopupModal";
 import HairlineDivider from "../components/HairlineDivider";
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 SplashScreen.preventAutoHideAsync();
 
 const HomeScreen = () => {
-	const styles = StyleSheet.create({
-		containerStyle: {
-			width: "100%",
-			paddingTop: headerPadding,
-			paddingBottom: 150,
-		},
-		headerOneStyle: {
-			fontSize: 35,
-			paddingTop: 25,
-			paddingBottom: 5,
-			paddingHorizontal: 8,
-			fontFamily: "Abel_400Regular",
-		},
-		listContainerStyle: {},
-		coffeeCarouselBoxStyle: {
-			borderStartWidth: 5,
-			borderEndWidth: 5,
-			alignSelf: "center",
-		},
-		imageBackgroundStyle: {
-			height: 500,
-			alignItems: "center",
-			justifyContent: "space-around",
-		},
-		imageBackgroundTextStyle: {
-			color: "white",
-			fontFamily: "Abel_400Regular",
-			fontSize: 50,
-		},
-		centeredViewStyle: {
-			flex: 1,
-			alignItems: "center",
-			justifyContent: "center",
-		},
-		popUpStyle: {
-			backgroundColor: "white",
-			borderRadius: 5,
-			padding: 20,
-			marginHorizontal: 10,
-		},
-		buttonContainerStyle: {
-			alignSelf: "flex-start",
-			flexDirection: "row",
-			alignItems: "center",
-			padding: 3,
-			marginTop: 10,
-			borderColor: "#581613",
-			borderWidth: 1,
-			width: "100%",
-		},
-		subscriptionButtonStyle: {
-			fontSize: 17,
-			flex: 1,
-			color: "#581613",
-			fontFamily: "HankenGrotesk_300Light",
-			paddingLeft: 5,
-			textAlign: "center",
-		},
-	});
 	const [coffeeList, setCoffeeList] = useState([]);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -172,10 +111,70 @@ const HomeScreen = () => {
 				onRefresh={() => {
 					getCoffees();
 				}}
+				showsVerticalScrollIndicator={false}
 				refreshing={!isCoffeesRefreshing}
 			/>
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	containerStyle: {
+		width: "100%",
+		paddingBottom: 150,
+		paddingTop: 30,
+	},
+	headerOneStyle: {
+		fontSize: 35,
+		paddingBottom: 5,
+		paddingHorizontal: 8,
+		fontFamily: "Abel_400Regular",
+	},
+	listContainerStyle: {},
+	coffeeCarouselBoxStyle: {
+		borderStartWidth: 5,
+		borderEndWidth: 5,
+		alignSelf: "center",
+	},
+	imageBackgroundStyle: {
+		height: 500,
+		alignItems: "center",
+		justifyContent: "space-around",
+	},
+	imageBackgroundTextStyle: {
+		color: "white",
+		fontFamily: "Abel_400Regular",
+		fontSize: 50,
+	},
+	centeredViewStyle: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	popUpStyle: {
+		backgroundColor: "white",
+		borderRadius: 5,
+		padding: 20,
+		marginHorizontal: 10,
+	},
+	buttonContainerStyle: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginTop: 10,
+		borderColor: "#581613",
+		borderWidth: 1,
+		width: "100%",
+	},
+	subscriptionButtonStyle: {
+		fontSize: 17,
+		flex: 1,
+		color: "#581613",
+		fontFamily: "HankenGrotesk_300Light",
+		paddingLeft: 5,
+		textAlign: "center",
+	},
+});
 
 export default HomeScreen;
