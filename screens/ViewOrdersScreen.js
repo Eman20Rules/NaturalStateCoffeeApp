@@ -8,171 +8,11 @@ import LoginContext from "../context/LoginContext";
 function ViewOrdersScreen() {
   const [modalChildren, setModalChildren] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
   const [currentOrderData, setCurrentOrderData] = useState([]);
   const [pastOrderData, setPastOrderData] = useState([]);
-  const [testOrderData, setTestOrderData] = useState([]);
-
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-
   const { userToken } = useContext(LoginContext);
-
-  const data = [
-    {
-      user_coffee_subscription_id: 2,
-      user_id: 2,
-      frequency: "weekly",
-      amount: 4,
-      coffee_id: 4,
-      order_date: "2023-04-27",
-      delivered: 1,
-      name: "Jane Doe",
-      email: "janedoe@email.com",
-      street: "123 East Street",
-      city: "Russelville",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 3,
-      user_id: 2,
-      frequency: "weekly",
-      amount: 1,
-      coffee_id: 4,
-      order_date: "2023-04-27",
-      delivered: 1,
-      name: "Jane Doe",
-      email: "janedoe@email.com",
-      street: "123 East Street",
-      city: "Russelville",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 33,
-      user_id: 2,
-      frequency: "weekly",
-      amount: 1,
-      coffee_id: 4,
-      order_date: "2023-04-21",
-      delivered: 0,
-      name: "Jane Doe",
-      email: "janedoe@email.com",
-      street: "123 East Street",
-      city: "Russelville",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 55,
-      user_id: 13,
-      frequency: "one-time",
-      amount: 3,
-      coffee_id: 4,
-      order_date: "2023-04-30",
-      delivered: 0,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 71,
-      user_id: 13,
-      frequency: "weekly",
-      amount: 2,
-      coffee_id: 4,
-      order_date: "2023-04-25",
-      delivered: 1,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 75,
-      user_id: 13,
-      frequency: "weekly",
-      amount: 1,
-      coffee_id: 4,
-      order_date: "2023-04-25",
-      delivered: 0,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Ozark Moon Espresso",
-    },
-    {
-      user_coffee_subscription_id: 76,
-      user_id: 13,
-      frequency: "weekly",
-      amount: 4,
-      coffee_id: 3,
-      order_date: "2023-04-25",
-      delivered: 0,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Guatemala",
-    },
-    {
-      user_coffee_subscription_id: 77,
-      user_id: 13,
-      frequency: "weekly",
-      amount: 1,
-      coffee_id: 5,
-      order_date: "2023-04-25",
-      delivered: 0,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Brazil",
-    },
-    {
-      user_coffee_subscription_id: 78,
-      user_id: 13,
-      frequency: "weekly",
-      amount: 1,
-      coffee_id: 20,
-      order_date: "2023-04-25",
-      delivered: 0,
-      name: "Admin",
-      email: "nsdev1@proton.me",
-      street: "Tester",
-      city: " Avenue",
-      state: "AR",
-      country: "US",
-      zipcode: "16356",
-      coffee_name: "Mexico",
-    },
-  ];
 
   function searchForTestOrders() {
     setCurrentOrderData([]);
@@ -270,8 +110,6 @@ function ViewOrdersScreen() {
     return getOrdersApiCall;
   }
 
-  function test() {}
-
   const monthSelectData = [
     { key: "01", value: "1" },
     { key: "02", value: "2" },
@@ -347,6 +185,36 @@ function ViewOrdersScreen() {
   ];
 
   function createModalInfo(order) {
+    if (order.user_coffee_subscription_id) {
+      var isDelivered = order.delivered == 1;
+    } else {
+      var isDelivered = true;
+    }
+
+    if (isDelivered) {
+      var deliverButton = (
+        <View style={styles.viewSearchPaddingFirst}>
+          <TouchableOpacity
+            style={styles.modalButtonContainerStyle}
+            onPress={() => toggleDelivered(order, isDelivered)}
+          >
+            <Text style={styles.subscriptionButtonStyle}>Mark Undelivered</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      var deliverButton = (
+        <View style={styles.viewSearchPaddingFirst}>
+          <TouchableOpacity
+            style={styles.modalButtonContainerStyle}
+            onPress={() => toggleDelivered(order, isDelivered)}
+          >
+            <Text style={styles.subscriptionButtonStyle}>Mark Delivered</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     var modalInfo = (
       <View>
         <Text style={styles.infoTitleStyle}>Order Information</Text>
@@ -354,19 +222,25 @@ function ViewOrdersScreen() {
         <View style={styles.hairlineDividerStyle} />
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Name:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.name}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Email:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.email}</Text>
         </View>
 
         <View style={styles.subHairlineDividerStyle} />
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Delivery Date:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Delivery Date:&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.order_date}</Text>
         </View>
 
@@ -378,56 +252,133 @@ function ViewOrdersScreen() {
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Frequency:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Frequency:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.frequency}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Amount:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Amount:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.amount}</Text>
         </View>
 
         <View style={styles.subHairlineDividerStyle} />
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Street:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.street}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>City:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.city}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>State:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            State:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.state}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Country:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Country:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.country}</Text>
         </View>
 
         <View style={styles.infoGroupingStyle}>
-          <Text style={styles.infoHeaderStyle}>Zipcode:</Text>
+          <Text style={styles.infoHeaderStyle}>
+            Zipcode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Text>
           <Text style={styles.infoBodyStyle}>{order.zipcode}</Text>
         </View>
 
         <View style={styles.subHairlineDividerStyle} />
 
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text style={styles.subscriptionButtonStyle}>Close</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonFlexStyle}>
+          {deliverButton}
+
+          <View style={styles.viewSearchPadding}>
+            <TouchableOpacity
+              style={styles.modalButtonContainerStyle}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.subscriptionButtonStyle}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
 
     setModalChildren(modalInfo);
 
     setModalVisible(true);
+  }
+
+  function toggleDelivered(order, isDelivered) {
+    if (order.user_coffee_subscription_id) {
+      var isCurrent = true;
+      var id = order.user_coffee_subscription_id;
+    } else {
+      var isCurrent = false;
+      var id = order.past_subscription_id;
+    }
+
+    toggleDeliveredAPICall(id, isDelivered, isCurrent).then((apiData) => {
+      if (apiData.status != 200) {
+        return;
+      }
+
+      if (isCurrent) {
+        setCurrentOrderData([]);
+        searchForCurrentOrders();
+      } else {
+        setPastOrderData([]);
+        searchForPastOrders();
+      }
+
+      setModalVisible(false);
+    });
+  }
+
+  function toggleDeliveredAPICall(id, isDelivered, isCurrent) {
+    //url depends on if order is past order, delivered or undelivered
+    if (isCurrent && isDelivered) {
+      var apiUrl = "https://nsdev1.xyz/index.php?method=mark_undelivered";
+    } else if (isCurrent) {
+      var apiUrl = "https://nsdev1.xyz/index.php?method=mark_delivered";
+    } else {
+      var apiUrl =
+        "https://nsdev1.xyz/index.php?method=mark_past_order_undelivered";
+    }
+
+    var data = {
+      user_subscription_ids: [id],
+    };
+
+    const toggleDeliveredApiCall = fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userToken,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((resp) => resp.json())
+      .catch((error) => {
+        alert("Error" + error);
+      });
+
+    return toggleDeliveredApiCall;
   }
 
   return (
@@ -462,32 +413,31 @@ function ViewOrdersScreen() {
       <Text style={styles.searchText}>Search for:</Text>
 
       <View style={styles.buttonFlexStyle}>
-        <View style={styles.buttonFlexStyle}>
-          <View style={styles.viewPaddingFirst}>
-            <TouchableOpacity
-              style={styles.buttonContainerStyle}
-              onPress={searchForCurrentOrders}
-            >
-              <Text style={styles.searchButtonStyle}>Current Orders</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.viewPadding}>
-            <TouchableOpacity
-              style={styles.buttonContainerStyle}
-              onPress={searchForPastOrders}
-            >
-              <Text style={styles.searchButtonStyle}>Past orders</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.viewPaddingFirst}>
+          <TouchableOpacity
+            style={styles.searchButtonContainerStyle}
+            onPress={searchForCurrentOrders}
+          >
+            <Text style={styles.searchButtonStyle}>Current Orders</Text>
+          </TouchableOpacity>
+        </View>
 
-          <View style={styles.viewPadding}>
-            <TouchableOpacity
-              style={styles.buttonContainerStyle}
-              onPress={searchForTestOrders}
-            >
-              <Text style={styles.searchButtonStyle}>Test orders</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.viewPadding}>
+          <TouchableOpacity
+            style={styles.searchButtonContainerStyle}
+            onPress={searchForPastOrders}
+          >
+            <Text style={styles.searchButtonStyle}>Past orders</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.viewPadding}>
+          <TouchableOpacity
+            style={styles.searchButtonContainerStyle}
+            onPress={searchForTestOrders}
+          >
+            <Text style={styles.searchButtonStyle}>Test orders</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -560,41 +510,7 @@ function ViewOrdersScreen() {
             </DataTable.Row>
           );
         })}
-
-        {testOrderData.map((order) => {
-          return (
-            <DataTable.Row
-              key={order.user_coffee_subscription_id}
-              onPress={() => {
-                createModalInfo(order);
-              }}
-            >
-              <DataTable.Cell>{order.name}</DataTable.Cell>
-              <DataTable.Cell numeric>{order.order_date}</DataTable.Cell>
-              <DataTable.Cell
-                numeric
-                onPress={() => {
-                  createModalInfo(order);
-                }}
-              >
-                <Checkbox
-                  status={order.delivered == 1 ? "checked" : "unchecked"}
-                  onPress={() => {
-                    console.log(
-                      "Check box for order id: ",
-                      order.user_coffee_subscription_id
-                    );
-                  }}
-                />
-              </DataTable.Cell>
-            </DataTable.Row>
-          );
-        })}
       </DataTable>
-
-      <View style={styles.buttonGroup}>
-        <Button title={"Mark As Delivered or Undelivered"} onPress={test} />
-      </View>
     </View>
   );
 }
@@ -605,10 +521,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-around",
+    paddingTop: "10%",
   },
   selectContainer: {
     backgroundColor: "#F5F5F5",
-    flexDirection: "column",
+    flexDirection: "row",
     // alignItems: "center",
     paddingTop: "20%",
     paddingBottom: "5%",
@@ -659,9 +576,19 @@ const styles = StyleSheet.create({
     paddingRight: "10%",
   },
   infoBodyStyle: {
-    textAlign: "right",
+    // textAlign: "right",
   },
-  buttonContainerStyle: {
+  searchButtonContainerStyle: {
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 3,
+    marginVertical: 5,
+    borderColor: "#581613",
+    borderWidth: 1,
+  },
+
+  modalButtonContainerStyle: {
     alignSelf: "flex-start",
     flexDirection: "row",
     alignItems: "center",
@@ -680,9 +607,11 @@ const styles = StyleSheet.create({
   searchButtonStyle: {
     color: "#581613",
     textAlign: "center",
+    fontSize: 15,
   },
   searchText: {
     paddingBottom: "5%",
+    fontSize: 25,
   },
   buttonFlexStyle: {
     flexDirection: "row",
@@ -690,6 +619,14 @@ const styles = StyleSheet.create({
   },
   viewPadding: {
     paddingRight: "10%",
+  },
+  viewSearchPadding: {
+    paddingRight: "10%",
+    width: "40%",
+  },
+  viewSearchPaddingFirst: {
+    paddingRight: "10%",
+    width: "60%",
   },
   viewPaddingFirst: {
     paddingRight: "10%",
