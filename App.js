@@ -58,12 +58,13 @@ const App = () => {
 
 	const onLayoutRootView = useCallback(async () => {
 		if (isAppReady) {
+			await SplashScreen.hideAsync();
 		}
+	}, [isAppReady]);
 
-		if (!isAppReady) {
-			return null;
-		}
-	});
+	if (!isAppReady) {
+		return null;
+	}
 
 	const Root = () => {
 		return (
