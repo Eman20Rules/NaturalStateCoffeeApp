@@ -114,7 +114,6 @@ const SubscriptionOrderItem = ({
 					onPress={() => {
 						setModalChildren(infoPopup);
 						setModalVisible(true);
-						console.log(user_coffee_subscription_order_id);
 					}}
 				>
 					<Text style={styles.editButtonText}>Info</Text>

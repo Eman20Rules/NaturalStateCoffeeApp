@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Image,
+	Platform
 } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { Feather } from "@expo/vector-icons";
@@ -50,8 +51,6 @@ const EditAvailableCoffeeScreen = () => {
 		const deleteStoreCoffeeAPIurl =
 			"https://nsdev1.xyz/index.php?method=del_coffee";
 
-		console.log(coffeeId);
-
 		const deleteData = {
 			coffee_id: coffeeId,
 		};
@@ -71,7 +70,6 @@ const EditAvailableCoffeeScreen = () => {
 	const deleteStoreCoffee = (coffeeId) => {
 		return new Promise((resolve, reject) => {
 			deleteStoreCoffeeAPI(coffeeId).then((deleteStoreCoffeeCall) => {
-				console.log(deleteStoreCoffeeCall);
 				if (
 					deleteStoreCoffeeCall.success == 1 &&
 					deleteStoreCoffeeCall.status == 200

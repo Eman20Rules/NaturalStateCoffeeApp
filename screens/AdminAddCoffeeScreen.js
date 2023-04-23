@@ -5,6 +5,8 @@ import {
 	StyleSheet,
 	ScrollView,
 	TouchableOpacity,
+	TextInput,
+	Platform
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AdminNewCoffeeField from "../components/AdminNewCoffeeField";
