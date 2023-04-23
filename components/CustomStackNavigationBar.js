@@ -90,9 +90,9 @@ function CustomNavigationBar({ navigation }) {
 			<Appbar.Header style={style.appBar}>
 				<Appbar.Action
 					style={style.menu}
-					icon="menu"
+					icon="arrow-left"
 					onPress={() => {
-						navigation.openDrawer();
+						navigation.goBack();
 					}}
 				/>
 				<TouchableOpacity
@@ -114,13 +114,9 @@ function CustomNavigationBar({ navigation }) {
 				<Appbar.Action
 					style={style.profile}
 					icon="account"
-					onPress={() => {
-						if (!isLoggedIn()) {
-							alert("Not logged in");
-							return;
-						}
-						navigation.navigate("Account");
-					}}
+					onPress={() =>
+						navigation.navigate(isLoggedIn() ? "Account" : "Login")
+					}
 				/>
 			</Appbar.Header>
 		</Provider>
