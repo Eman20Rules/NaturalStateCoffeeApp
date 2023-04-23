@@ -31,8 +31,6 @@ function AccountScreen() {
 	const [isEmailEditable, setIsEmailEditable] = useState(false);
 	const [isPasswordEditable, setIsPasswordEditable] = useState(false);
 
-	console.log(userToken);
-
 	function getUserData() {
 		setHasFetched(true);
 
