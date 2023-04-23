@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -10,17 +10,19 @@ import {
 	Modal,
 	TouchableOpacity,
 } from "react-native";
-import * as SplashScreen from "expo-splash-screen";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import PopupModal from "../components/PopupModal";
 import HairlineDivider from "../components/HairlineDivider";
+import AppLoading from "expo-app-loading";
+import AboutUs from "../components/AboutUs";
+
 
 const isOnAndroid = Platform.OS === "android";
 const headerPadding = isOnAndroid ? 74 : 97;
 
-SplashScreen.preventAutoHideAsync();
-
 const HomeScreen = () => {
+
+	
 	const styles = StyleSheet.create({
 		containerStyle: {
 			width: "100%",
@@ -83,7 +85,6 @@ const HomeScreen = () => {
 	const [coffeeList, setCoffeeList] = useState([]);
 	const [modalChildren, setModalChildren] = useState(null);
 	const [modalVisible, setModalVisible] = useState(false);
-	let isCoffeesRefreshing = true;
 
 	useEffect(() => {
 		getCoffees();
@@ -91,39 +92,33 @@ const HomeScreen = () => {
 
 	async function getCoffees() {
 		var getApiUrl = "https://nsdev1.xyz/index.php?method=getCoffees";
-		isCoffeesRefreshing = true;
+
 		fetch(getApiUrl)
 			.then((response) => response.json())
 			.then((json) => setCoffeeList(json))
-			.then(() => {
-				isCoffeesRefreshing = false;
-			})
 			.catch((error) => {
 				alert("Error" + error);
 			});
 	}
 
 	if (coffeeList.length < 1) {
-		return null;
-	} else {
-		SplashScreen.hideAsync();
+		return <AppLoading />;
 	}
 
-	const screen = [
+	return (
 		<View style={styles.centeredViewStyle}>
 			<PopupModal
 				modalChildren={modalChildren}
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
 			/>
-			<View style={styles.containerStyle}>
+			<ScrollView style={styles.containerStyle}>
 				<Text style={styles.headerOneStyle}>Subscriptions</Text>
 				<View style={styles.listContainerStyle}>
 					<FlatList
 						data={coffeeList}
 						keyExtractor={(item) => item.coffee_id}
 						horizontal
-						showsHorizontalScrollIndicator={false}
 						renderItem={({ index, item }) => {
 							return (
 								<View
@@ -154,26 +149,13 @@ const HomeScreen = () => {
 					style={styles.imageBackgroundStyle}
 					resizeMode="cover"
 				>
-					<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
+					<AboutUs
+						setInfoPopup={setModalChildren}
+						setInfoVisible={setModalVisible}>
+					</AboutUs>
+					
 				</ImageBackground>
-			</View>
-		</View>,
-	];
-
-	return (
-		<View>
-			<FlatList
-				data={screen}
-				renderItem={({ item }) => {
-					{
-						return item;
-					}
-				}}
-				onRefresh={() => {
-					getCoffees();
-				}}
-				refreshing={!isCoffeesRefreshing}
-			/>
+			</ScrollView>
 		</View>
 	);
 };
