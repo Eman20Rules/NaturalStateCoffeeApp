@@ -36,8 +36,7 @@
     "source-map-loader": "^4.0.1",
     "use-event-callback": "^0.1.0",
     "react-native-gesture-handler": "~2.9.0",
-    "react-native-reanimated": "~2.14.4",
-    "undefined": "react-navigation/stack"
+    "react-native-reanimated": "~2.14.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
