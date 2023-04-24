@@ -643,9 +643,6 @@ function AccountScreen() {
 	}
 }
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#F5F5F5",
@@ -687,7 +684,7 @@ const styles = StyleSheet.create({
 	},
 	scrollView: {
 		width: "100%",
-		paddingTop: headerPadding,
+		paddingTop: 0,
 		paddingHorizontal: 20,
 	},
 	buttonGroup: {
@@ -712,6 +709,7 @@ const styles = StyleSheet.create({
 		borderColor: "#581613",
 		borderWidth: 1,
 		width: "25%",
+		height: 60,
 	},
 	buttonText: {
 		fontSize: 18,
@@ -720,8 +718,6 @@ const styles = StyleSheet.create({
 		fontFamily: "HankenGrotesk_300Light",
 
 		textAlign: "center",
-		height: 60,
-		textAlignVertical: "center",
 	},
 	disabledButtonRowContainer: {
 		borderColor: "#bababa",

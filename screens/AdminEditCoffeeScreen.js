@@ -10,9 +10,6 @@ import {
 import AdminNewCoffeeField from "../components/AdminNewCoffeeField";
 import LoginContext from "../context/LoginContext";
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 const AdminEditCoffeeScreen = ({ route, navigation }) => {
   const { userToken } = useContext(LoginContext);
   const [coffeeName, setCoffeeName] = useState(route.params.itemName);
@@ -181,7 +178,6 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    paddingTop: headerPadding,
     paddingBottom: 100,
     paddingHorizontal: 20,
   },
@@ -213,6 +209,46 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     textAlign: "center",
   },
+	centeredViewStyle: {},
+	centeredView: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	container: {
+		width: "100%",
+		height: "100%",
+		paddingBottom: 100,
+		paddingHorizontal: 20,
+	},
+	headingOne: {
+		fontSize: 35,
+		paddingTop: 25,
+		paddingBottom: 5,
+		paddingHorizontal: 8,
+		fontFamily: "Abel_400Regular",
+	},
+	coffeeFieldsContainer: {
+		marginBottom: 10,
+	},
+	buttonContainer: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 3,
+		marginVertical: 5,
+		borderColor: "#581613",
+		borderWidth: 1,
+		width: "100%",
+	},
+	buttonText: {
+		fontSize: 25,
+		flex: 1,
+		color: "#581613",
+		fontFamily: "HankenGrotesk_300Light",
+		paddingLeft: 5,
+		textAlign: "center",
+	},
 });
 
 export default AdminEditCoffeeScreen;

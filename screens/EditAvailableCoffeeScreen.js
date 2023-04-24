@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  Platform,
+	Text,
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	FlatList,
+	RefreshControl,
+	ScrollView,
 } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { Feather } from "@expo/vector-icons";
@@ -14,9 +14,6 @@ import PopupModal from "../components/PopupModal";
 import { useNavigation } from "@react-navigation/native";
 import AdminCoffeeListItem from "../components/AdminCoffeeListItem";
 import LoginContext from "../context/LoginContext";
-
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
 
 SplashScreen.preventAutoHideAsync();
 
@@ -122,95 +119,101 @@ const EditAvailableCoffeeScreen = () => {
     </View>
   );
 
-  return (
-    <View style={styles.centeredViewStyle}>
-      <PopupModal
-        modalChildren={modalChildren}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
-      <View style={styles.container}>
-        <Text style={styles.headingOne}>Available Coffees</Text>
-        <View style={{}}>
-          <View style={styles.listContainerStyle}>
-            <FlatList
-              data={coffeeList}
-              renderItem={({ item }) => {
-                return (
-                  <AdminCoffeeListItem
-                    imageUrl={item.coffee_image}
-                    itemName={item.coffee_name}
-                    itemId={item.coffee_id}
-                    itemFlavor={item.coffee_flavor}
-                    itemProcess={item.process}
-                    itemLike={item.coffee_like}
-                    itemPrice={item.price}
-                    deleteStoreCoffee={deleteStoreCoffee}
-                    setModalChildren={setModalChildren}
-                    setModalVisible={setModalVisible}
-                  />
-                );
-              }}
-              keyExtractor={(item) => item.coffee_id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              ListFooterComponent={
-                <View
-                  style={{ flex: 1, justifyContent: "center", marginLeft: 5 }}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      setModalChildren(addCoffeePopup);
-                      setModalVisible(true);
-                    }}
-                  >
-                    <Feather name="plus-circle" size={50} color="#581613" />
-                  </TouchableOpacity>
-                </View>
-              }
-              ItemSeparatorComponent={verticalHairlineDivider}
-              onRefresh={() => {
-                getCoffees();
-              }}
-              refreshing={!isCoffeesRefreshing}
-            />
-          </View>
-        </View>
-      </View>
-    </View>
-  );
+	return (
+		<ScrollView
+			refreshControl={
+				<RefreshControl
+					onRefresh={() => {
+						getCoffees();
+					}}
+					refreshing={!isCoffeesRefreshing}
+				/>
+			}
+		>
+			<View style={styles.centeredViewStyle}>
+				<PopupModal
+					modalChildren={modalChildren}
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+				/>
+				<View style={styles.container}>
+					<Text style={styles.headingOne}>Available Coffees</Text>
+					<View style={{}}>
+						<View style={styles.listContainerStyle}>
+							<FlatList
+								data={coffeeList}
+								renderItem={({ item }) => {
+									return (
+										<AdminCoffeeListItem
+											imageUrl={item.coffee_image}
+											itemName={item.coffee_name}
+											itemId={item.coffee_id}
+											itemFlavor={item.coffee_flavor}
+											itemProcess={item.process}
+											itemLike={item.coffee_like}
+											itemPrice={item.price}
+											deleteStoreCoffee={deleteStoreCoffee}
+											setModalChildren={setModalChildren}
+											setModalVisible={setModalVisible}
+										/>
+									);
+								}}
+								keyExtractor={(item) => item.coffee_id}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+								ListFooterComponent={
+									<View
+										style={{ flex: 1, justifyContent: "center", marginLeft: 5 }}
+									>
+										<TouchableOpacity
+											onPress={() => {
+												setModalChildren(addCoffeePopup);
+												setModalVisible(true);
+											}}
+										>
+											<Feather name="plus-circle" size={50} color="#581613" />
+										</TouchableOpacity>
+									</View>
+								}
+								ItemSeparatorComponent={verticalHairlineDivider}
+							/>
+						</View>
+					</View>
+				</View>
+			</View>
+		</ScrollView>
+	);
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  container: {
-    width: "100%",
-    height: "100%",
-    paddingTop: headerPadding,
-    paddingBottom: 100,
-    paddingHorizontal: 20,
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  headingOne: {
-    fontSize: 35,
-    paddingTop: 25,
-    paddingBottom: 5,
-    paddingHorizontal: 8,
-    fontFamily: "Abel_400Regular",
-  },
-  listContainerStyle: {
-    justifyContent: "center",
-    borderWidth: 0,
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    borderRadius: 5,
-    borderColor: "#581613",
-  },
+	centeredView: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	container: {
+		width: "100%",
+		height: "100%",
+		paddingBottom: 100,
+		paddingHorizontal: 20,
+		alignContent: "center",
+		justifyContent: "center",
+	},
+	headingOne: {
+		fontSize: 35,
+		paddingTop: 25,
+		paddingBottom: 5,
+		paddingHorizontal: 8,
+		fontFamily: "Abel_400Regular",
+	},
+	listContainerStyle: {
+		justifyContent: "center",
+		borderWidth: 0,
+		paddingHorizontal: 5,
+		paddingVertical: 10,
+		borderRadius: 5,
+		borderColor: "#581613",
+	},
 });
 
 const popupStyles = StyleSheet.create({

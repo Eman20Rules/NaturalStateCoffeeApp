@@ -216,9 +216,6 @@ function SignUpScreen() {
 	}
 }
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -250,7 +247,6 @@ const styles = StyleSheet.create({
 	},
 	scrollView: {
 		width: "100%",
-		paddingTop: headerPadding,
 		marginTop: 35,
 		paddingBottom: 120,
 	},

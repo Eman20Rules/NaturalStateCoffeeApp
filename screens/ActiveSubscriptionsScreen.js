@@ -15,9 +15,6 @@ import LoginContext from "../context/LoginContext";
 import HairlineDivider from "../components/HairlineDivider";
 import PopupModal from "../components/PopupModal";
 
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
-
 SplashScreen.preventAutoHideAsync();
 
 const ActiveSubscriptionsScreen = () => {
@@ -118,7 +115,6 @@ const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		height: "100%",
-		paddingTop: headerPadding,
 		paddingBottom: 100,
 		paddingHorizontal: 20,
 	},
