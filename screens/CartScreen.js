@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	FlatList,
 	TouchableOpacity,
-	Platform,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Feather } from "@expo/vector-icons";
@@ -15,9 +14,6 @@ import CartScreenItem from "../components/CartScreenItem";
 import HairlineDivider from "../components/HairlineDivider";
 import LoginContext from "../context/LoginContext";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
-
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
 
 const CartScreen = () => {
 	const { shoppingCart, emptyCart } = useContext(CartContext);
@@ -189,7 +185,7 @@ const styles = StyleSheet.create({
 	containerStyle: {
 		width: "100%",
 		height: "100%",
-		paddingTop: headerPadding,
+		paddingTop: 10,
 		paddingBottom: 100,
 		paddingHorizontal: 25,
 	},
