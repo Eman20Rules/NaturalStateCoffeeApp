@@ -24,6 +24,34 @@ function CustomNavigationBar({ navigation }) {
 			</View>
 		) : null;
 
+	const allOrdersMenuItem = isAdmin ? (
+		<Menu.Item
+			onPress={() => {
+				navigation.navigate("ViewOrders");
+			}}
+			title={"(ADMIN) All User Orders"}
+		/>
+	) : null;
+
+	const mySubscriptionsMenuItem = isLoggedIn() ? (
+		<Menu.Item
+			onPress={() => {
+				updateSubscriptionList();
+				navigation.navigate("ActiveSubscriptions");
+			}}
+			title="View Active Subscriptions"
+		/>
+	) : null;
+
+	const editCoffeesMenuItem = isAdmin ? (
+		<Menu.Item
+			onPress={() => {
+				navigation.navigate("EditCoffees");
+			}}
+			title={"(ADMIN) Edit Available Coffees"}
+		/>
+	) : null;
+
 	/* TODO: Re-add this menu if things don't work
 			<Menu
 					visible={visible}
@@ -67,9 +95,9 @@ function CustomNavigationBar({ navigation }) {
 		<Appbar.Header style={style.appBar}>
 			<Appbar.Action
 				style={style.menu}
-				icon="menu"
+				icon="arrow-left"
 				onPress={() => {
-					navigation.openDrawer();
+					navigation.goBack();
 				}}
 			/>
 			<View style={style.titleContainerStyle}>

@@ -5,13 +5,12 @@ import {
 	StyleSheet,
 	ScrollView,
 	TouchableOpacity,
+	Platform,
+
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AdminNewCoffeeField from "../components/AdminNewCoffeeField";
 import LoginContext from "../context/LoginContext";
-
-const isOnAndroid = Platform.OS === "android";
-const headerPadding = isOnAndroid ? 74 : 97;
 
 const AdminAddCoffeeScreen = () => {
 	const { userToken } = useContext(LoginContext);
@@ -181,7 +180,6 @@ const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		height: "100%",
-		paddingTop: headerPadding,
 		paddingBottom: 100,
 		paddingHorizontal: 20,
 	},

@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	TextInput,
 	TouchableOpacity,
+	ScrollView,
 } from "react-native";
 import LoginContext from "../context/LoginContext";
 import MySubscriptionsContext from "../context/MySubscriptionsContext";
@@ -51,7 +52,6 @@ function LoginScreen({ navigation }) {
 			password: password,
 		};
 
-		console.log(JSON.stringify(Data));
 
 		var loginInfo = fetch(postApiURL, {
 			method: "POST",
@@ -67,47 +67,49 @@ function LoginScreen({ navigation }) {
 
 	if (!isLoggedIn()) {
 		return (
-			<View style={styles.container}>
-				<Text style={styles.title}>Natural State Login</Text>
-				<TextInput
-					placeholder={"Email"}
-					style={styles.input}
-					onChangeText={(input) => setEmail(input)}
-				/>
+			<ScrollView>
+				<View style={styles.container}>
+					<Text style={styles.title}>Natural State Login</Text>
+					<TextInput
+						placeholder={"Email"}
+						style={styles.input}
+						onChangeText={(input) => setEmail(input)}
+					/>
 
-				<TextInput
-					placeholder={"Password"}
-					style={styles.input}
-					onChangeText={(input) => setPassword(input)}
-				/>
+					<TextInput
+						placeholder={"Password"}
+						style={styles.input}
+						onChangeText={(input) => setPassword(input)}
+					/>
 
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity
-						style={styles.buttonRowContainer}
-						onPress={() => {
-							login();
-						}}
-					>
-						<Text style={styles.buttonText}>Login</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.buttonRowContainer}
-						onPress={() => navigation.navigate("SignUp")}
-					>
-						<Text style={styles.buttonText}>Sign Up</Text>
-					</TouchableOpacity>
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity
+							style={styles.buttonRowContainer}
+							onPress={() => {
+								login();
+							}}
+						>
+							<Text style={styles.buttonText}>Login</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.buttonRowContainer}
+							onPress={() => navigation.navigate("SignUp")}
+						>
+							<Text style={styles.buttonText}>Sign Up</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: "#F5F5F5",
 		alignItems: "center",
 		justifyContent: "center",
+		paddingTop: 80,
 	},
 	title: {
 		fontSize: 40,

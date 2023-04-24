@@ -39,8 +39,6 @@ export const MySubscriptionsProvider = ({ children }) => {
 					setMySubscriptionList([]);
 				} else {
 					alert(mySubscriptionCall.message);
-					console.log(mySubscriptionCall);
-					console.log(isSubscriptionsRetrieved);
 				}
 			})
 			.then(setIsSubscriptionsRetrieved(true));
