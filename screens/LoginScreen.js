@@ -52,7 +52,6 @@ function LoginScreen({ navigation }) {
 			password: password,
 		};
 
-
 		var loginInfo = fetch(postApiURL, {
 			method: "POST",
 			body: JSON.stringify(Data),
@@ -80,6 +79,7 @@ function LoginScreen({ navigation }) {
 						placeholder={"Password"}
 						style={styles.input}
 						onChangeText={(input) => setPassword(input)}
+						secureTextEntry={true}
 					/>
 
 					<View style={styles.buttonContainer}>

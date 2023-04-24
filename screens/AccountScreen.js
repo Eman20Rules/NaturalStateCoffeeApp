@@ -388,6 +388,7 @@ function AccountScreen() {
 							onChangeText={(input) => {
 								setNewPassword(input);
 							}}
+							secureTextEntry={!isPasswordEditable}
 						/>
 					</View>
 

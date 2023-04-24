@@ -2,14 +2,13 @@ import React, { useState, useContext } from "react";
 import {
 	View,
 	Text,
-	Button,
 	StyleSheet,
 	TextInput,
 	ScrollView,
-	Platform,
 	TouchableOpacity,
 } from "react-native";
 import LoginContext from "../context/LoginContext";
+import { useNavigation } from "@react-navigation/native";
 
 function SignUpScreen() {
 	const {
@@ -29,12 +28,15 @@ function SignUpScreen() {
 	const [country, setCountry] = useState("");
 	const [state, setState] = useState("");
 	const [zip, setZip] = useState("");
+	const navigation = useNavigation();
 
 	function SignUp() {
 		if (isInputValid()) {
 			SignUpAPICall().then((signUpCall) => {
 				if (signUpCall.status == 201) {
 					setSecurityInfo(signUpCall.token, false);
+					alert("Account Created!");
+					navigation.goBack();
 				} else {
 					alert(signUpCall.message);
 				}
@@ -204,14 +206,6 @@ function SignUpScreen() {
 					</View>
 				</View>
 			</ScrollView>
-		);
-	}
-
-	if (isLoggedIn()) {
-		return (
-			<View style={styles.container}>
-				<Text style={styles.title}>Signed Up!</Text>
-			</View>
 		);
 	}
 }

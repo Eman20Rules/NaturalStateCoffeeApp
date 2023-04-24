@@ -10,6 +10,7 @@ import * as SplashScreen from "expo-splash-screen";
 import CoffeeCarouselBox from "../components/CoffeeCarouselBox";
 import PopupModal from "../components/PopupModal";
 import HairlineDivider from "../components/HairlineDivider";
+import AboutUs from "../components/AboutUs";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -88,7 +89,10 @@ const HomeScreen = () => {
 					style={styles.imageBackgroundStyle}
 					resizeMode="cover"
 				>
-					<Text style={styles.imageBackgroundTextStyle}>About Us</Text>
+					<AboutUs
+						setInfoPopup={setModalChildren}
+						setInfoVisible={setModalVisible}
+					/>
 				</ImageBackground>
 			</View>
 		</View>,
@@ -116,7 +120,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
 	containerStyle: {
 		width: "100%",
-		paddingBottom: 150,
+		paddingBottom: 30,
 		paddingTop: 30,
 	},
 	headerOneStyle: {

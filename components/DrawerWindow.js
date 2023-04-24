@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import LoginContext from "../context/LoginContext";
+import { Feather } from "@expo/vector-icons";
 
 const DrawerWindow = (props) => {
 	const { navigation } = props;
 	const { isLoggedIn, isAdmin } = useContext(LoginContext);
+
+	const iconSize = 25;
+	const iconColor = "#581613";
 
 	const accountDrawerButton = isLoggedIn() ? (
 		<DrawerItem
@@ -16,6 +20,9 @@ const DrawerWindow = (props) => {
 			}}
 			style={styles.drawerItemView}
 			labelStyle={styles.drawerItemLabel}
+			icon={({ focused, color, size }) => (
+				<Feather color={iconColor} size={iconSize} name={"user"} />
+			)}
 		/>
 	) : (
 		<DrawerItem
@@ -25,6 +32,9 @@ const DrawerWindow = (props) => {
 			}}
 			style={styles.drawerItemView}
 			labelStyle={styles.drawerItemLabel}
+			icon={({ focused, color, size }) => (
+				<Feather color={iconColor} size={iconSize} name={"log-in"} />
+			)}
 		/>
 	);
 
@@ -36,6 +46,9 @@ const DrawerWindow = (props) => {
 			}}
 			style={styles.drawerItemView}
 			labelStyle={styles.drawerItemLabel}
+			icon={({ focused, color, size }) => (
+				<Feather color={iconColor} size={iconSize} name={"coffee"} />
+			)}
 		/>
 	) : null;
 
@@ -47,17 +60,23 @@ const DrawerWindow = (props) => {
 			}}
 			style={styles.drawerItemView}
 			labelStyle={styles.drawerItemLabel}
+			icon={({ focused, color, size }) => (
+				<Feather color={iconColor} size={iconSize} name={"truck"} />
+			)}
 		/>
 	) : null;
 
 	const editCoffeesDrawerButton = isAdmin ? (
 		<DrawerItem
-			label="(ADMIN) Edit Available Coffees"
+			label="(ADMIN) Edit Coffees"
 			onPress={() => {
 				navigation.navigate("EditCoffees");
 			}}
 			style={styles.drawerItemView}
 			labelStyle={styles.drawerItemLabel}
+			icon={({ focused, color, size }) => (
+				<Feather color={iconColor} size={iconSize} name={"edit"} />
+			)}
 		/>
 	) : null;
 
@@ -70,6 +89,9 @@ const DrawerWindow = (props) => {
 				}}
 				style={styles.drawerItemView}
 				labelStyle={styles.drawerItemLabel}
+				icon={({ focused, color, size }) => (
+					<Feather color={iconColor} size={iconSize} name={"home"} />
+				)}
 			/>
 			{accountDrawerButton}
 			{mySubscriptionsDrawerButton}
@@ -84,11 +106,14 @@ const styles = StyleSheet.create({
 		borderColor: "#581613",
 		borderRadius: 5,
 		borderWidth: 1,
+		justifyContent: "flex-start",
 	},
 	drawerItemLabel: {
 		color: "#581613",
 		fontFamily: "HankenGrotesk_600SemiBold",
-		fontSize: 18,
+		fontSize: 20,
+		marginLeft: -20,
+		marginRight: -32,
 	},
 });
 
